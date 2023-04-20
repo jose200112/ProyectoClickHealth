@@ -1,10 +1,9 @@
 package com.clickhealth.service;
 
-
-import java.util.List;
-
 import com.clickhealth.dto.UserDto;
 import com.clickhealth.entity.User;
+
+import java.util.List;
 
 public interface UserService {
     void saveUser(UserDto userDto);

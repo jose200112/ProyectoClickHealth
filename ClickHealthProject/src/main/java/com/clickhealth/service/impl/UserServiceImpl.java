@@ -1,15 +1,14 @@
 package com.clickhealth.service.impl;
 
-
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-
 import com.clickhealth.dto.UserDto;
 import com.clickhealth.entity.Role;
 import com.clickhealth.entity.User;
 import com.clickhealth.repository.RoleRepository;
 import com.clickhealth.repository.UserRepository;
 import com.clickhealth.service.UserService;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
@@ -45,6 +44,7 @@ public class UserServiceImpl implements UserService {
         }
         user.setRoles(Arrays.asList(role));
         userRepository.save(user);
+        
     }
     
     

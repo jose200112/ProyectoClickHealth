@@ -1,15 +1,15 @@
 package com.clickhealth.security;
 
+import com.clickhealth.entity.Role;
+import com.clickhealth.entity.User;
+import com.clickhealth.repository.UserRepository;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import com.clickhealth.entity.Role;
-import com.clickhealth.entity.User;
-import com.clickhealth.repository.UserRepository;
 
 import java.util.Collection;
 import java.util.stream.Collectors;

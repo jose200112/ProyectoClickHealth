@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" th:with="iterStatVar=${#vars.iterStat}">
+<head>
+  <meta charset="UTF-8">
+  <title>Pedir cita en el hospital</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+    </style>
+<body>
+
+<table>
+    <thead>
+        <tr>
+            <th>Columna 1</th>
+            <th>Columna 2</th>
+            <th>Columna 3</th>
+            <th>Columna 4</th>
+            <th>Columna 5</th>
+            <th>Columna 6</th>
+            <th>Columna 7</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="columna: ${columna}">
+        <td th:text="${columna.numUno} ?: ''"></td>
+        <td th:text="${columna.numDos} ?: ''"></td>
+        <td th:text="${columna.numTres} ?: ''"></td>
+        <td th:text="${columna.numCuatro} ?: ''"></td>
+        <td th:text="${columna.numCinco} ?: ''"></td>
+        <td th:text="${columna.numSeis} ?: ''"></td>
+        <td th:text="${columna.numSiete}"></td>
+        
+
+        </tr>
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+<!--     <table> -->
+<!--         <thead> -->
+<!--             <tr> -->
+<!--                 <th>Número</th> -->
+<!--                 <th>Lunes</th> -->
+<!--                 <th>Martes</th> -->
+<!--                 <th>Miercoles</th> -->
+<!--                 <th>Jueves</th> -->
+<!--                 <th>Viernes</th> -->
+<!--                 <th>Sabado</th> -->
+<!--                 <th>Domingo</th> -->
+<!--             </tr> -->
+<!--         </thead> -->
+<!--         <tbody> -->
+<!--             <tr th:each="numero : ${numeros}"> -->
+<!--                 <td th:text="${numeros[__${7*#lists.index(__)}] ?: ''}" th:if="${numeros.size() > 7*#lists.index()}"></td> -->
+<!--                 <td th:text="${numeros[__${7*#lists.index(__)+1}] ?: ''}" th:if="${numeros.size() > 7*#lists.index()+1}"></td> -->
+<!--                 <td th:text="${numeros[__${7*#lists.index(__)+2}] ?: ''}" th:if="${numeros.size() > 7*#lists.index()+2}"></td> -->
+<!--                 <td th:text="${numeros[__${7*#lists.index(__)+3}] ?: ''}" th:if="${numeros.size() > 7*#lists.index()+3}"></td> -->
+<!--                 <td th:text="${numeros[__${7*#lists.index(__)+4}] ?: ''}" th:if="${numeros.size() > 7*#lists.index()+4}"></td> -->
+<!--                 <td th:text="${numeros[__${7*#lists.index(__)+5}] ?: ''}" th:if="${numeros.size() > 7*#lists.index()+5}"></td> -->
+<!--                 <td th:text="${numeros[__${7*#lists.index(__)+6}] ?: ''}" th:if="${numeros.size() > 7*#lists.index()+6}"></td> -->
+<!--             </tr> -->
+<!--         </tbody> -->
+<!--     </table> -->
+
+<!-- <div class="container"> -->
+<!--     <div class="row"> -->
+<!--         <th:block th:each="number, iterStat : ${numbers}"> -->
+<!--             <div class="col-sm-1" th:class="${iterStat.index % 7 == 0}? 'col-sm-1 ml-0' : 'col-sm-1'"> -->
+<!--                 <div class="square"></div> -->
+<!--                 <a th:text="${number}"></a> -->
+<!--             </div> -->
+<!--         </th:block> -->
+<!--     </div> -->
+<!-- </div> -->
+
+<!-- <div class="container"> -->
+<!--   <div class="row"> -->
+<!--     <div th:each="num, iterStat : ${numeros}" class="col-1 mb-3"> -->
+<!--       <div class="bg-primary text-center p-2 rounded"> -->
+<!--         <span th:text="${num}"></span> -->
+<!--       </div> -->
+<!--       Si el índice es divisible por 7, crear una nueva fila -->
+<!--       <th:block th:if="${iterStat.index % 7 == 6}"> -->
+<!--         </div></div><div class="row"> -->
+<!--       </th:block> -->
+<!--     </div> -->
+<!--   </div> -->
+
+
+
+
+
+<!-- <div th:each="numero : ${numeros}"> -->
+<!--   <a type="button" class="square-button" th:onclick="'realizarConsulta(' + ${numero} + ')'"> -->
+<!--   <span th:text="${numero}"></span> -->
+<!--   </a> -->
+<!-- </div> -->
+
+<!-- Div donde se mostrarán los resultados de la consulta -->
+<div id="resultadosConsulta"></div>
+<script type="text/javascript">function realizarConsulta(numero) {
+	  if(numero!=null){
+		  $.ajax({
+			    type: "GET",
+			    url: "/realizarConsulta",
+			    data: { numero: numero },
+			    success: function(response) {
+			      // Mostramos los resultados de la consulta en el div correspondiente
+			      $("#resultadosConsulta").html(response);
+			    },
+			    error: function(xhr, status, error) {
+			      console.log("Error al realizar la consulta");
+			    }
+			  });
+	  }
+		}
+</script>
+
+</body>
+</html>
