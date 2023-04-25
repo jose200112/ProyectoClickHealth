@@ -38,5 +38,7 @@ public class Medico {
 	List<Usuario> usuarios;
 	@OneToMany(mappedBy = "medico")
 	List<Horario> horarios;
+	@OneToMany(mappedBy="medico")
+	private List<Cita> citas;
 
 }

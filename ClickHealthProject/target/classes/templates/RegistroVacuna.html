@@ -17,9 +17,42 @@ input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 input[type=number] {
 	-moz-appearance: textfield;
 }
+
+.navbar-nav .nav-link {
+	font-size: 1.2rem;
+}
 </style>
 </head>
 <body>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="">ClickHealth</a>
+			<button class="navbar-toggler" type="button"
+				data-bs-toggle="collapse" data-bs-target="#navbarScroll"
+				aria-controls="navbarScroll" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarScroll">
+				<ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll"
+					style="-bs-scroll-height: 100px;">
+					<li class="nav-item"><a class="nav-link active"
+						aria-current="page" href="/enfermero/inicioEnfermero">Inicio</a></li>
+					<li class="nav-item"><a class="nav-link active"
+						aria-current="page" href="/enfermero/registroVacuna">Registrar vacuna</a></li>
+											<li class="nav-item"><a class="nav-link active"
+						aria-current="page" href="#">Consultar mis citas</a></li>
+				</ul>
+				<ul class="navbar-nav">
+					<li class="nav-item"><a class="nav-link active" href="/logout">Salir
+							<i class="bi bi-box-arrow-right"></i>
+					</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+
 	<div class="container">
 		<div class="row col-md-8 offset-md-2">
 			<div class="card">

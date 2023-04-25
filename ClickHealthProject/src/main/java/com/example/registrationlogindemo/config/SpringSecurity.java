@@ -30,6 +30,7 @@ public class SpringSecurity {
                 .authorizeHttpRequests((authorize) ->
                         authorize.requestMatchers("/register/**").permitAll()
                                 .requestMatchers("/inicio/**").hasRole("ANONYMOUS")
+                                .requestMatchers("/redirige").permitAll()
                                 .requestMatchers("/admin/**").hasRole("ADMIN")
                                 .requestMatchers("/enfermero/**").hasRole("ENFERMERO")
                                 .requestMatchers("/usuario/**").hasRole("USUARIO")
@@ -39,7 +40,7 @@ public class SpringSecurity {
                         form -> form
                                 .loginPage("/login")
                                 .loginProcessingUrl("/login")
-                                .defaultSuccessUrl("/users")
+                                .defaultSuccessUrl("/redirige")
                                 .permitAll()
                 ).logout(
                         logout -> logout

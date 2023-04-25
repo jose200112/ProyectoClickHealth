@@ -30,6 +30,11 @@ public class EnfermeroController {
 	
 	@Autowired
 	UsuarioRepositorio usuarioRepo;
+	
+	@GetMapping("/enfermero/inicioEnfermero")
+	public String inicioEnfermero() {
+		return "InicioEnfermero";
+	}
 
 	@GetMapping("/enfermero/registroVacuna")
 	public String getRegistroVacunas(Model model) {
@@ -39,7 +44,7 @@ public class EnfermeroController {
 	}
 	
 	@PostMapping("/enfermero/guardaVacuna")
-	public String registraEnfermero(@Valid @ModelAttribute("vacuna") VacunaDto vacuna, BindingResult result,
+	public String registraVacuna(@Valid @ModelAttribute("vacuna") VacunaDto vacuna, BindingResult result,
 			Model model, Principal principal) {
 		User user = userRepository.findByEmail(principal.getName());
 		vacuna.setUser(user);
@@ -59,14 +64,10 @@ public class EnfermeroController {
 
 		return "redirect:/admin/registroVacuna?success";
 	}
-
+	
 	@GetMapping("/enfermero/consultaCita")
 	public String getConsulta() {
 		return "calendar";
 	}
 	
-	@GetMapping("/enfermero/saludo")
-	public String getSaludo() {
-		return "saludo";
-	}
 }

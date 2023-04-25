@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+<table>
+  <thead>
+    <tr>
+      <th>Tramos disponibles</th>
+    </tr>
+  </thead>
+  <tbody th:if="${tramos.isEmpty()}">
+    <tr>
+      <td colspan="2">No hay horas disponibles</td>
+    </tr>
+  </tbody>
+  <tbody th:each="tramo : ${tramos}">
+    <tr>
+      <td th:text="${tramo.tiempo}"></td>
+      <td>
+        <form th:action="@{/usuario/creaCita}" method="post">
+          <input type="hidden" name="tramoSeleccionado" th:value="${tramo.tiempo}" />
+              <input type="hidden" name="diaSeleccionado" th:value="${diaSeleccionado}" />
+          <button type="submit" th:text="${tramo.tiempo}"></button>
+        </form>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+</body>
+</html>

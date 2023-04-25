@@ -37,5 +37,7 @@ public class Tramo {
 	private LocalTime tiempo;
 	@OneToMany(mappedBy="tramo")
 	List<TramoHorario> tramosHorario;
+	@OneToMany(mappedBy="tramo")
+	List<Cita> citas;
 	
 }

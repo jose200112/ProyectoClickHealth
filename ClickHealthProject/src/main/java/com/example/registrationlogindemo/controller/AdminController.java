@@ -49,7 +49,7 @@ public class AdminController {
 	
 	@GetMapping("admin/inicioAdmin")
 	public String inicioAdmin() {
-		return "inicioAdmin";
+		return "InicioAdmin";
 	}
 
 	// handler method to handle user registration request

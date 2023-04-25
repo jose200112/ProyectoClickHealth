@@ -1,5 +1,7 @@
 package com.example.registrationlogindemo.entity;
 
+
+import java.sql.Date;
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -9,7 +11,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -22,31 +23,30 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "USUARIO")
-public class Usuario {
+@Table(name = "CITA")
+public class Cita {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "ID_USUARIO")
+	@Column(name = "ID_CITA")
 	private Long id;
-	@Column(name = "NOMBRE")
-	private String nombre;
-	@Column(name = "APELLIDOS")
-	private String apellidos;
-	@Column(name = "DNI", length = 9)
-	private String dni;
-	@OneToOne(mappedBy = "usuario")
-	User cuenta;
+	
+	@Column(name = "FECHA")
+	private Date fecha;
+	
 	@ManyToOne
-	@JoinColumn(name = "ID_MED")
-	Medico medico;
+	@JoinColumn(name ="ID_TRAMO")
+	private Tramo tramo;
+	
 	@ManyToOne
-	@JoinColumn(name = "ID_ENF")
-	Enfermero enfermero;
-	@OneToMany(mappedBy = "usuario")
-	List<Vacuna> vacunas;
-	@OneToMany(mappedBy = "usuario")
-	List<Mensaje> mensajes;
-	@OneToMany(mappedBy="usuario")
-	private List<Cita> citas;
-
+	@JoinColumn(name="ID_USUARIO")
+	private Usuario usuario;
+	
+	@ManyToOne
+	@JoinColumn(name="ID_ENF")
+	private Enfermero enfermero;
+	
+	@ManyToOne
+	@JoinColumn(name="ID_MED")
+	private Medico medico;
+	
 }

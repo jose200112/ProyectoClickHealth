@@ -1,5 +1,7 @@
 package com.example.registrationlogindemo.entity;
 
+import java.sql.Date;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -29,6 +31,8 @@ public class Vacuna {
 	private int dosis;
 	@Column(name = "NUM_LOTE")
 	private int numLote;
+	@Column(name = "FECHA")
+	private Date fecha;
 	@ManyToOne
 	@JoinColumn(name = "ID_ENF")
 	private Enfermero enfermero;

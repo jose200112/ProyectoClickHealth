@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Pedir cita</title>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ"
+	crossorigin="anonymous">
+		<style>
+.navbar-nav .nav-link {
+	font-size: 1.2rem;
+}
+</style>
+</head>
+<body>
+
+	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="">ClickHealth</a>
+			<button class="navbar-toggler" type="button"
+				data-bs-toggle="collapse" data-bs-target="#navbarScroll"
+				aria-controls="navbarScroll" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarScroll">
+				<ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll"
+					style="-bs-scroll-height: 100px;">
+					<li class="nav-item"><a class="nav-link active"
+						aria-current="page" href="/usuario/inicioUsuario">Inicio</a></li>
+					<li class="nav-item"><a class="nav-link active"
+						aria-current="page" href="/usuario/vacunas">Mis vacunas</a></li>
+					<li class="nav-item dropdown"><a
+						class="nav-link active dropdown-toggle" href="#" role="button"
+						data-bs-toggle="dropdown" aria-expanded="false"> Pedir cita </a>
+						<ul class="dropdown-menu">
+							<li><a class="dropdown-item" href="#">Enfermero</a></li>
+							<li><a class="dropdown-item" href="/usuario/reservaCita">Medico</a></li>
+						</ul></li>
+					<li class="nav-item"><a class="nav-link active"
+						aria-current="page" href="#">Crear solicitud</a></li>
+				</ul>
+				<ul class="navbar-nav">
+					<li class="nav-item"><a class="nav-link active" href="/logout">Salir
+							<i class="bi bi-box-arrow-right"></i>
+					</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<table>
+		<thead>
+		<tr>
+		<th th:text="${mesActual}"></th>
+		</tr>
+			<tr>
+				<th>Lunes</th>
+				<th>Martes</th>
+				<th>Miercoles</th>
+				<th>Jueves</th>
+				<th>Viernes</th>
+				<th>Sabado</th>
+				<th>Domingo</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="columna: ${columna}">
+				<td th:if="${columna.numUno > diaActual}"><a
+					th:text="${columna.numUno != 0} ? ${columna.numUno}" th:href="@{/usuario/horasDisponibles(dia=${columna.numUno})}"></a>
+				</td>
+				<td th:unless="${columna.numUno > diaActual}"
+					th:text="${columna.numUno != 0} ? ${columna.numUno}"></td>
+					
+					
+				<td th:if="${columna.numDos > diaActual}"><a
+					th:text="${columna.numDos != 0} ? ${columna.numDos}" th:href="@{/usuario/horasDisponibles(dia=${columna.numDos})}"></a>
+				</td>
+				<td th:unless="${columna.numDos > diaActual}"
+					th:text="${columna.numDos != 0} ? ${columna.numDos}"></td>
+					
+					
+				<td th:if="${columna.numTres > diaActual}"><a
+					th:text="${columna.numTres != 0} ? ${columna.numTres}" th:href="@{/usuario/horasDisponibles(dia=${columna.numTres})}"></a>
+				</td>
+				<td th:unless="${columna.numTres > diaActual}"
+					th:text="${columna.numTres != 0} ? ${columna.numTres}"></td>
+					
+					
+				<td th:if="${columna.numCuatro > diaActual}"><a
+					th:text="${columna.numCuatro != 0} ? ${columna.numCuatro}" th:href="@{/usuario/horasDisponibles(dia=${columna.numCuatro})}"></a>
+				</td>
+				<td th:unless="${columna.numCuatro > diaActual}"
+					th:text="${columna.numCuatro != 0} ? ${columna.numCuatro}"></td>
+					
+					
+				<td th:if="${columna.numCinco > diaActual}"><a
+					th:text="${columna.numCinco != 0} ? ${columna.numCinco}" th:href="@{/usuario/horasDisponibles(dia=${columna.numCinco})}"></a>
+				</td>
+				<td th:unless="${columna.numCinco > diaActual}"
+					th:text="${columna.numCinco != 0} ? ${columna.numCinco}"></td>
+					
+					
+				<td th:if="${columna.numSeis > diaActual}"><a
+					th:text="${columna.numSeis != 0} ? ${columna.numSeis}" th:href="@{/usuario/horasDisponibles(dia=${columna.numSeis})}"></a>
+				</td>
+				<td th:unless="${columna.numSeis > diaActual}"
+					th:text="${columna.numSeis != 0} ? ${columna.numSeis}"></td>
+					
+					
+				<td th:if="${columna.numSiete > diaActual}"><a
+					th:text="${columna.numSiete != 0} ? ${columna.numSiete}" th:href="@{/usuario/horasDisponibles(dia=${columna.numSiete})}"></a>
+				</td>
+				<td th:unless="${columna.numSiete > diaActual}"
+					th:text="${columna.numSiete != 0} ? ${columna.numSiete}"></td>
+
+			</tr>
+		</tbody>
+	</table>
+
+
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+		crossorigin="anonymous"></script>
+</body>
+</html>

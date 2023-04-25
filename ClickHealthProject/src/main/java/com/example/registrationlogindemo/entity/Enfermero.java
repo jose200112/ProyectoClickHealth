@@ -40,4 +40,6 @@ public class Enfermero {
 	List<Vacuna> vacunas;
 	@OneToMany(mappedBy="enfermero")
 	List<Horario> horarios;
+	@OneToMany(mappedBy="enfermero")
+	private List<Cita> citas;
 }
