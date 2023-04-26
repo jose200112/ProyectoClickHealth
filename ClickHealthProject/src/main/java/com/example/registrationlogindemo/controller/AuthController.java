@@ -36,9 +36,9 @@ public class AuthController {
         if(authentication == null || authentication instanceof AnonymousAuthenticationToken) {
         	return "login";
         } else {
-        	
+        	return "redirect:/redirige";
+
         }
-    	return "redirect:/redirige";
     }
     
     
