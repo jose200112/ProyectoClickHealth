@@ -51,67 +51,90 @@
 		</div>
 	</nav>
 
-	<table>
+<div class="container mt-2">
+            <div th:if="${param.error}">
+                <div class="alert alert-danger">Ya tienes una cita.</div>
+            </div>
+
+						<div class="position-absolute start-50 translate-middle">
+
+						<th:block th:if="${not #strings.isEmpty(error)}">
+							<div class="toast align-items-center text-bg-danger border-0"
+								auto-hide="false" role="alert" aria-live="assertive"
+								aria-atomic="true">
+								<div class="d-flex">
+									<div th:text="${error}" class="toast-body"></div>
+									<button type="button"
+										class="btn-close btn-close-white me-2 m-auto"
+										data-bs-dismiss="toast" aria-label="Close"></button>
+
+								</div>
+							</div>
+						</th:block>
+					</div>
+
+<div class="table-responsive"> 
+	<table class="table table-lg">
 		<thead>
 		<tr>
-		<th th:text="${mesActual}"></th>
+		<th colspan="7" class="text-center text-white bg-primary" style="background-color: #0d6efd;" th:text="${mesActual}"></th>
 		</tr>
 			<tr>
-				<th>Lunes</th>
-				<th>Martes</th>
-				<th>Miercoles</th>
-				<th>Jueves</th>
-				<th>Viernes</th>
-				<th>Sabado</th>
-				<th>Domingo</th>
+				<th class="border text-white bg-primary">Lunes</th>
+				<th class="border text-white bg-primary">Martes</th>
+				<th class="border text-white bg-primary">Miercoles</th>
+				<th class="border text-white bg-primary">Jueves</th>
+				<th class="border text-white bg-primary">Viernes</th>
+				<th class="border text-white bg-primary">Sabado</th>
+				<th class="border text-white bg-primary">Domingo</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr th:each="columna: ${columna}">
 				<td th:if="${columna.numUno > diaActual}"><a
-					th:text="${columna.numUno != 0} ? ${columna.numUno}" th:href="@{/usuario/horasDisponibles(dia=${columna.numUno})}"></a>
+					th:text="${columna.numUno != 0} ? ${columna.numUno}" th:href="@{/usuario/horasDisponiblesMedico(dia=${columna.numUno})}"></a>
 				</td>
 				<td th:unless="${columna.numUno > diaActual}"
 					th:text="${columna.numUno != 0} ? ${columna.numUno}"></td>
 					
 					
 				<td th:if="${columna.numDos > diaActual}"><a
-					th:text="${columna.numDos != 0} ? ${columna.numDos}" th:href="@{/usuario/horasDisponibles(dia=${columna.numDos})}"></a>
+					th:text="${columna.numDos != 0} ? ${columna.numDos}" th:href="@{/usuario/horasDisponiblesMedico(dia=${columna.numDos})}"></a>
 				</td>
 				<td th:unless="${columna.numDos > diaActual}"
 					th:text="${columna.numDos != 0} ? ${columna.numDos}"></td>
 					
 					
 				<td th:if="${columna.numTres > diaActual}"><a
-					th:text="${columna.numTres != 0} ? ${columna.numTres}" th:href="@{/usuario/horasDisponibles(dia=${columna.numTres})}"></a>
+					th:text="${columna.numTres != 0} ? ${columna.numTres}" th:href="@{/usuario/horasDisponiblesMedico(dia=${columna.numTres})}"></a>
 				</td>
 				<td th:unless="${columna.numTres > diaActual}"
 					th:text="${columna.numTres != 0} ? ${columna.numTres}"></td>
 					
 					
 				<td th:if="${columna.numCuatro > diaActual}"><a
-					th:text="${columna.numCuatro != 0} ? ${columna.numCuatro}" th:href="@{/usuario/horasDisponibles(dia=${columna.numCuatro})}"></a>
+					th:text="${columna.numCuatro != 0} ? ${columna.numCuatro}" th:href="@{/usuario/horasDisponiblesMedico(dia=${columna.numCuatro})}"></a>
 				</td>
 				<td th:unless="${columna.numCuatro > diaActual}"
 					th:text="${columna.numCuatro != 0} ? ${columna.numCuatro}"></td>
 					
 					
 				<td th:if="${columna.numCinco > diaActual}"><a
-					th:text="${columna.numCinco != 0} ? ${columna.numCinco}" th:href="@{/usuario/horasDisponibles(dia=${columna.numCinco})}"></a>
+					th:text="${columna.numCinco != 0} ? ${columna.numCinco}" th:href="@{/usuario/horasDisponiblesMedico(dia=${columna.numCinco})}"></a>
 				</td>
 				<td th:unless="${columna.numCinco > diaActual}"
 					th:text="${columna.numCinco != 0} ? ${columna.numCinco}"></td>
 					
 					
 				<td th:if="${columna.numSeis > diaActual}"><a
-					th:text="${columna.numSeis != 0} ? ${columna.numSeis}" th:href="@{/usuario/horasDisponibles(dia=${columna.numSeis})}"></a>
+					th:text="${columna.numSeis != 0} ? ${columna.numSeis}" th:href="@{/usuario/horasDisponiblesMedico(dia=${columna.numSeis})}"></a>
 				</td>
 				<td th:unless="${columna.numSeis > diaActual}"
 					th:text="${columna.numSeis != 0} ? ${columna.numSeis}"></td>
 					
 					
 				<td th:if="${columna.numSiete > diaActual}"><a
-					th:text="${columna.numSiete != 0} ? ${columna.numSiete}" th:href="@{/usuario/horasDisponibles(dia=${columna.numSiete})}"></a>
+					th:text="${columna.numSiete != 0} ? ${columna.numSiete}" th:href="@{/usuario/horasDisponiblesMedico(dia=${columna.numSiete})}"></a>
 				</td>
 				<td th:unless="${columna.numSiete > diaActual}"
 					th:text="${columna.numSiete != 0} ? ${columna.numSiete}"></td>
@@ -119,11 +142,21 @@
 			</tr>
 		</tbody>
 	</table>
-
+</div>
+</div>
 
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
 		crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.6.4.js"
+		integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E="
+		crossorigin="anonymous"></script>
+
+	<script>
+		$(document).ready(function() {
+			$('.toast').toast('show');
+		});
+	</script>
 </body>
 </html>

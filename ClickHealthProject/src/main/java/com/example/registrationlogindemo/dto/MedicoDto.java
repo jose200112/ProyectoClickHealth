@@ -31,6 +31,9 @@ public class MedicoDto {
 	@NotEmpty(message = "Los apellidos del enfermero no pueden estar vacios")
 	private String apellidos;
 	
+	@NotEmpty(message = "Debe tener al menos una sala asociada")
+	private String sala;
+	
 	private LocalTime comienza;
 	
 	private LocalTime termina;

@@ -58,7 +58,7 @@
       <th scope="col">Nombre</th>
       <th scope="col">Numero de dosis</th>
       <th scope="col">Fecha de inoculacion</th>
-      <th scope="col">Enfermero/a que le atendio</th>
+      <th scope="col">Numero de lote</th>
     </tr>
   </thead>
       <tbody th:if="${vacunas.isEmpty()}">
@@ -71,12 +71,20 @@
       <th scope="row" th:text="${vacuna.nombre}"></th>
                   <td th:text="${vacuna.dosis}"></td>
             <td th:text="${vacuna.fecha}"></td>
-            <td th:text="${vacuna.enfermero.nombre}+' '+${vacuna.enfermero.apellidos}"></td>
+            <td th:text="${vacuna.numLote}"></td>
     </tr>
   </tbody>
 </table>
 </div>
+<div th:if="${not vacunas.isEmpty()}">
+<form action="/usuario/descargaVacunas" method="POST">
+  <button type="submit">Descargar PDF</button>
+</form>
 </div>
+
+</div>
+
+
 	
 	
 	<script

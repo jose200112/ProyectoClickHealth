@@ -2,6 +2,8 @@ package com.example.registrationlogindemo.entity;
 
 import java.util.List;
 
+import com.example.registrationlogindemo.dto.UsuarioDto;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -48,5 +50,20 @@ public class Usuario {
 	List<Mensaje> mensajes;
 	@OneToMany(mappedBy="usuario")
 	private List<Cita> citas;
+	@OneToMany(mappedBy="usuario")
+	private List<Solicitud> solicitud;
+	@OneToMany(mappedBy="usuario")
+	private List<Alergia> alergias;
+	
+	public UsuarioDto toDto() {
+		UsuarioDto usuarioDto = new UsuarioDto();
+		usuarioDto.setId(this.getId());
+		usuarioDto.setEmail(this.getCuenta().getEmail());
+		usuarioDto.setName(this.getCuenta().getName());
+		usuarioDto.setApellidos(this.getApellidos());
+		usuarioDto.setNombre(this.nombre);
+		usuarioDto.setDni(this.getDni());
+		return usuarioDto;
+	}
 
 }

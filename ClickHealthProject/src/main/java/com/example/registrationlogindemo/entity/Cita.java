@@ -33,6 +33,12 @@ public class Cita {
 	@Column(name = "FECHA")
 	private Date fecha;
 	
+	@Column(name = "ASISTENCIA")
+	private String asistencia;
+	
+	@Column(name="CONFIRMADA")
+	private boolean confirmada;
+	
 	@ManyToOne
 	@JoinColumn(name ="ID_TRAMO")
 	private Tramo tramo;

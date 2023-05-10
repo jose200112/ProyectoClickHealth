@@ -1,7 +1,11 @@
 package com.example.registrationlogindemo.dto;
 
 
+import java.sql.Date;
+
+import com.example.registrationlogindemo.entity.Enfermero;
 import com.example.registrationlogindemo.entity.User;
+import com.example.registrationlogindemo.entity.Usuario;
 
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
@@ -14,12 +18,14 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class VacunaDto {
+	private Long id;
 	private int dosis;
     @NotEmpty(message = "El nombre no puede estar vacio")
 	private String nombre;
 	private int numLote;
 	private String email;
-    @NotEmpty(message = "El dni del usuario/paciente no puede estar vacio")
-	private String dni;
     private User user;
+    private String fecha;
+    private Usuario usuario;
+    private Enfermero enfermero;
 }

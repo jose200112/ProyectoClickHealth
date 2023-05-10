@@ -20,7 +20,7 @@
     <tr>
       <td th:text="${tramo.tiempo}"></td>
       <td>
-        <form th:action="@{/usuario/creaCita}" method="post">
+        <form th:action="@{/usuario/creaCitaEnfermero}" method="post">
           <input type="hidden" name="tramoSeleccionado" th:value="${tramo.tiempo}" />
               <input type="hidden" name="diaSeleccionado" th:value="${diaSeleccionado}" />
           <button type="submit" th:text="${tramo.tiempo}"></button>

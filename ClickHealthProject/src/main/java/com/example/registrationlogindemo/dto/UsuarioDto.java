@@ -2,6 +2,8 @@ package com.example.registrationlogindemo.dto;
 
 import java.time.LocalTime;
 
+import com.example.registrationlogindemo.entity.Usuario;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
@@ -30,5 +32,6 @@ public class UsuarioDto {
 	
 	@NotEmpty(message = "Los apellidos del enfermero no pueden estar vacios")
 	private String apellidos;
+
 
 }

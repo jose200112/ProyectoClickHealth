@@ -55,6 +55,7 @@ input[type=number] {
 
 	<div class="container">
 		<div class="row col-md-8 offset-md-2">
+		
 			<div class="card">
 				<div th:if="${param.success}">
 					<div class="alert alert-info">Vacuna registrada correctamente</div>
@@ -64,7 +65,7 @@ input[type=number] {
 				</div>
 				<div class="card-body">
 					<form method="post" role="form"
-						th:action="@{/enfermero/guardaVacuna}" th:object="${vacuna}">
+						th:action="@{/enfermero/guardaVacuna/{id}(id=${usuario.id})}" th:object="${vacuna}">
 						<div class="form-group mb-3">
 							<label class="form-label">Nombre de la vacuna</label> <input
 								class="form-control" id="nombre" name="nombre"
@@ -89,12 +90,14 @@ input[type=number] {
 							<p th:errors="*{numLote}" class="text-danger"
 								th:if="${#fields.hasErrors('numLote')}"></p>
 						</div>
-						<div class="form-group mb-3">
-							<label class="form-label">Dni del paciente</label> <input
-								class="form-control" id="dni" name="dni"
-								placeholder="dni del paciente" th:field="*{dni}" type="text" />
-							<p th:errors="*{dni}" class="text-danger"
-								th:if="${#fields.hasErrors('dni')}"></p>
+						
+												<div class="form-group mb-3">
+							<label class="form-label">Fecha de inoculacion</label> <input
+								class="form-control" id="fecha" name="fecha"
+								placeholder="fecha de inoculacion" th:field="*{fecha}" type="date"
+								 />
+							<p th:errors="*{fecha}" class="text-danger"
+								th:if="${#fields.hasErrors('fecha')}"></p>
 						</div>
 						<div class="form-group mb-3">
 							<button class="btn btn-primary" type="submit">Registrar

@@ -74,7 +74,7 @@
 						<div class="form-group mb-3">
 							<label class="form-label">Nombre</label> <input
 								class="form-control" id="name" name="name"
-								placeholder="Nombre de usuario" th:field="*{name}" type="text" />
+								placeholder="Nombre del medico" th:field="*{name}" type="text" />
 							<p th:errors="*{name}" class="text-danger"
 								th:if="${#fields.hasErrors('name')}"></p>
 						</div>
@@ -89,7 +89,7 @@
 						<div class="form-group mb-3">
 							<label class="form-label">Clave</label> <input
 								class="form-control" id="password" name="password"
-								placeholder="Enter password" th:field="*{password}"
+								placeholder="clave" th:field="*{password}"
 								type="password" />
 							<p th:errors="*{password}" class="text-danger"
 								th:if="${#fields.hasErrors('password')}"></p>
@@ -107,18 +107,31 @@
 						<div class="form-group mb-3">
 							<label class="form-label">Apellidos</label> <input
 								class="form-control" id="apellidos" name="apellidos"
-								placeholder="Apellidos del enfermero" th:field="*{apellidos}"
+								placeholder="Apellidos del medico" th:field="*{apellidos}"
 								type="text" />
 							<p th:errors="*{apellidos}" class="text-danger"
 								th:if="${#fields.hasErrors('apellidos')}"></p>
 						</div>
 						<div class="form-group mb-3">
 							<label class="form-label">Dni</label> <input class="form-control"
-								id="dni" name="dni" placeholder="dni del enfermero"
+								id="dni" name="dni" placeholder="dni del medico"
 								th:field="*{dni}" type="text" />
 							<p th:errors="*{dni}" class="text-danger"
 								th:if="${#fields.hasErrors('dni')}"></p>
 						</div>
+						                                       <div class="form-group mb-3">
+                        <label class="form-label">Sala asociada</label>
+                        <input class="form-control"
+                               id="sala"
+                               name="sala"
+                               placeholder="sala asociada"
+                               th:field="*{sala}"
+                               type="text"
+                        />
+                        <p th:errors="*{sala}" class="text-danger"
+                           th:if="${#fields.hasErrors('sala')}">
+                        </p>
+                    </div>
 						<div class="form-group mb-3">
 							<label class="form-label">Comienzo de horario</label> <input
 								class="form-control" id="comienza" name="comienza"

@@ -2,6 +2,10 @@ package com.example.registrationlogindemo.entity;
 
 import java.sql.Date;
 
+import org.thymeleaf.util.StringUtils;
+
+import com.example.registrationlogindemo.dto.VacunaDto;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,7 +28,7 @@ import lombok.Setter;
 public class Vacuna {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long idVac;
+	private Long id;
 	@Column(name = "NOMBRE")
 	private String nombre;
 	@Column(name = "DOSIS")
@@ -39,4 +43,15 @@ public class Vacuna {
 	@ManyToOne
 	@JoinColumn(name = "ID_USUARIO")
 	private Usuario usuario;
+	
+	public VacunaDto toDto() {
+		VacunaDto vacuna = new VacunaDto();
+		vacuna.setId(this.id);
+		vacuna.setFecha(StringUtils.toString(this.fecha));
+		vacuna.setDosis(this.dosis);
+		vacuna.setNombre(this.nombre);
+		vacuna.setNumLote(this.numLote);
+		
+		return vacuna;
+	}
 }

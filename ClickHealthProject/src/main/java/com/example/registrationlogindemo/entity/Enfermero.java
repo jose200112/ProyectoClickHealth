@@ -2,6 +2,8 @@ package com.example.registrationlogindemo.entity;
 
 import java.util.List;
 
+import com.example.registrationlogindemo.dto.EnfermeroDto;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -26,11 +28,15 @@ public class Enfermero {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID_ENF")
 	private Long id;
+	@Column(name = "CODIGO", unique=true)
+	private String codigo;
+	@Column(name = "SALA", unique=true)
+	private String sala;
 	@Column(name = "NOMBRE")
 	private String nombre;
 	@Column(name = "APELLIDOS")
 	private String apellidos;
-	@Column(name = "DNI", length = 9)
+	@Column(name = "DNI", length = 9, unique=true)
 	private String dni;
 	@OneToOne(mappedBy = "enfermero")
 	User cuenta;
@@ -42,4 +48,24 @@ public class Enfermero {
 	List<Horario> horarios;
 	@OneToMany(mappedBy="enfermero")
 	private List<Cita> citas;
+	@OneToMany(mappedBy="enfermero")
+	private List<Solicitud> solicitudes;
+	@OneToMany(mappedBy="enfermero")
+	private List<Alergia> alergias;
+	
+	public EnfermeroDto toDto() {
+		EnfermeroDto enfermeroDto = new EnfermeroDto();
+		enfermeroDto.setName(this.getCuenta().getName());
+		enfermeroDto.setEmail(this.getCuenta().getEmail());
+		
+		enfermeroDto.setId(this.getId());
+		enfermeroDto.setDni(this.getDni());
+		enfermeroDto.setNombre(this.getNombre());
+		enfermeroDto.setApellidos(this.getApellidos());
+		enfermeroDto.setSala(this.getSala());
+		
+		enfermeroDto.setComienza(this.getHorarios().get(0).getComienza());
+		enfermeroDto.setTermina(this.getHorarios().get(0).getTermina());
+		return enfermeroDto;
+	}
 }
