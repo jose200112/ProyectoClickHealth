@@ -19,6 +19,7 @@ import com.example.registrationlogindemo.entity.Cita;
 import com.example.registrationlogindemo.entity.Enfermero;
 import com.example.registrationlogindemo.entity.Medico;
 import com.example.registrationlogindemo.entity.Mensaje;
+import com.example.registrationlogindemo.entity.Observacion;
 import com.example.registrationlogindemo.entity.Role;
 import com.example.registrationlogindemo.entity.Solicitud;
 import com.example.registrationlogindemo.entity.User;
@@ -30,6 +31,7 @@ import com.example.registrationlogindemo.repository.CitaRepositorio;
 import com.example.registrationlogindemo.repository.EnfermeroRepositorio;
 import com.example.registrationlogindemo.repository.MedicoRepositorio;
 import com.example.registrationlogindemo.repository.MensajeRepositorio;
+import com.example.registrationlogindemo.repository.ObservacionRepositorio;
 import com.example.registrationlogindemo.repository.RoleRepository;
 import com.example.registrationlogindemo.repository.SolicitudRepositorio;
 import com.example.registrationlogindemo.repository.UserRepository;
@@ -52,12 +54,13 @@ public class UsuarioServicioImpl implements UsuarioServicioI {
 	private MensajeRepositorio mensajeRepo;
 	private CitaRepositorio citaRepo;
 	private AlergiaRepositorio alergiaRepo;
+	private ObservacionRepositorio observacionRepo;
 
 	public UsuarioServicioImpl(UserRepository userRepository, RoleRepository roleRepository,
 			PasswordEncoder passwordEncoder, EnfermeroRepositorio enfermeroRepo, MedicoRepositorio medicoRepo,
 			UsuarioRepositorio usuarioRepo, VacunaRepositorio vacunaRepo, BajaRepositorio bajaRepo,
 			SolicitudRepositorio solicitudRepo, MensajeRepositorio mensajeRepo, CitaRepositorio citaRepo,
-			AlergiaRepositorio alergiaRepo) {
+			AlergiaRepositorio alergiaRepo, ObservacionRepositorio observacionRepo) {
 		this.userRepository = userRepository;
 		this.roleRepository = roleRepository;
 		this.passwordEncoder = passwordEncoder;
@@ -70,6 +73,7 @@ public class UsuarioServicioImpl implements UsuarioServicioI {
 		this.mensajeRepo = mensajeRepo;
 		this.citaRepo = citaRepo;
 		this.alergiaRepo = alergiaRepo;
+		this.observacionRepo = observacionRepo;
 	}
 
 	@Override
@@ -359,5 +363,10 @@ public class UsuarioServicioImpl implements UsuarioServicioI {
 	@Override
 	public List<Usuario> buscarUsuariosMedico(String nombre, Medico medico){
 		return usuarioRepo.buscarPorNombreCompletoMedico(nombre, medico);
+	}
+	
+	@Override
+	public List<Observacion> buscarObservacionesUsuario(Usuario usuario){
+		return observacionRepo.findByUsuario(usuario);
 	}
 }

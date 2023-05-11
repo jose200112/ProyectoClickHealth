@@ -18,11 +18,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.registrationlogindemo.dto.AlergiaDto;
+import com.example.registrationlogindemo.dto.ObservacionDto;
 import com.example.registrationlogindemo.entity.Alergia;
 import com.example.registrationlogindemo.entity.Cita;
+import com.example.registrationlogindemo.entity.Observacion;
 import com.example.registrationlogindemo.entity.User;
 import com.example.registrationlogindemo.entity.Usuario;
 import com.example.registrationlogindemo.repository.CitaRepositorio;
+import com.example.registrationlogindemo.repository.ObservacionRepositorio;
 import com.example.registrationlogindemo.repository.UserRepository;
 import com.example.registrationlogindemo.repository.UsuarioRepositorio;
 import com.example.registrationlogindemo.service.MedicoServicioI;
@@ -48,6 +51,9 @@ public class MedicoControlador {
 	
 	@Autowired
 	UsuarioRepositorio usuarioRepo;
+	
+	@Autowired
+	ObservacionRepositorio observacionRepo;
 	
 	@GetMapping("/medico/inicioMedico")
 	public String inicioMedico() {
@@ -90,7 +96,7 @@ public class MedicoControlador {
 	
 	
 	@GetMapping("/medico/buscadorUsuarioObservacion")
-	public String actualizaBuscadorUsuarioAlergia(Model model, @Param("nombre") String nombre,Principal principal) {
+	public String actualizaBuscadorUsuarioObservacion(Model model, @Param("nombre") String nombre,Principal principal) {
 		User user = userRepository.findByEmail(principal.getName());
 		List<Usuario> usuarios = usuarioServicioI.buscarUsuariosMedico(nombre, user.getMedico());
 		model.addAttribute("nombre",nombre);
@@ -99,7 +105,7 @@ public class MedicoControlador {
 	}
 	
 	@GetMapping("/medico/registroObservacion/{id}")
-	public String getRegistroAlergias(Model model, @PathVariable Long id,Principal principal) {
+	public String getRegistroObservacion(Model model, @PathVariable Long id,Principal principal) {
 		User user = userRepository.findByEmail(principal.getName());
 		Optional<Usuario> usuario = usuarioRepo.findById(id);
 		
@@ -118,159 +124,167 @@ public class MedicoControlador {
 		}
 	}
 	
-	@PostMapping("/enfermero/guardaAlergia/{id}")
-	public String registraAlergia(@Valid @ModelAttribute("alergia") AlergiaDto alergia, BindingResult result,
+	@PostMapping("/medico/guardaObservacion/{id}")
+	public String registraObservacion(@Valid @ModelAttribute("observacion") ObservacionDto observacion, BindingResult result,
 			Model model, Principal principal, @PathVariable Long id) {
 		User user = userRepository.findByEmail(principal.getName());
 		Optional<Usuario> existeUsuario = usuarioRepo.findById(id);
 		Usuario usuarioAsignado = null;
 		
 		if(existeUsuario.isPresent()) {
-			if(existeUsuario.get().getEnfermero().getId() != user.getEnfermero().getId()) {
-				return "redirect:/enfermero/buscadorUsuarioAlergia?error";
+			if(existeUsuario.get().getMedico().getId() != user.getMedico().getId()) {
+				return "redirect:/medico/buscadorUsuarioObservacion?error";
 			} else {
 				usuarioAsignado = existeUsuario.get();
-				alergia.setUsuario(usuarioAsignado);
-				alergia.setEnfermero(user.getEnfermero());
+				observacion.setUsuario(usuarioAsignado);
+				observacion.setMedico(user.getMedico());
 			}
 		} else {
-			return "redirect:/enfermero/buscadorUsuarioAlergia?error";
-		}
-		
-		if (alergia.getDescripcion().isBlank()) {
-			result.rejectValue("descripcion", null, "Escriba al menos una descripcion");
+			return "redirect:/medico/buscadorUsuarioObservacion?error";
 		}
 
-		if(alergia.getDescripcion().length() > 200) {
+		if(observacion.getDescripcion().length() > 200) {
 			result.rejectValue("descripcion", null,"Resuma un poco la descripcion por favor");
 		}
 		
+		if(observacion.getDiagnostico().length() > 200) {
+			result.rejectValue("diagnostico", null,"Resuma un poco el diagnostico por favor");
+		}
+		
+		if(observacion.getSintomas().length() > 200) {
+			result.rejectValue("sintomas", null,"Resuma un poco los sintomas por favor");
+		}
+		
 		if (result.hasErrors()) {
-			model.addAttribute("alergia", alergia);
+			model.addAttribute("observacion", observacion);
 			model.addAttribute("usuario",existeUsuario.get());
 			model.addAttribute("result", result);
-			return "RegistroAlergia";
+			return "RegistroObservacion";
 		}
 		
-		enfermeroServicio.guardaNuevaAlergia(alergia);
-		
+		medicoServicioI.guardaNuevaObservacion(observacion);
+				
 
-		return "redirect:/enfermero/registroAlergia/{id}?success";
+		return "redirect:/medico/registroObservacion/{id}?success";
 	}
 	
-	@GetMapping("/enfermero/modificaAlergiaBuscador/{id}")
-	public String modificaAlergia(@PathVariable Long id,Model model,  Principal principal,@Param("nombre") String nombre) {
+	@GetMapping("/medico/modificaObservacionBuscador/{id}")
+	public String modificaObservacion(@PathVariable Long id,Model model,  Principal principal,@Param("nombre") String nombre) {
 		User user = userRepository.findByEmail(principal.getName());
 		Optional<Usuario> existeUsuario = usuarioRepo.findById(id);
 		
 		if(existeUsuario.isPresent()) {
-			if(existeUsuario.get().getEnfermero().getId() != user.getEnfermero().getId()) {
-				return "redirect:/enfermero/buscadorUsuarioAlergia?error";
+			if(existeUsuario.get().getMedico().getId() != user.getMedico().getId()) {
+				return "redirect:/medico/buscadorUsuarioAlergia?error";
 			} else {
-				List<Alergia> alergias = usuarioServicioI.buscarAlergiasUsuario(existeUsuario.get());
+				List<Observacion> observaciones = usuarioServicioI.buscarObservacionesUsuario(existeUsuario.get());
 				model.addAttribute("usuario", existeUsuario.get());
-				model.addAttribute("alergias", alergias);
-				return "ModificaAlergia";
+				model.addAttribute("observaciones", observaciones);
+				return "ModificaObservacion";
 			}
 		} else {
-			return "redirect:/enfermero/buscadorUsuarioAlergia?error";
+			return "redirect:/medico/buscadorUsuarioObservacion?error";
 		}
 		
 	}
 	
-	@GetMapping("/enfermero/registroActualizaAlergia/{id}/{idAlergia}")
-	public String getRegistroActualizaAlergias(Model model, @PathVariable Long id,@PathVariable Long idAlergia,Principal principal) {
+	@GetMapping("/medico/registroActualizaObservacion/{id}/{idObservacion}")
+	public String getRegistroActualizaObservaciones(Model model, @PathVariable Long id,@PathVariable Long idObservacion,Principal principal) {
 		User user = userRepository.findByEmail(principal.getName());
 		Optional<Usuario> existeUsuario = usuarioRepo.findById(id);
-		Optional<Alergia> existeAlergia = alergiaRepo.findById(idAlergia);		
+		Optional<Observacion> existeObservacion = observacionRepo.findById(idObservacion);		
 
 		
 		if(existeUsuario.isPresent()) {
-			if(existeUsuario.get().getEnfermero().getId() != user.getEnfermero().getId()) {
-				return "redirect:/enfermero/buscadorUsuarioAlergia?error";
+			if(existeUsuario.get().getMedico().getId() != user.getMedico().getId()) {
+				return "redirect:/medico/buscadorUsuarioObservacion?error";
 			} else {
-				if(existeAlergia.isPresent()) {
+				if(existeObservacion.isPresent()) {
 					model.addAttribute("usuario", existeUsuario.get());
-					model.addAttribute("alergia", existeAlergia.get().toDto());
-					return "RegistroActualizaAlergia";
+					model.addAttribute("observacion", existeObservacion.get().toDto());
+					return "RegistroActualizaObservacion";
 				} else {
-					return "redirect:/enfermero/modificaAlergiaBuscador/{id}?error";
+					return "redirect:/medico/modificaObservacionBuscador/{id}?error";
 				}
 			}
 		} else {
-			return "redirect:/enfermero/buscadorUsuarioAlergia?error";
+			return "redirect:/medico/buscadorUsuarioObservacion?error";
 		}
 	}
 	
-	@PostMapping("/enfermero/actualizaAlergia/{id}/{idAlergia}")
-	public String actualizaAlergia(@PathVariable Long id,@PathVariable Long idAlergia,Model model,Principal principal, @Valid @ModelAttribute("alergia") AlergiaDto alergia, BindingResult result) {
+	@PostMapping("/medico/actualizaObservacion/{id}/{idObservacion}")
+	public String actualizaAlergia(@PathVariable Long id,@PathVariable Long idObservacion,Model model,Principal principal, @Valid @ModelAttribute("observacion") ObservacionDto observacion, BindingResult result) {
 		User user = userRepository.findByEmail(principal.getName());
 		Optional<Usuario> existeUsuario = usuarioRepo.findById(id);
-		Optional<Alergia> existeAlergia = alergiaRepo.findById(idAlergia);
+		Optional<Observacion> existeObservacion = observacionRepo.findById(idObservacion);
 		
 
 		
 		if(existeUsuario.isPresent()) {
-			if(existeUsuario.get().getEnfermero().getId() != user.getEnfermero().getId()) {
-				return "redirect:/enfermero/buscadorUsuarioAlergia?error";
+			if(existeUsuario.get().getMedico().getId() != user.getMedico().getId()) {
+				return "redirect:/medico/buscadorUsuarioObservacion?error";
 			} else {
-				if(existeAlergia.isPresent()) {
-					alergia.setUsuario(existeUsuario.get());
-					alergia.setEnfermero(user.getEnfermero());
-					alergia.setId(idAlergia);
+				if(existeObservacion.isPresent()) {
+					observacion.setUsuario(existeUsuario.get());
+					observacion.setMedico(user.getMedico());
+					observacion.setId(idObservacion);
 					
 				} else {
-					return "redirect:/enfermero/modificaAlergiaBuscador/{id}?error";
+					return "redirect:/medico/modificaObservacionBuscador/{id}?error";
 				}
 			}
 		} else {
-			return "redirect:/enfermero/buscadorUsuarioAlergia?error";
+			return "redirect:/medico/buscadorUsuarioAlergia?error";
 		}
 		
 		
-		if (alergia.getDescripcion().isBlank()) {
-			result.rejectValue("descripcion", null, "Escriba al menos una descripcion");
+		if(observacion.getDiagnostico().length() > 200) {
+			result.rejectValue("diagnostico", null,"Resuma un poco el diagnostico por favor");
 		}
 		
-		if(alergia.getDescripcion().length() > 200) {
+		if(observacion.getSintomas().length() > 200) {
+			result.rejectValue("sintomas", null,"Resuma un poco los sintomas por favor");
+		}
+		
+		if(observacion.getDescripcion().length() > 200) {
 			result.rejectValue("descripcion", null,"Resuma un poco la descripcion por favor");
 		}
 		
 		if (result.hasErrors()) {
-			model.addAttribute("alergia", alergia);
+			model.addAttribute("observacion", observacion);
 			model.addAttribute("usuario",existeUsuario.get());
 			model.addAttribute("result", result);
 			return "RegistroActualizaAlergia";
 		}
 		
-		enfermeroServicio.guardaAlergia(alergia);
+		medicoServicioI.guardaObservacion(observacion);
 		
-		return "redirect:/enfermero/modificaAlergiaBuscador/{id}?success";
+		return "redirect:/medico/modificaObservacionBuscador/{id}?success";
 	}
 	
-	@GetMapping("/enfermero/borraAlergia/{id}/{idAlergia}")
-	public String borraAlergia(@PathVariable Long id,@PathVariable Long idAlergia,Model model,Principal principal,RedirectAttributes redirectAttrs) {
+	@GetMapping("/medico/borraObservacion/{id}/{idObservacion}")
+	public String borraAlergia(@PathVariable Long id,@PathVariable Long idObservacion,Model model,Principal principal,RedirectAttributes redirectAttrs) {
 		User user = userRepository.findByEmail(principal.getName());
 		Optional<Usuario> existeUsuario = usuarioRepo.findById(id);
-		Optional<Alergia> existeAlergia = alergiaRepo.findById(idAlergia);		
+		Optional<Observacion> existeObservacion = observacionRepo.findById(idObservacion);		
 
 		
 		if(existeUsuario.isPresent()) {
-			if(existeUsuario.get().getEnfermero().getId() != user.getEnfermero().getId()) {
-				return "redirect:/enfermero/buscadorUsuarioAlergia?error";
+			if(existeUsuario.get().getMedico().getId() != user.getMedico().getId()) {
+				return "redirect:/medico/buscadorUsuarioAlergia?error";
 			} else {
-				if(existeAlergia.isPresent()) {
-					alergiaRepo.deleteById(idAlergia);
-					String exito = "La alergia ha sido borrada";
+				if(existeObservacion.isPresent()) {
+					observacionRepo.deleteById(idObservacion);
+					String exito = "La observacion ha sido borrada";
 					model.addAttribute("usuario", existeUsuario.get());
 					redirectAttrs.addFlashAttribute("exito",exito);
-					return "redirect:/enfermero/modificaAlergiaBuscador/{id}";
+					return "redirect:/medico/modificaObservacionBuscador/{id}";
 				} else {
-					return "redirect:/enfermero/modificaAlergiaBuscador/{id}?error";
+					return "redirect:/medico/modificaObservacionBuscador/{id}?error";
 				}
 			}
 		} else {
-			return "redirect:/enfermero/buscadorUsuarioAlergia?error";
+			return "redirect:/medico/buscadorUsuarioObservacion?error";
 		}
 		
 	}

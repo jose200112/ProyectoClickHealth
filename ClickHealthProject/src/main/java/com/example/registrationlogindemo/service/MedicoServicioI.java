@@ -3,6 +3,7 @@ package com.example.registrationlogindemo.service;
 import java.util.List;
 
 import com.example.registrationlogindemo.dto.MedicoDto;
+import com.example.registrationlogindemo.dto.ObservacionDto;
 import com.example.registrationlogindemo.entity.Cita;
 import com.example.registrationlogindemo.entity.Medico;
 import com.example.registrationlogindemo.entity.User;
@@ -29,6 +30,10 @@ public interface MedicoServicioI {
 	void actualizaMedico(Medico medico, MedicoDto medicoDto);
 
 	List<Medico> buscarMedicosPorNombreId(String nombre, Long id);
+
+	void guardaNuevaObservacion(ObservacionDto observacionDto);
+
+	void guardaObservacion(ObservacionDto observacionDto);
 
 
 

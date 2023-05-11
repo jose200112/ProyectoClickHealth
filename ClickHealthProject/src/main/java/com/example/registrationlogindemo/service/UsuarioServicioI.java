@@ -8,6 +8,7 @@ import com.example.registrationlogindemo.dto.UsuarioDto;
 import com.example.registrationlogindemo.entity.Alergia;
 import com.example.registrationlogindemo.entity.Enfermero;
 import com.example.registrationlogindemo.entity.Medico;
+import com.example.registrationlogindemo.entity.Observacion;
 import com.example.registrationlogindemo.entity.Solicitud;
 import com.example.registrationlogindemo.entity.User;
 import com.example.registrationlogindemo.entity.Usuario;
@@ -47,5 +48,7 @@ public interface UsuarioServicioI {
 	List<Alergia> buscarAlergiasUsuario(Usuario usuario);
 
 	List<Usuario> buscarUsuariosMedico(String nombre, Medico medico);
+
+	List<Observacion> buscarObservacionesUsuario(Usuario usuario);
 
 }

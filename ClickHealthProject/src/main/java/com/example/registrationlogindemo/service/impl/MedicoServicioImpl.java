@@ -9,13 +9,17 @@ import java.util.Optional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.example.registrationlogindemo.dto.AlergiaDto;
 import com.example.registrationlogindemo.dto.EnfermeroDto;
 import com.example.registrationlogindemo.dto.MedicoDto;
+import com.example.registrationlogindemo.dto.ObservacionDto;
+import com.example.registrationlogindemo.entity.Alergia;
 import com.example.registrationlogindemo.entity.Cita;
 import com.example.registrationlogindemo.entity.Enfermero;
 import com.example.registrationlogindemo.entity.Horario;
 import com.example.registrationlogindemo.entity.Medico;
 import com.example.registrationlogindemo.entity.Mensaje;
+import com.example.registrationlogindemo.entity.Observacion;
 import com.example.registrationlogindemo.entity.Role;
 import com.example.registrationlogindemo.entity.Solicitud;
 import com.example.registrationlogindemo.entity.Tramo;
@@ -26,6 +30,7 @@ import com.example.registrationlogindemo.repository.CitaRepositorio;
 import com.example.registrationlogindemo.repository.HorarioRepositorio;
 import com.example.registrationlogindemo.repository.MedicoRepositorio;
 import com.example.registrationlogindemo.repository.MensajeRepositorio;
+import com.example.registrationlogindemo.repository.ObservacionRepositorio;
 import com.example.registrationlogindemo.repository.RoleRepository;
 import com.example.registrationlogindemo.repository.SolicitudRepositorio;
 import com.example.registrationlogindemo.repository.TramoHorarioRepositorio;
@@ -49,6 +54,7 @@ public class MedicoServicioImpl implements MedicoServicioI {
     private CitaRepositorio citaRepo;
     private MensajeRepositorio mensajeRepo;
     private SolicitudRepositorio solicitudRepo;
+    private ObservacionRepositorio observacionRepo;
 
     public MedicoServicioImpl(UserRepository userRepository,
                            RoleRepository roleRepository,
@@ -60,7 +66,8 @@ public class MedicoServicioImpl implements MedicoServicioI {
                            UsuarioRepositorio usuarioRepo,
                            CitaRepositorio citaRepo,
                            MensajeRepositorio mensajeRepo,
-                           SolicitudRepositorio solicitudRepo) {
+                           SolicitudRepositorio solicitudRepo,
+                           ObservacionRepositorio observacionRepo) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
@@ -72,6 +79,7 @@ public class MedicoServicioImpl implements MedicoServicioI {
         this.citaRepo = citaRepo;
         this.mensajeRepo = mensajeRepo;
         this.solicitudRepo = solicitudRepo;
+        this.observacionRepo = observacionRepo;
     }
 
 	@Override
@@ -264,5 +272,37 @@ public class MedicoServicioImpl implements MedicoServicioI {
 	        medicoRepo.save(medico);
 		
 	}
+	
+	
+	
+	@Override
+	public void guardaObservacion(ObservacionDto observacionDto) {
+		Observacion observacion = new Observacion();
+
+		observacion.setId(observacionDto.getId());
+		observacion.setTratamiento(observacionDto.getTratamiento());
+		observacion.setSintomas(observacionDto.getSintomas());
+		observacion.setDiagnostico(observacionDto.getDiagnostico());
+		observacion.setDescripcion(observacionDto.getDescripcion());
+		observacion.setUsuario(observacionDto.getUsuario());
+		observacion.setMedico(observacionDto.getMedico());
+		
+		observacionRepo.save(observacion);
+	}
+	
+	@Override
+	public void guardaNuevaObservacion(ObservacionDto observacionDto) {
+		Observacion observacion = new Observacion();
+		
+		observacion.setTratamiento(observacionDto.getTratamiento());
+		observacion.setSintomas(observacionDto.getSintomas());
+		observacion.setDiagnostico(observacionDto.getDiagnostico());
+		observacion.setDescripcion(observacionDto.getDescripcion());
+		observacion.setUsuario(observacionDto.getUsuario());
+		observacion.setMedico(observacionDto.getMedico());
+		
+		observacionRepo.save(observacion);
+	}
+	
 	
 }

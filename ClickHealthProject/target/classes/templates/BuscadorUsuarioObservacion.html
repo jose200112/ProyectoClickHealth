@@ -30,9 +30,7 @@
 				<ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll"
 					style="-bs-scroll-height: 100px;">
 					<li class="nav-item"><a class="nav-link active"
-						aria-current="page" href="/enfermero/inicioEnfermero">Inicio</a></li>
-					<li class="nav-item"><a class="nav-link active"
-						aria-current="page" href="/enfermero/registroVacuna">Registrar vacuna</a></li>
+						aria-current="page" href="/medico/inicioMedico">Inicio</a></li>
 											<li class="nav-item"><a class="nav-link active"
 						aria-current="page" href="#">Consultar mis citas</a></li>
 				</ul>
@@ -50,7 +48,7 @@
 					 <div th:if="${param.error}">
                 <div class="alert alert-danger">Usuario no encontrado.</div>
             </div>
-	<form class="form-inline" th:action="@{/enfermero/buscadorUsuarioAlergia}">
+	<form class="form-inline" th:action="@{/medico/buscadorUsuarioObservacion}">
 		<div class="form-group mb-2">
 			<label>Buscar :</label>
 		</div>
@@ -76,8 +74,8 @@
 				<td th:text="${usuario.nombre}">Nombre</td>
 				<td th:text="${usuario.apellidos}">Apellidos</td>
 				<td>
-				<a th:href="@{/enfermero/registroAlergia/{id}(id=${usuario.id})}" class="btn btn-info">Agregar alergia</a>
-				<a th:href="@{/enfermero/modificaAlergiaBuscador/{id}(id=${usuario.id})}" class="btn btn-info">Gestionar alergias</a>				
+				<a th:href="@{/medico/registroObservacion/{id}(id=${usuario.id})}" class="btn btn-info">Agregar Observacion</a>
+				<a th:href="@{/medico/modificaObservacionBuscador/{id}(id=${usuario.id})}" class="btn btn-info">Gestionar observaciones</a>				
 								
 				</td>
 

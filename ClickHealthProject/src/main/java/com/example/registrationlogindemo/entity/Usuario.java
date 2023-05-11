@@ -54,6 +54,8 @@ public class Usuario {
 	private List<Solicitud> solicitud;
 	@OneToMany(mappedBy="usuario")
 	private List<Alergia> alergias;
+	@OneToMany(mappedBy="usuario")
+	private List<Observacion> observaciones;
 	
 	public UsuarioDto toDto() {
 		UsuarioDto usuarioDto = new UsuarioDto();

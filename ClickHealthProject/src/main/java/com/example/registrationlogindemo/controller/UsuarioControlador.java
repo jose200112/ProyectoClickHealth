@@ -505,6 +505,30 @@ public class UsuarioControlador {
 
        }
     }
+    
+    @GetMapping("/usuario/citasUsuario")
+    public String citasUsuario(Principal principal,Model model) {
+		User user = userRepository.findByEmail(principal.getName());
+    	Cita cita = citaRepo.findByUsuarioAndAsistenciaIsNull(user.getUsuario());
+    	model.addAttribute("cita",cita);
+
+    	LocalDate fecha = LocalDate.now();     
+    	Date fechaActual = Date.valueOf(fecha);
+    	
+    	if(fechaActual.before(cita.getFecha()) || fechaActual.equals(cita.getFecha())) {
+        	if(cita.isConfirmada()) {
+        		model.addAttribute("confirmada","Confirmada");
+        	} else {
+        		model.addAttribute("confirmada","Por confirmar");
+        	}
+        	return "CitasUsuario";
+
+    	} else {
+    		model.addAttribute("cita",null);
+    		return "CitasUsuario";
+    	}
+
+    }
 
 
 	
