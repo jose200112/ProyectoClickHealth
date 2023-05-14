@@ -294,7 +294,7 @@ public class EnfermeroServicioImpl implements EnfermeroServicioI {
 		
 		Mensaje mensaje = new Mensaje();
 		mensaje.setTitulo("No se ha presentado a su cita");
-		mensaje.setDescripcion("Debido a su neglicencia, una persona ha perdido su oportunidad de asistir a su cita medica. "
+		mensaje.setDescripcion("Debido a su neglicencia, una persona ha perdido su oportunidad de conseguir una cita medica. "
 				+ "Por favor, sea responsable y puntual con sus "
 				+ "citas médicas para permitir que otros pacientes reciban la atención que merecen");
 		mensaje.setUsuario(cita.getUsuario());

@@ -16,6 +16,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;
@@ -50,12 +51,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.clickhealth.object.Columna;
 import com.example.registrationlogindemo.dto.BajaDto;
+import com.example.registrationlogindemo.dto.MensajeDto;
 import com.example.registrationlogindemo.dto.SolicitudDto;
 import com.example.registrationlogindemo.dto.UsuarioDto;
 import com.example.registrationlogindemo.dto.VacunaDto;
 import com.example.registrationlogindemo.entity.Cita;
 import com.example.registrationlogindemo.entity.Enfermero;
 import com.example.registrationlogindemo.entity.Medico;
+import com.example.registrationlogindemo.entity.Mensaje;
 import com.example.registrationlogindemo.entity.Solicitud;
 import com.example.registrationlogindemo.entity.Tramo;
 import com.example.registrationlogindemo.entity.User;
@@ -64,6 +67,7 @@ import com.example.registrationlogindemo.entity.Vacuna;
 import com.example.registrationlogindemo.repository.CitaRepositorio;
 import com.example.registrationlogindemo.repository.EnfermeroRepositorio;
 import com.example.registrationlogindemo.repository.MedicoRepositorio;
+import com.example.registrationlogindemo.repository.MensajeRepositorio;
 import com.example.registrationlogindemo.repository.SolicitudRepositorio;
 import com.example.registrationlogindemo.repository.TramoRepositorio;
 import com.example.registrationlogindemo.repository.UserRepository;
@@ -105,8 +109,55 @@ public class UsuarioControlador {
 	@Autowired
 	EnfermeroServicioI enfermeroServicioI;
 	
+	@Autowired
+	MensajeRepositorio mensajeRepo;
+	
 	@GetMapping("/usuario/inicioUsuario")
-	public String inicioUsuario() {
+	public String inicioUsuario(Principal principal, Model model) {
+		User user = userRepository.findByEmail(principal.getName());
+		LocalDate fecha = LocalDate.now();     
+    	Date fechaActual = Date.valueOf(fecha);
+    	
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(fechaActual);
+
+        calendar.add(Calendar.DAY_OF_MONTH, -5); 
+
+        java.util.Date fechaRestada = calendar.getTime();
+        java.sql.Date fechaRestadaSql = new java.sql.Date(fechaRestada.getTime());
+        
+    	List<Mensaje> mensajes = mensajeRepo.findMensajesRecientes(fechaRestadaSql, fechaActual, user.getUsuario());
+    	
+    	if(mensajes != null) {
+    		List<MensajeDto> mensajesAsistencia = new ArrayList<>();
+    		List<MensajeDto> mensajesSolicitudAceptada = new ArrayList<>();
+    		List<MensajeDto> mensajesSolicitudDenegada = new ArrayList<>();
+    		for(Mensaje mensaje: mensajes) {
+    	        long diferenciaMillis = fechaActual.getTime() - mensaje.getFecha().getTime();
+    	        
+    	        long dias = TimeUnit.MILLISECONDS.toDays(diferenciaMillis);
+    	        
+				MensajeDto mensajeDto = mensaje.toDto(dias);
+
+    			
+    			if(mensaje.getTitulo().equalsIgnoreCase("No se ha presentado a su cita")) {
+    				mensajesAsistencia.add(mensajeDto);
+    			}
+    			
+    			if(mensaje.getTitulo().equalsIgnoreCase("Solicitud aceptada")) {
+    				mensajesSolicitudAceptada.add(mensajeDto);
+    			}
+    			
+    			if(mensaje.getTitulo().equalsIgnoreCase("Solicitud denegada")) {
+    				mensajesSolicitudDenegada.add(mensajeDto);
+    			}
+    		}
+    		
+    		model.addAttribute("mensajesAsistencia", mensajesAsistencia);
+    		model.addAttribute("mensajesSolicitudAceptada", mensajesSolicitudAceptada);
+    		model.addAttribute("mensajesSolicitudDenegada", mensajesSolicitudDenegada);
+    	}
+		
 		return "InicioUsuario";
 	}
 	
@@ -510,26 +561,98 @@ public class UsuarioControlador {
     public String citasUsuario(Principal principal,Model model) {
 		User user = userRepository.findByEmail(principal.getName());
     	Cita cita = citaRepo.findByUsuarioAndAsistenciaIsNull(user.getUsuario());
-    	model.addAttribute("cita",cita);
 
-    	LocalDate fecha = LocalDate.now();     
-    	Date fechaActual = Date.valueOf(fecha);
     	
-    	if(fechaActual.before(cita.getFecha()) || fechaActual.equals(cita.getFecha())) {
-        	if(cita.isConfirmada()) {
-        		model.addAttribute("confirmada","Confirmada");
-        	} else {
-        		model.addAttribute("confirmada","Por confirmar");
-        	}
-        	return "CitasUsuario";
+    	if(cita != null) {
+            	if(cita.isConfirmada()) {
+            		model.addAttribute("confirmada","Confirmada");
+                	model.addAttribute("cita",cita);
+            	} else {
+            		model.addAttribute("confirmada","Por confirmar");
+                	model.addAttribute("cita",cita);
+                	
+                	LocalDate fecha = LocalDate.now();     
+                	Date fechaActual = Date.valueOf(fecha);
+                	
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(cita.getFecha());
 
+                    calendar.add(Calendar.DAY_OF_MONTH, -1); 
+
+                    java.util.Date fechaRestada = calendar.getTime();
+                    java.sql.Date fechaRestadaSql = new java.sql.Date(fechaRestada.getTime());
+                	
+                	if(fechaActual.equals(fechaRestadaSql)) {
+                		model.addAttribute("plazoAbierto", true);               	
+                		
+                	}
+
+            	}
+            	
+            	if(cita.getEnfermero() != null) {
+            		model.addAttribute("tipo", cita.getEnfermero());
+            		model.addAttribute("sanitario", "Enfermero");
+            		
+            	}
+            	
+            	if(cita.getMedico() != null) {
+            		model.addAttribute("tipo", cita.getMedico());
+            		model.addAttribute("sanitario","Medico");
+            	}
+
+            	return "CitasUsuario";
+
+        	
     	} else {
-    		model.addAttribute("cita",null);
     		return "CitasUsuario";
     	}
 
     }
 
+    @GetMapping("/usuario/confirmaAsistencia/{id}")
+    public String confirmaAsistencia(Principal principal, RedirectAttributes redirectAttrs,@PathVariable Long id) {
+		User user = userRepository.findByEmail(principal.getName());
+		Optional<Cita> existeCita = citaRepo.findById(id);
+
+    	if(existeCita.isPresent()) {
+    		if(existeCita.get().getUsuario().getId() != user.getUsuario().getId()) {
+				redirectAttrs.addFlashAttribute("error","Cita no encontrada");
+    			return "redirect:/usuario/citasUsuario";
+    		} else {
+    			Cita cita = existeCita.get();
+    			cita.setConfirmada(true);
+    			citaRepo.save(cita);
+				redirectAttrs.addFlashAttribute("exito","Cita confirmada con exito");
+    			return "redirect:/usuario/citasUsuario";
+    		}
+    	} else {
+			redirectAttrs.addFlashAttribute("error","Cita no encontrada");
+        	return "redirect:/usuario/citasUsuario";	
+    	}
+    	
+    }
+    
+    @GetMapping("/usuario/cancelaCita/{id}")
+    public String cancelaCita(Principal principal, RedirectAttributes redirectAttrs,@PathVariable Long id) {
+		User user = userRepository.findByEmail(principal.getName());
+		Optional<Cita> existeCita = citaRepo.findById(id);
+
+    	if(existeCita.isPresent()) {
+    		if(existeCita.get().getUsuario().getId() != user.getUsuario().getId()) {
+				redirectAttrs.addFlashAttribute("error","Cita no encontrada");
+    			return "redirect:/usuario/citasUsuario";
+    		} else {
+    			Cita cita = existeCita.get();
+    			citaRepo.delete(cita);
+				redirectAttrs.addFlashAttribute("exito","Cita cancelada con exito");
+    			return "redirect:/usuario/citasUsuario";
+    		}
+    	} else {
+			redirectAttrs.addFlashAttribute("error","Cita no encontrada");
+        	return "redirect:/usuario/citasUsuario";	
+    	}
+    	
+    }
 
 	
 	@PostMapping("/usuario/nuevaSolicitudBaja")

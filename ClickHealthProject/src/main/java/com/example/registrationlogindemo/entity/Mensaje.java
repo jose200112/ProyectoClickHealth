@@ -2,6 +2,8 @@ package com.example.registrationlogindemo.entity;
 
 import java.sql.Date;
 
+import com.example.registrationlogindemo.dto.MensajeDto;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -39,4 +41,12 @@ public class Mensaje {
 	@ManyToOne
 	@JoinColumn(name = "ID_USUARIO")
 	Usuario usuario;
+	
+	public MensajeDto toDto(Long dias) {
+		MensajeDto mensajeDto = new MensajeDto();
+		mensajeDto.setTitulo(this.titulo);
+		mensajeDto.setDescripcion(this.descripcion);
+		mensajeDto.setDias(dias);
+		return mensajeDto;
+	}
 }
