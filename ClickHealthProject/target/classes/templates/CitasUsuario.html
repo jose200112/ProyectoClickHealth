@@ -99,7 +99,7 @@
 			</div>
 		</div>
 		<div class="card mx-auto mb-4" th:each="cita : ${cita}"
-			style="max-width: 25rem;">
+			style="max-width: 30rem;">
 			<div class="card-header" style="background-color: #0d6efd;">
 				<h3 class="card-title text-light">Su cita programada</h3>
 			</div>
@@ -118,17 +118,21 @@
 			</div>
 			<div class="card-footer">
 				<div th:if="${plazoAbierto}" class="d-inline">
-					<div class="d-inline p-2">
+					<div class="d-inline">
 
 						<a th:href="@{/usuario/confirmaAsistencia/{id}(id=${cita.id})}"
-							class="btn btn-success">Confirmar asistencia</a>
+							class="btn btn-success" style="margin-right: 10px;">Confirmar asistencia</a>
 					</div>
 				</div>
 				<div class="d-inline">
 					<a th:href="@{/usuario/cancelaCita/{id}(id=${cita.id})}"
-						class="btn btn-danger">Cancelar cita</a>
+						class="btn btn-danger" style="margin-right: 10px;">Cancelar cita</a>
 				</div>
-
+				<div class="d-inline">
+								<form class="d-inline" action="/usuario/descargaCita" method="POST">
+  <button class="btn btn-info text-white" type="submit">Descargar cita</button>
+</form>
+				</div>
 			</div>
 		</div>
 	</div>

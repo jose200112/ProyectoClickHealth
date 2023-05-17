@@ -50,15 +50,15 @@
 		</div>
 	</nav>
 
-<div class="container">
+<div class="container pt-3">
 <div class="table-responsive">
 <table class="table">
   <thead>
     <tr>
-      <th scope="col">Nombre</th>
-      <th scope="col">Numero de dosis</th>
-      <th scope="col">Fecha de inoculacion</th>
-      <th scope="col">Numero de lote</th>
+      <th scope="col" class="bg-primary text-white">Nombre</th>
+      <th scope="col" class="bg-primary text-white">Numero de dosis</th>
+      <th scope="col" class="bg-primary text-white">Fecha de inoculacion</th>
+      <th scope="col" class="bg-primary text-white">Numero de lote</th>
     </tr>
   </thead>
       <tbody th:if="${vacunas.isEmpty()}">
@@ -78,7 +78,7 @@
 </div>
 <div th:if="${not vacunas.isEmpty()}">
 <form action="/usuario/descargaVacunas" method="POST">
-  <button type="submit">Descargar PDF</button>
+  <button type="submit" class="btn btn-primary">Descargar citas</button>
 </form>
 </div>
 

@@ -8,6 +8,8 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.validator.routines.EmailValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.clickhealth.object.EmailService;
 import com.example.registrationlogindemo.dto.BajaDto;
 import com.example.registrationlogindemo.dto.EnfermeroDto;
 import com.example.registrationlogindemo.dto.MedicoDto;
@@ -31,10 +34,12 @@ import com.example.registrationlogindemo.repository.EnfermeroRepositorio;
 import com.example.registrationlogindemo.repository.MedicoRepositorio;
 import com.example.registrationlogindemo.repository.SolicitudRepositorio;
 import com.example.registrationlogindemo.repository.UsuarioRepositorio;
+import com.example.registrationlogindemo.service.EmailServiceI;
 import com.example.registrationlogindemo.service.EnfermeroServicioI;
 import com.example.registrationlogindemo.service.MedicoServicioI;
 import com.example.registrationlogindemo.service.UserService;
 import com.example.registrationlogindemo.service.UsuarioServicioI;
+import com.itextpdf.text.Image;
 
 import jakarta.validation.Valid;
 
@@ -64,6 +69,10 @@ public class AdminController {
 
 	@Autowired
 	private SolicitudRepositorio solicitudRepo;
+	
+	@Autowired
+	EmailServiceI emailServiceI;
+	
 
 	private static final Pattern REGEXP = Pattern.compile("[0-9]{8}[A-Z]");
 	private static final String DIGITO_CONTROL = "TRWAGMYFPDXBNJZSQVHLCKE";
@@ -120,6 +129,17 @@ public class AdminController {
 			return "RegistroUsuario";
 		}
 		usuarioServicioI.saveUsuario(usuario);
+        String contenido = "";
+            contenido = "<html><body>"
+                    + "<img src='https://i.imgur.com/ymmyp91.png'/>"
+                    + "<br><br>"
+                    + "Bienvenido " + usuario.getNombre() + " " + usuario.getApellidos() + " a ClickHealth.<br>"
+                    + "¡Ya ha sido registrado con exito en nuestro sistema!<br>"
+                    + "A continuación, le proporcionamos su clave de acceso: <b>" + usuario.getPassword() + "</b>"
+                    + "</body></html>";
+
+		
+		emailServiceI.enviarCorreo(usuario.getEmail(), "¡Bienvenido a ClickHealth!",  contenido);
 		return "redirect:/admin/registroUsuario?success";
 	}
 
@@ -180,6 +200,24 @@ public class AdminController {
 			return "RegistroEnfermero";
 		}
 		enfermeroServicioI.saveUser(enfermero);
+        String contenido = "";
+        contenido = "<html><body>"
+        		+ "<img src='https://i.imgur.com/ymmyp91.png'/>"
+                + "<h2>¡Bienvenido/a a ClickHealth!</h2>"
+                + "<p>Estimado " + enfermero.getNombre() +",</p>"
+                + "<p>Te damos la bienvenida a nuestro equipo de enfermeros. Nos complace informarte que tu alta ha sido procesada con éxito.</p>"
+                + "<p>A continuación, te proporcionamos algunos detalles importantes:</p>"
+                + "Su horario comienza De <strong>" + enfermero.getComienza()  + "</strong> a " + enfermero.getTermina() + " en la sala <strong>" + enfermero.getSala() + "</strong>.<br>"
+                + "<strong>Su clave de acceso al sistema:</strong>" + enfermero.getPassword() + ".<br>"
+                + "<p>Estamos encantados de tener a bordo a un profesional como tú. Esperamos que te sientas cómodo y que disfrutes de tu trabajo con nosotros.</p>"
+                + "<p>Si tienes alguna pregunta o necesitas más información, no dudes en ponerte en contacto con nosotros.</p>"
+                + "<p>¡Te deseamos mucho éxito en tu nueva posición!</p>"
+                + "<p>Saludos cordiales,</p>"
+                + "<p>El equipo de ClickHealth</p>"
+                + "</body></html>";
+
+	
+	emailServiceI.enviarCorreo(enfermero.getEmail(), "¡Bienvenido a ClickHealth!",  contenido);
 		return "redirect:/admin/registroEnfermero?success";
 	}
 
@@ -240,6 +278,25 @@ public class AdminController {
 		}
 
 		medicoServicioI.saveMedico(medico);
+		
+       
+        String contenido = "<html><body>"
+        		+ "<img src='https://i.imgur.com/ymmyp91.png'/>"
+                + "<h2>¡Bienvenido/a a ClickHealth!</h2>"
+                + "<p>Estimado " + medico.getNombre() +",</p>"
+                + "<p>Te damos la bienvenida a nuestro equipo de medicos. Nos complace informarte que tu alta ha sido procesada con éxito.</p>"
+                + "<p>A continuación, te proporcionamos algunos detalles importantes:</p>"
+                + "Su horario comienza De <strong>" + medico.getComienza()  + "</strong> a <strong>" + medico.getTermina() + "</strong> en la sala <strong>"+ medico.getSala() +"</strong>.<br>"
+                + "Su clave de acceso al sistema:<strong>" + medico.getPassword() + "</strong>.<br>"
+                + "<p>Estamos encantados de tener a bordo a un profesional como tú. Esperamos que te sientas cómodo y que disfrutes de tu trabajo con nosotros.</p>"
+                + "<p>Si tienes alguna pregunta o necesitas más información, no dudes en ponerte en contacto con nosotros.</p>"
+                + "<p>¡Te deseamos mucho éxito en tu nueva posición!</p>"
+                + "<p>Saludos cordiales,</p>"
+                + "<p>El equipo de ClickHealth</p>"
+                + "</body></html>";
+
+	
+	emailServiceI.enviarCorreo(medico.getEmail(), "¡Bienvenido a ClickHealth!",  contenido);
 
 		return "redirect:/admin/registroMedico?success";
 	}

@@ -557,6 +557,151 @@ public class UsuarioControlador {
        }
     }
     
+	@PostMapping("/usuario/descargaCita")
+    public ResponseEntity<byte[]> generarCitaPDF(Principal principal) throws IOException, DocumentException {
+    	   try {
+
+    		   User user = userRepository.findByEmail(principal.getName());
+    	    Cita cita = citaRepo.findByUsuarioAndAsistenciaIsNull(user.getUsuario());
+    	    Usuario usuario = user.getUsuario();
+    	    
+    	       Document document = new Document();
+
+    	       ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+    	       PdfWriter.getInstance(document, baos);
+
+    	       document.open();
+
+    	       Resource resource = new ClassPathResource("images/clickhealthlogo.PNG");
+
+    	       Image image = Image.getInstance(resource.getURL().toString());
+    	       image.setAlignment(Element.ALIGN_CENTER);
+    	       image.scaleToFit(200f, 200f);
+    	       image.setSpacingAfter(2);
+    	       document.add(image);
+
+
+    	       Font headerFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 14, BaseColor.BLACK);
+    	       Paragraph header = new Paragraph("Cita del paciente " + usuario.getNombre() + " " + usuario.getApellidos() + " con DNI " + usuario.getDni(), headerFont);
+    	       header.setAlignment(Element.ALIGN_CENTER);
+    	       header.setSpacingAfter(10f);
+    	       document.add(header);
+
+    	       // Crear una card para mostrar la información de vacunas
+    	       Font cardFont = FontFactory.getFont(FontFactory.HELVETICA, 12, BaseColor.BLACK);
+    	       float cardWidth = 300f;
+    	       float cardHeight = 100f;
+    	       float cardMargin = 10f;
+
+    	           // Crear una nueva tarjeta
+    	           PdfPTable card = new PdfPTable(2);
+    	           card.setWidthPercentage(100);
+    	           card.setWidths(new float[]{1, 3});
+    	           card.setSpacingBefore(cardMargin);
+    	           card.setSpacingAfter(cardMargin);
+
+    	           // Agregar el nombre de la vacuna en la primera celda
+    	           if(cita.getMedico() != null) {
+    	        	   PdfPCell nameCell = new PdfPCell(new Phrase("Medico:", cardFont));
+        	           nameCell.setBorder(Rectangle.BOX);
+        	           card.addCell(nameCell);
+
+        	           PdfPCell nameValueCell = new PdfPCell(new Phrase(cita.getMedico().getNombre() + " " + cita.getMedico().getApellidos(),cardFont));
+        	           nameValueCell.setBorder(Rectangle.BOX);
+        	           card.addCell(nameValueCell); 
+        	           
+        	           // Agregar la hora de la cita en la siguiente celda
+        	           PdfPCell roomCell = new PdfPCell(new Phrase("Sala:", cardFont));
+        	           roomCell.setBorder(Rectangle.BOX);
+        	           card.addCell(roomCell);
+
+        	           PdfPCell roomValueCell = new PdfPCell(new Phrase(String.valueOf(cita.getMedico().getSala()), cardFont));
+        	           roomValueCell.setBorder(Rectangle.BOX);
+        	           card.addCell(roomValueCell);
+    	           }
+    	           
+    	           if(cita.getEnfermero() != null) {
+    	        	   PdfPCell nameCell = new PdfPCell(new Phrase("Enfermero:", cardFont));
+        	           nameCell.setBorder(Rectangle.BOX);
+        	           card.addCell(nameCell);
+
+        	           PdfPCell nameValueCell = new PdfPCell(new Phrase(cita.getEnfermero().getNombre() + " " + cita.getEnfermero().getApellidos(), cardFont));
+        	           nameValueCell.setBorder(Rectangle.BOX);
+        	           card.addCell(nameValueCell);
+        	           
+        	           // Agregar la hora de la cita en la siguiente celda
+        	           PdfPCell roomCell = new PdfPCell(new Phrase("Sala:", cardFont));
+        	           roomCell.setBorder(Rectangle.BOX);
+        	           card.addCell(roomCell);
+
+        	           PdfPCell roomValueCell = new PdfPCell(new Phrase(String.valueOf(cita.getEnfermero().getSala()), cardFont));
+        	           roomValueCell.setBorder(Rectangle.BOX);
+        	           card.addCell(roomValueCell);
+    	           }
+
+    	           PdfPCell dateCell = new PdfPCell(new Phrase("Fecha:", cardFont));
+    	           dateCell.setBorder(Rectangle.BOX);
+    	           card.addCell(dateCell);
+
+    	           PdfPCell dateValueCell = new PdfPCell(new Phrase(String.valueOf(cita.getFecha()), cardFont));
+    	           dateValueCell.setBorder(Rectangle.BOX);
+    	           card.addCell(dateValueCell);
+
+    	           // Agregar la hora de la cita en la siguiente celda
+    	           PdfPCell timeCell = new PdfPCell(new Phrase("Hora:", cardFont));
+    	           timeCell.setBorder(Rectangle.BOX);
+    	           card.addCell(timeCell);
+
+    	           PdfPCell timeValueCell = new PdfPCell(new Phrase(String.valueOf(cita.getTramo().getTiempo()), cardFont));
+    	           timeValueCell.setBorder(Rectangle.BOX);
+    	           card.addCell(timeValueCell);
+    	          
+
+    	           // Agregar la confirmación de la cita en la siguiente celda
+    	           PdfPCell confirmedCell = new PdfPCell(new Phrase("Confirmada:", cardFont));
+    	           confirmedCell.setBorder(Rectangle.BOX);
+    	           card.addCell(confirmedCell);
+
+    	           
+    	           
+    	           if (cita.isConfirmada()) {
+    	               PdfPCell confirmedValueCell = new PdfPCell(new Phrase("Si", cardFont));
+    	               confirmedValueCell.setBorder(Rectangle.BOX);
+    	               card.addCell(confirmedValueCell);
+    	           } else {
+    	               PdfPCell confirmedValueCell = new PdfPCell(new Phrase("No", cardFont));
+    	               confirmedValueCell.setBorder(Rectangle.BOX);
+    	               card.addCell(confirmedValueCell);
+    	           }
+
+    	           // Agregar la tarjeta al documento
+    	           document.add(card);
+    	       
+
+    	       // Cerrar el documento
+    	       document.close();
+
+    	       // Obtener el contenido del PDF en forma de byte array
+    	       byte[] pdfContent = baos.toByteArray();
+
+
+    	       // Configurar las cabeceras de la respuesta
+    	       HttpHeaders headers = new HttpHeaders();
+    	       headers.setContentType(MediaType.APPLICATION_PDF);
+    	       headers.setContentDispositionFormData("attachment", "cita.pdf");
+
+           // Devolver la respuesta con el contenido del PDF
+           return ResponseEntity.ok()
+                   .headers(headers)
+                   .body(pdfContent);
+       } catch(Exception e) {
+    	   System.err.println("Ha ocurrido un error: "+e);
+    		return null;
+
+       }
+    }
+    
     @GetMapping("/usuario/citasUsuario")
     public String citasUsuario(Principal principal,Model model) {
 		User user = userRepository.findByEmail(principal.getName());
