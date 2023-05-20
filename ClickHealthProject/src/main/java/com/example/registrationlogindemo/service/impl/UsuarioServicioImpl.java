@@ -153,6 +153,10 @@ public class UsuarioServicioImpl implements UsuarioServicioI {
 				alergiaRepo.delete(alergia);
 			}
 			
+			for(Observacion observacion: usuarioEncontrado.getObservaciones()) {
+				observacionRepo.delete(observacion);
+			}
+			
 			usuarioRepo.deleteById(id);
 		}
 	}
@@ -232,6 +236,11 @@ public class UsuarioServicioImpl implements UsuarioServicioI {
 			Usuario usuario = usuarioRepo.findByDni(solicitud.getUsuario().getDni());
 			usuario.setMedico(solicitud.getMedico());
 			usuarioRepo.save(usuario);
+			
+			for(Observacion observacion: usuario.getObservaciones()) {
+				observacion.setMedico(solicitud.getMedico());
+				observacionRepo.save(observacion);
+			}
 			
 			Mensaje mensaje = new Mensaje();
 			Calendar calendar = Calendar.getInstance();

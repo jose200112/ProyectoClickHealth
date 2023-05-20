@@ -190,7 +190,15 @@ public class MedicoServicioImpl implements MedicoServicioI {
 			}
 			
 			for(Usuario usuario: medicoEncontrado.getUsuarios()) {
-				usuario.setMedico(medicoRepo.findMedicoConMenosUsuariosExcluye(id));
+				Medico medicoConMenos = medicoRepo.findMedicoConMenosUsuariosExcluye(id);
+				
+				usuario.setMedico(medicoConMenos);
+				
+				for(Observacion observacion: usuario.getObservaciones()) {
+					observacion.setMedico(medicoConMenos);
+					observacionRepo.save(observacion);
+				}
+				
 				usuarioRepo.save(usuario);
 			}
 			

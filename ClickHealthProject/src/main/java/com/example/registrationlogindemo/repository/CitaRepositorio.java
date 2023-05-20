@@ -1,6 +1,7 @@
 package com.example.registrationlogindemo.repository;
 
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -22,5 +23,7 @@ public interface CitaRepositorio extends JpaRepository<Cita,Long> {
     List<Cita> findByEnfermeroAndFechaAndAsistenciaIsNullAndConfirmadaIsTrue(Enfermero enfermero,Date fecha);
     
     Cita findByUsuarioAndAsistenciaIsNull(Usuario usuario);
+    
+    List<Cita> findByFechaAndConfirmadaIsFalse(LocalDate fecha);
 
 }

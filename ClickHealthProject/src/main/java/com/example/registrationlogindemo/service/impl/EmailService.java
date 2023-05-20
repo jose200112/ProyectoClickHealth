@@ -13,8 +13,9 @@ import com.sendgrid.helpers.mail.objects.Email;
 @Service
 public class EmailService implements EmailServiceI {
 
-    private final String SENDGRID_API_KEY = "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";
+    private final String SENDGRID_API_KEY = "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";
 
+    @Override
     public void enviarCorreo(String destinatario, String asunto, String contenido) {
         Email from = new Email("clickhealthproject@gmail.com");
         Email to = new Email(destinatario);

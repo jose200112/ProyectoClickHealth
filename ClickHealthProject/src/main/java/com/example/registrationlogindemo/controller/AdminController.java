@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.clickhealth.object.EmailService;
 import com.example.registrationlogindemo.dto.BajaDto;
 import com.example.registrationlogindemo.dto.EnfermeroDto;
 import com.example.registrationlogindemo.dto.MedicoDto;
