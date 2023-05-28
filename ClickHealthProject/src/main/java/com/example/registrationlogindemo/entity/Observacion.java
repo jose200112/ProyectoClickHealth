@@ -28,38 +28,37 @@ public class Observacion {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID_OBS")
 	private Long id;
-	
-	@Column(name="SINTOMAS")
+
+	@Column(name = "SINTOMAS")
 	private String sintomas;
-	
-	@Column(name="DIAGNOSTICO")
+
+	@Column(name = "DIAGNOSTICO")
 	private String diagnostico;
-	
-	@Column(name="TRATAMIENTO")
+
+	@Column(name = "TRATAMIENTO")
 	private String tratamiento;
-	
-	@Column(name="DESCRIPCION")
+
+	@Column(name = "DESCRIPCION")
 	private String descripcion;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "ID_MED")
 	private Medico medico;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "ID_USUARIO")
 	private Usuario usuario;
-	
+
 	public ObservacionDto toDto() {
 		ObservacionDto observacionDto = new ObservacionDto();
-		
+
 		observacionDto.setId(id);
 		observacionDto.setDescripcion(this.descripcion);
 		observacionDto.setDiagnostico(this.diagnostico);
 		observacionDto.setSintomas(this.sintomas);
 		observacionDto.setTratamiento(this.tratamiento);
-		
+
 		return observacionDto;
 	}
 
-	
 }

@@ -2,7 +2,6 @@ package com.example.registrationlogindemo.dto;
 
 import java.time.LocalTime;
 
-
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
@@ -23,23 +22,20 @@ public class EnfermeroDto {
 	private String email;
 	@NotEmpty(message = "La clave no puede estar vacia")
 	private String password;
-	
+
 	@NotEmpty(message = "El dni no puede estar vacio")
 	private String dni;
 	@NotEmpty(message = "El nombre del enfermero no puede estar vacio")
 	private String nombre;
-	
+
 	@NotEmpty(message = "Los apellidos del enfermero no pueden estar vacios")
 	private String apellidos;
-	
+
 	@NotEmpty(message = "Debe tener al menos una sala asociada")
 	private String sala;
-	
-	private LocalTime comienza;
-	
-	private LocalTime termina;
-	
-	
-	
-}
 
+	private LocalTime comienza;
+
+	private LocalTime termina;
+
+}

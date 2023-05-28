@@ -68,10 +68,9 @@ public class AdminController {
 
 	@Autowired
 	private SolicitudRepositorio solicitudRepo;
-	
+
 	@Autowired
 	EmailServiceI emailServiceI;
-	
 
 	private static final Pattern REGEXP = Pattern.compile("[0-9]{8}[A-Z]");
 	private static final String DIGITO_CONTROL = "TRWAGMYFPDXBNJZSQVHLCKE";
@@ -86,7 +85,6 @@ public class AdminController {
 		return "InicioAdmin";
 	}
 
-	// handler method to handle user registration request
 	@GetMapping("/admin/registroUsuario")
 	public String formularioRegistroUsuario(Model model) {
 		UsuarioDto usuario = new UsuarioDto();
@@ -94,7 +92,6 @@ public class AdminController {
 		return "RegistroUsuario";
 	}
 
-	// handler method to handle register user form submit request
 	@PostMapping("/admin/guardaUsuario")
 	public String registraUsuario(@Valid @ModelAttribute("usuario") UsuarioDto usuario, BindingResult result,
 			Model model) {
@@ -128,17 +125,14 @@ public class AdminController {
 			return "RegistroUsuario";
 		}
 		usuarioServicioI.saveUsuario(usuario);
-        String contenido = "";
-            contenido = "<html><body>"
-                    + "<img src='https://i.imgur.com/ymmyp91.png'/>"
-                    + "<br><br>"
-                    + "Bienvenido " + usuario.getNombre() + " " + usuario.getApellidos() + " a ClickHealth.<br>"
-                    + "¡Ya ha sido registrado con exito en nuestro sistema!<br>"
-                    + "A continuación, le proporcionamos su clave de acceso: <b>" + usuario.getPassword() + "</b>"
-                    + "</body></html>";
+		String contenido = "";
+		contenido = "<html><body>" + "<img src='https://i.imgur.com/ymmyp91.png'/>" + "<br><br>" + "Bienvenido "
+				+ usuario.getNombre() + " " + usuario.getApellidos() + " a ClickHealth.<br>"
+				+ "¡Ya ha sido registrado con exito en nuestro sistema!<br>"
+				+ "A continuación, le proporcionamos su clave de acceso: <b>" + usuario.getPassword() + "</b>"
+				+ "</body></html>";
 
-		
-		emailServiceI.enviarCorreo(usuario.getEmail(), "¡Bienvenido a ClickHealth!",  contenido);
+		emailServiceI.enviarCorreo(usuario.getEmail(), "¡Bienvenido a ClickHealth!", contenido);
 		return "redirect:/admin/registroUsuario?success";
 	}
 
@@ -199,24 +193,20 @@ public class AdminController {
 			return "RegistroEnfermero";
 		}
 		enfermeroServicioI.saveUser(enfermero);
-        String contenido = "";
-        contenido = "<html><body>"
-        		+ "<img src='https://i.imgur.com/ymmyp91.png'/>"
-                + "<h2>¡Bienvenido/a a ClickHealth!</h2>"
-                + "<p>Estimado " + enfermero.getNombre() +",</p>"
-                + "<p>Te damos la bienvenida a nuestro equipo de enfermeros. Nos complace informarte que tu alta ha sido procesada con éxito.</p>"
-                + "<p>A continuación, te proporcionamos algunos detalles importantes:</p>"
-                + "Su horario comienza De <strong>" + enfermero.getComienza()  + "</strong> a " + enfermero.getTermina() + " en la sala <strong>" + enfermero.getSala() + "</strong>.<br>"
-                + "<strong>Su clave de acceso al sistema:</strong>" + enfermero.getPassword() + ".<br>"
-                + "<p>Estamos encantados de tener a bordo a un profesional como tú. Esperamos que te sientas cómodo y que disfrutes de tu trabajo con nosotros.</p>"
-                + "<p>Si tienes alguna pregunta o necesitas más información, no dudes en ponerte en contacto con nosotros.</p>"
-                + "<p>¡Te deseamos mucho éxito en tu nueva posición!</p>"
-                + "<p>Saludos cordiales,</p>"
-                + "<p>El equipo de ClickHealth</p>"
-                + "</body></html>";
+		String contenido = "";
+		contenido = "<html><body>" + "<img src='https://i.imgur.com/ymmyp91.png'/>"
+				+ "<h2>¡Bienvenido/a a ClickHealth!</h2>" + "<p>Estimado " + enfermero.getNombre() + ",</p>"
+				+ "<p>Te damos la bienvenida a nuestro equipo de enfermeros. Nos complace informarte que tu alta ha sido procesada con éxito.</p>"
+				+ "<p>A continuación, te proporcionamos algunos detalles importantes:</p>"
+				+ "Su horario comienza De <strong>" + enfermero.getComienza() + "</strong> a " + enfermero.getTermina()
+				+ " en la sala <strong>" + enfermero.getSala() + "</strong>.<br>"
+				+ "<strong>Su clave de acceso al sistema:</strong>" + enfermero.getPassword() + ".<br>"
+				+ "<p>Estamos encantados de tener a bordo a un profesional como tú. Esperamos que te sientas cómodo y que disfrutes de tu trabajo con nosotros.</p>"
+				+ "<p>Si tienes alguna pregunta o necesitas más información, no dudes en ponerte en contacto con nosotros.</p>"
+				+ "<p>¡Te deseamos mucho éxito en tu nueva posición!</p>" + "<p>Saludos cordiales,</p>"
+				+ "<p>El equipo de ClickHealth</p>" + "</body></html>";
 
-	
-	emailServiceI.enviarCorreo(enfermero.getEmail(), "¡Bienvenido a ClickHealth!",  contenido);
+		emailServiceI.enviarCorreo(enfermero.getEmail(), "¡Bienvenido a ClickHealth!", contenido);
 		return "redirect:/admin/registroEnfermero?success";
 	}
 
@@ -277,25 +267,20 @@ public class AdminController {
 		}
 
 		medicoServicioI.saveMedico(medico);
-		
-       
-        String contenido = "<html><body>"
-        		+ "<img src='https://i.imgur.com/ymmyp91.png'/>"
-                + "<h2>¡Bienvenido/a a ClickHealth!</h2>"
-                + "<p>Estimado " + medico.getNombre() +",</p>"
-                + "<p>Te damos la bienvenida a nuestro equipo de medicos. Nos complace informarte que tu alta ha sido procesada con éxito.</p>"
-                + "<p>A continuación, te proporcionamos algunos detalles importantes:</p>"
-                + "Su horario comienza De <strong>" + medico.getComienza()  + "</strong> a <strong>" + medico.getTermina() + "</strong> en la sala <strong>"+ medico.getSala() +"</strong>.<br>"
-                + "Su clave de acceso al sistema:<strong>" + medico.getPassword() + "</strong>.<br>"
-                + "<p>Estamos encantados de tener a bordo a un profesional como tú. Esperamos que te sientas cómodo y que disfrutes de tu trabajo con nosotros.</p>"
-                + "<p>Si tienes alguna pregunta o necesitas más información, no dudes en ponerte en contacto con nosotros.</p>"
-                + "<p>¡Te deseamos mucho éxito en tu nueva posición!</p>"
-                + "<p>Saludos cordiales,</p>"
-                + "<p>El equipo de ClickHealth</p>"
-                + "</body></html>";
 
-	
-	emailServiceI.enviarCorreo(medico.getEmail(), "¡Bienvenido a ClickHealth!",  contenido);
+		String contenido = "<html><body>" + "<img src='https://i.imgur.com/ymmyp91.png'/>"
+				+ "<h2>¡Bienvenido/a a ClickHealth!</h2>" + "<p>Estimado " + medico.getNombre() + ",</p>"
+				+ "<p>Te damos la bienvenida a nuestro equipo de medicos. Nos complace informarte que tu alta ha sido procesada con éxito.</p>"
+				+ "<p>A continuación, te proporcionamos algunos detalles importantes:</p>"
+				+ "Su horario comienza De <strong>" + medico.getComienza() + "</strong> a <strong>"
+				+ medico.getTermina() + "</strong> en la sala <strong>" + medico.getSala() + "</strong>.<br>"
+				+ "Su clave de acceso al sistema:<strong>" + medico.getPassword() + "</strong>.<br>"
+				+ "<p>Estamos encantados de tener a bordo a un profesional como tú. Esperamos que te sientas cómodo y que disfrutes de tu trabajo con nosotros.</p>"
+				+ "<p>Si tienes alguna pregunta o necesitas más información, no dudes en ponerte en contacto con nosotros.</p>"
+				+ "<p>¡Te deseamos mucho éxito en tu nueva posición!</p>" + "<p>Saludos cordiales,</p>"
+				+ "<p>El equipo de ClickHealth</p>" + "</body></html>";
+
+		emailServiceI.enviarCorreo(medico.getEmail(), "¡Bienvenido a ClickHealth!", contenido);
 
 		return "redirect:/admin/registroMedico?success";
 	}
@@ -477,7 +462,7 @@ public class AdminController {
 
 		Optional<Solicitud> solicitud = solicitudRepo.findById(id);
 		Solicitud s = solicitud.get();
-		
+
 		usuarioServicioI.AceptaSolicitud(s);
 
 		return "redirect:/admin/resuelveSolicitud";
@@ -487,45 +472,45 @@ public class AdminController {
 	public String resuelveSolicitudDenegada(@PathVariable String id, Model model) {
 		Optional<Solicitud> existeSolicitud = solicitudRepo.findById(Long.parseLong(id));
 		Solicitud solicitud = existeSolicitud.get();
-		
+
 		usuarioServicioI.DeniegaSolicitud(solicitud);
 
 		return "redirect:/admin/resuelveSolicitud";
 	}
-	
+
 	@GetMapping("/admin/actualizaBuscadorUsuario")
 	public String actualizaBuscadorUsuario(Model model, @Param("nombre") String nombre) {
 		List<Usuario> usuarios = usuarioServicioI.buscarUsuarios(nombre);
-		model.addAttribute("nombre",nombre);
-		model.addAttribute("usuarios",usuarios);
+		model.addAttribute("nombre", nombre);
+		model.addAttribute("usuarios", usuarios);
 		return "BuscadorUsuario";
 	}
-	
+
 	@GetMapping("/admin/actualizaUsuario/{id}")
 	public String actualizaUsuario(@PathVariable Long id, Model modelo) {
 		Optional<Usuario> usuario = usuarioRepo.findById(id);
-		
+
 		if (usuario.isPresent()) {
 			modelo.addAttribute("usuario", usuario.get().toDto());
-		}else {
+		} else {
 			return "redirect:/admin/actualizaBuscadorUsuario?error";
 		}
-		
+
 		return "ActualizaUsuario";
 	}
-	
+
 	@PostMapping("/admin/usuarioActualizado/{id}")
-	public String usuarioActualizado(@Valid @ModelAttribute("usuario") UsuarioDto usuario, BindingResult result,@PathVariable Long id,
-			Model model) {
+	public String usuarioActualizado(@Valid @ModelAttribute("usuario") UsuarioDto usuario, BindingResult result,
+			@PathVariable Long id, Model model) {
 		Optional<Usuario> usuarioActualizado = usuarioRepo.findById(id);
 		User existeEmail = usuarioServicioI.findByEmail(usuario.getEmail());
 		User existeNombre = usuarioServicioI.findByName(usuario.getName());
 		Usuario existeDni = usuarioServicioI.buscaPorDni(usuario.getDni());
 		EmailValidator validator = EmailValidator.getInstance();
 		Usuario usuarioActualizar = null;
-		
+
 		if (usuarioActualizado.isPresent()) {
-			 usuarioActualizar = usuarioActualizado.get();
+			usuarioActualizar = usuarioActualizado.get();
 		} else {
 			return "redirect:/admin/actualizaBuscadorUsuario?error";
 		}
@@ -555,36 +540,36 @@ public class AdminController {
 			model.addAttribute("result", result);
 			return "ActualizaUsuario";
 		}
-		
+
 		usuarioServicioI.actualizaUsuario(usuarioActualizar, usuario);
-		
+
 		return "redirect:/admin/actualizaBuscadorUsuario?success";
 	}
-	
+
 	@GetMapping("/admin/actualizaBuscadorEnfermero")
 	public String actualizaBuscadorEnfermero(Model model, @Param("nombre") String nombre) {
 		List<Enfermero> enfermeros = enfermeroServicioI.buscarEnfermerosPorNombre(nombre);
-		model.addAttribute("nombre",nombre);
-		model.addAttribute("enfermeros",enfermeros);
+		model.addAttribute("nombre", nombre);
+		model.addAttribute("enfermeros", enfermeros);
 		return "BuscadorEnfermero";
 	}
-	
+
 	@GetMapping("/admin/actualizaEnfermero/{id}")
 	public String actualizaEnfermero(@PathVariable Long id, Model modelo) {
 		Optional<Enfermero> enfermero = enfermeroRepo.findById(id);
-		
+
 		if (enfermero.isPresent()) {
 			modelo.addAttribute("enfermero", enfermero.get().toDto());
 		} else {
 			return "redirect:/admin/actualizaBuscadorEnfermero?error";
 		}
-		
+
 		return "ActualizaEnfermero";
 	}
-	
+
 	@PostMapping("/admin/enfermeroActualizado/{id}")
-	public String enfermeroActualizado(@Valid @ModelAttribute("enfermero") EnfermeroDto enfermero, BindingResult result,@PathVariable Long id,
-			Model model) {
+	public String enfermeroActualizado(@Valid @ModelAttribute("enfermero") EnfermeroDto enfermero, BindingResult result,
+			@PathVariable Long id, Model model) {
 		User existeEmail = enfermeroServicioI.findByEmail(enfermero.getEmail());
 		User existeNombre = enfermeroServicioI.findByName(enfermero.getName());
 		Enfermero existeDni = enfermeroServicioI.buscaPorDni(enfermero.getDni());
@@ -592,13 +577,13 @@ public class AdminController {
 		EmailValidator validator = EmailValidator.getInstance();
 		Optional<Enfermero> enfermeroActualizado = enfermeroRepo.findById(id);
 		Enfermero enfermeroActualizar = null;
-		
+
 		if (enfermeroActualizado.isPresent()) {
-			 enfermeroActualizar = enfermeroActualizado.get();
+			enfermeroActualizar = enfermeroActualizado.get();
 		} else {
 			return "redirect:/admin/actualizaBuscadorEnfermero?error";
 		}
-		
+
 		if (!enfermeroActualizar.getCuenta().getEmail().equalsIgnoreCase(enfermero.getEmail()) && existeEmail != null) {
 			result.rejectValue("email", null, "El usuario ya existe");
 		}
@@ -614,7 +599,6 @@ public class AdminController {
 		if (!enfermeroActualizar.getDni().equalsIgnoreCase(enfermero.getDni()) && existeDni != null) {
 			result.rejectValue("dni", null, "Ya existe un enfermero con ese dni");
 		}
-		
 
 		if (!enfermeroActualizar.getSala().equalsIgnoreCase(enfermero.getSala()) && existeSala != null) {
 			result.rejectValue("sala", null, "Esa sala ya esta ocupada");
@@ -641,35 +625,36 @@ public class AdminController {
 			model.addAttribute("result", result);
 			return "ActualizaEnfermero";
 		}
-		
+
 		enfermeroServicioI.actualizaEnfermero(enfermeroActualizar, enfermero);
-		
+
 		return "redirect:/admin/actualizaBuscadorEnfermero?success";
 	}
-	
+
 	@GetMapping("/admin/actualizaBuscadorMedico")
 	public String actualizaBuscadorMedico(Model model, @Param("nombre") String nombre) {
 		List<Medico> medicos = medicoServicioI.buscarMedicosPorNombre(nombre);
-		model.addAttribute("nombre",nombre);
-		model.addAttribute("medicos",medicos);
+		model.addAttribute("nombre", nombre);
+		model.addAttribute("medicos", medicos);
 		return "BuscadorMedico";
 	}
-	
+
 	@GetMapping("/admin/actualizaMedico/{id}")
 	public String actualizaMedico(@PathVariable Long id, Model modelo) {
 		Optional<Medico> medico = medicoRepo.findById(id);
-		
+
 		if (medico.isPresent()) {
 			modelo.addAttribute("medico", medico.get().toDto());
-		}else {
+		} else {
 			return "redirect:/admin/actualizaBuscadorMedico?error";
 		}
-		
+
 		return "ActualizaMedico";
 	}
-	
+
 	@PostMapping("/admin/medicoActualizado/{id}")
-	public String medicoActualizado(@Valid @ModelAttribute("medico") MedicoDto medico, BindingResult result, Model model,@PathVariable Long id) {
+	public String medicoActualizado(@Valid @ModelAttribute("medico") MedicoDto medico, BindingResult result,
+			Model model, @PathVariable Long id) {
 		User existeEmail = medicoServicioI.findByEmail(medico.getEmail());
 		User existeNombre = medicoServicioI.findByName(medico.getName());
 		Medico existeDni = medicoServicioI.buscaPorDni(medico.getDni());
@@ -677,9 +662,9 @@ public class AdminController {
 		EmailValidator validator = EmailValidator.getInstance();
 		Optional<Medico> medicoActualizado = medicoRepo.findById(id);
 		Medico medicoActualizar = null;
-		
+
 		if (medicoActualizado.isPresent()) {
-			 medicoActualizar = medicoActualizado.get();
+			medicoActualizar = medicoActualizado.get();
 		} else {
 			return "redirect:/admin/actualizaBuscadorMedico?error";
 		}
@@ -729,8 +714,7 @@ public class AdminController {
 		medicoServicioI.actualizaMedico(medicoActualizar, medico);
 
 		return "redirect:/admin/actualizaBuscadorMedico?success";
-	
+
 	}
-	
 
 }

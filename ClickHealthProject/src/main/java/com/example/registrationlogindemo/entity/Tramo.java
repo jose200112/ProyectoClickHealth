@@ -31,13 +31,13 @@ import lombok.Setter;
 public class Tramo {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="ID_TRAMO")
+	@Column(name = "ID_TRAMO")
 	private Long id;
-	@Column(name="TIEMPO")
+	@Column(name = "TIEMPO")
 	private LocalTime tiempo;
-	@OneToMany(mappedBy="tramo")
+	@OneToMany(mappedBy = "tramo")
 	List<TramoHorario> tramosHorario;
-	@OneToMany(mappedBy="tramo")
+	@OneToMany(mappedBy = "tramo")
 	List<Cita> citas;
-	
+
 }

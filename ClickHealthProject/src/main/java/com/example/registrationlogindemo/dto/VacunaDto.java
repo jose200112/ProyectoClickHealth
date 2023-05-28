@@ -1,6 +1,5 @@
 package com.example.registrationlogindemo.dto;
 
-
 import java.sql.Date;
 
 import com.example.registrationlogindemo.entity.Enfermero;
@@ -20,12 +19,12 @@ import lombok.Setter;
 public class VacunaDto {
 	private Long id;
 	private int dosis;
-    @NotEmpty(message = "El nombre no puede estar vacio")
+	@NotEmpty(message = "El nombre no puede estar vacio")
 	private String nombre;
 	private int numLote;
 	private String email;
-    private User user;
-    private String fecha;
-    private Usuario usuario;
-    private Enfermero enfermero;
+	private User user;
+	private String fecha;
+	private Usuario usuario;
+	private Enfermero enfermero;
 }

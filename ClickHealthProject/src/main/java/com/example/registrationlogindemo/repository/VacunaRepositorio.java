@@ -7,8 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.example.registrationlogindemo.entity.Usuario;
 import com.example.registrationlogindemo.entity.Vacuna;
 
-
-public interface VacunaRepositorio extends JpaRepository<Vacuna,Long> {
+public interface VacunaRepositorio extends JpaRepository<Vacuna, Long> {
 
 	List<Vacuna> findByUsuario(Usuario usuario);
 }

@@ -113,7 +113,7 @@
 								placheholder="buscar por nombre y apellidos" required>
 						</div>
 						<div class="col-lg-1 sm-12">
-							<input type="submit" class="btn btn-info mb-2" value="Buscar">
+							<input type="submit" class="btn btn-primary mb-2" value="Buscar">
 							<input type="hidden" value="por buscador" id="formulario"
 								name="formulario" th:value="${formulario}" />
 						</div>
@@ -121,7 +121,7 @@
 				</div>
 				<table class="table table-bordered">
 					<caption>Buscar medicos por nombre y apellidos</caption>
-					<thead class="table-primary">
+					<thead class="bg-primary text-white">
 						<tr>
 							<th>Codigo de medico</th>
 							<th>DNI</th>
@@ -140,7 +140,7 @@
 							<td th:text="${medico.sala}">Sala</td>
 							<td><a
 								th:href="@{/admin/borraMedicoBuscador/{id}(id=${medico.id})}"
-								class="btn btn-danger">Borrar usuario</a></td>
+								class="btn btn-danger">Borrar medico</a></td>
 
 
 						</tr>

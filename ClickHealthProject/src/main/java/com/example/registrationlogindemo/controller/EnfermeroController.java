@@ -22,6 +22,9 @@ import com.example.registrationlogindemo.dto.AlergiaDto;
 import com.example.registrationlogindemo.dto.VacunaDto;
 import com.example.registrationlogindemo.entity.Alergia;
 import com.example.registrationlogindemo.entity.Cita;
+import com.example.registrationlogindemo.entity.Enfermero;
+import com.example.registrationlogindemo.entity.Medico;
+import com.example.registrationlogindemo.entity.Observacion;
 import com.example.registrationlogindemo.entity.User;
 import com.example.registrationlogindemo.entity.Usuario;
 import com.example.registrationlogindemo.entity.Vacuna;
@@ -38,49 +41,49 @@ import jakarta.validation.Valid;
 
 @Controller
 public class EnfermeroController {
-	
+
 	@Autowired
 	UserRepository userRepository;
-	
+
 	@Autowired
 	EnfermeroServicioI enfermeroServicio;
-	
+
 	@Autowired
 	UsuarioRepositorio usuarioRepo;
-	
+
 	@Autowired
 	CitaRepositorio citaRepo;
-	
+
 	@Autowired
 	UsuarioServicioI usuarioServicioI;
-	
+
 	@Autowired
 	VacunaRepositorio vacunaRepo;
-	
+
 	@Autowired
 	AlergiaRepositorio alergiaRepo;
-	
+
 	@GetMapping("/enfermero/inicioEnfermero")
 	public String inicioEnfermero() {
 		return "InicioEnfermero";
 	}
 
 	@GetMapping("/enfermero/buscadorUsuarioVacuna")
-	public String actualizaBuscadorUsuario(Model model, @Param("nombre") String nombre,Principal principal) {
+	public String actualizaBuscadorUsuario(Model model, @Param("nombre") String nombre, Principal principal) {
 		User user = userRepository.findByEmail(principal.getName());
 		List<Usuario> usuarios = usuarioServicioI.buscarUsuariosEnfermero(nombre, user.getEnfermero());
-		model.addAttribute("nombre",nombre);
-		model.addAttribute("usuarios",usuarios);
+		model.addAttribute("nombre", nombre);
+		model.addAttribute("usuarios", usuarios);
 		return "BuscadorUsuarioVacuna";
 	}
-	
+
 	@GetMapping("/enfermero/registroVacuna/{id}")
-	public String getRegistroVacunas(Model model, @PathVariable Long id,Principal principal) {
+	public String getRegistroVacunas(Model model, @PathVariable Long id, Principal principal) {
 		User user = userRepository.findByEmail(principal.getName());
 		Optional<Usuario> usuario = usuarioRepo.findById(id);
-		
-		if(usuario.isPresent()) {
-			if(usuario.get().getEnfermero().getId() != user.getEnfermero().getId()) {
+
+		if (usuario.isPresent()) {
+			if (usuario.get().getEnfermero().getId() != user.getEnfermero().getId()) {
 				return "redirect:/enfermero/buscadorUsuarioVacuna?error";
 			} else {
 				VacunaDto vacuna = new VacunaDto();
@@ -93,17 +96,17 @@ public class EnfermeroController {
 			return "redirect:/enfermero/buscadorUsuarioVacuna?error";
 		}
 	}
-	
+
 	@PostMapping("/enfermero/guardaVacuna/{id}")
-	public String registraVacuna(@Valid @ModelAttribute("vacuna") VacunaDto vacuna, BindingResult result,
-			Model model, Principal principal, @PathVariable Long id) {
+	public String registraVacuna(@Valid @ModelAttribute("vacuna") VacunaDto vacuna, BindingResult result, Model model,
+			Principal principal, @PathVariable Long id) {
 		User user = userRepository.findByEmail(principal.getName());
 		vacuna.setUser(user);
 		Optional<Usuario> existeUsuario = usuarioRepo.findById(id);
 		Usuario usuarioAsignado = null;
-		
-		if(existeUsuario.isPresent()) {
-			if(existeUsuario.get().getEnfermero().getId() != user.getEnfermero().getId()) {
+
+		if (existeUsuario.isPresent()) {
+			if (existeUsuario.get().getEnfermero().getId() != user.getEnfermero().getId()) {
 				return "redirect:/enfermero/buscadorUsuarioVacuna?error";
 			} else {
 				usuarioAsignado = existeUsuario.get();
@@ -112,39 +115,39 @@ public class EnfermeroController {
 		} else {
 			return "redirect:/enfermero/buscadorUsuarioVacuna?error";
 		}
-		
-		if(vacuna.getFecha().isBlank()) {
+
+		if (vacuna.getFecha().isBlank()) {
 			result.rejectValue("fecha", null, "Ingrese la fecha de inoculacion");
 		}
-		
-		if(vacuna.getDosis() > 3 || vacuna.getDosis() <= 0) {
+
+		if (vacuna.getDosis() > 3 || vacuna.getDosis() <= 0) {
 			result.rejectValue("dosis", null, "Ingrese un numero de dosis valido");
 		}
-		
-		if(vacuna.getNumLote() <= 0 || vacuna.getNumLote() > 100000000) {
-			result.rejectValue("numLote",null, "Ingrese un numero de lote valido");
+
+		if (vacuna.getNumLote() <= 0 || vacuna.getNumLote() > 100000000) {
+			result.rejectValue("numLote", null, "Ingrese un numero de lote valido");
 		}
-		
+
 		if (result.hasErrors()) {
 			model.addAttribute("vacuna", vacuna);
-			model.addAttribute("usuario",existeUsuario.get());
+			model.addAttribute("usuario", existeUsuario.get());
 			model.addAttribute("result", result);
 			return "RegistroVacuna";
 		}
-		
+
 		enfermeroServicio.saveVacuna(vacuna);
-		
 
 		return "redirect:/enfermero/registroVacuna/{id}?success";
 	}
-	
+
 	@GetMapping("/enfermero/modificaVacunaBuscador/{id}")
-	public String modificaVacuna(@PathVariable Long id,Model model,  Principal principal,@Param("nombre") String nombre) {
+	public String modificaVacuna(@PathVariable Long id, Model model, Principal principal,
+			@Param("nombre") String nombre) {
 		User user = userRepository.findByEmail(principal.getName());
 		Optional<Usuario> existeUsuario = usuarioRepo.findById(id);
-		
-		if(existeUsuario.isPresent()) {
-			if(existeUsuario.get().getEnfermero().getId() != user.getEnfermero().getId()) {
+
+		if (existeUsuario.isPresent()) {
+			if (existeUsuario.get().getEnfermero().getId() != user.getEnfermero().getId()) {
 				return "redirect:/enfermero/buscadorUsuarioVacuna?error";
 			} else {
 				List<Vacuna> vacunas = usuarioServicioI.buscarVacunasUsuario(existeUsuario.get());
@@ -155,22 +158,21 @@ public class EnfermeroController {
 		} else {
 			return "redirect:/enfermero/buscadorUsuarioVacuna?error";
 		}
-		
+
 	}
-	
+
 	@GetMapping("/enfermero/registroActualizaVacuna/{id}/{idVacuna}")
-	public String getRegistroActualizaVacunas(Model model, @PathVariable Long id,@PathVariable Long idVacuna,Principal principal) {
+	public String getRegistroActualizaVacunas(Model model, @PathVariable Long id, @PathVariable Long idVacuna,
+			Principal principal) {
 		User user = userRepository.findByEmail(principal.getName());
 		Optional<Usuario> existeUsuario = usuarioRepo.findById(id);
 		Optional<Vacuna> existeVacuna = vacunaRepo.findById(idVacuna);
-		
 
-		
-		if(existeUsuario.isPresent()) {
-			if(existeUsuario.get().getEnfermero().getId() != user.getEnfermero().getId()) {
+		if (existeUsuario.isPresent()) {
+			if (existeUsuario.get().getEnfermero().getId() != user.getEnfermero().getId()) {
 				return "redirect:/enfermero/buscadorUsuarioVacuna?error";
 			} else {
-				if(existeVacuna.isPresent()) {
+				if (existeVacuna.isPresent()) {
 					model.addAttribute("usuario", existeUsuario.get());
 					model.addAttribute("vacuna", existeVacuna.get().toDto());
 					return "RegistroActualizaVacuna";
@@ -182,24 +184,23 @@ public class EnfermeroController {
 			return "redirect:/enfermero/buscadorUsuarioVacuna?error";
 		}
 	}
-	
+
 	@PostMapping("/enfermero/actualizaVacuna/{id}/{idVacuna}")
-	public String actualizaVacuna(@PathVariable Long id,@PathVariable Long idVacuna,Model model,Principal principal, @Valid @ModelAttribute("vacuna") VacunaDto vacuna, BindingResult result) {
+	public String actualizaVacuna(@PathVariable Long id, @PathVariable Long idVacuna, Model model, Principal principal,
+			@Valid @ModelAttribute("vacuna") VacunaDto vacuna, BindingResult result) {
 		User user = userRepository.findByEmail(principal.getName());
 		Optional<Usuario> existeUsuario = usuarioRepo.findById(id);
 		Optional<Vacuna> existeVacuna = vacunaRepo.findById(idVacuna);
-		
 
-		
-		if(existeUsuario.isPresent()) {
-			if(existeUsuario.get().getEnfermero().getId() != user.getEnfermero().getId()) {
+		if (existeUsuario.isPresent()) {
+			if (existeUsuario.get().getEnfermero().getId() != user.getEnfermero().getId()) {
 				return "redirect:/enfermero/buscadorUsuarioVacuna?error";
 			} else {
-				if(existeVacuna.isPresent()) {
+				if (existeVacuna.isPresent()) {
 					vacuna.setUsuario(existeUsuario.get());
 					vacuna.setEnfermero(user.getEnfermero());
 					vacuna.setId(idVacuna);
-					
+
 				} else {
 					return "redirect:/enfermero/modificaVacunaBuscador/{id}?error";
 				}
@@ -207,49 +208,47 @@ public class EnfermeroController {
 		} else {
 			return "redirect:/enfermero/buscadorUsuarioVacuna?error";
 		}
-		
-		
-		if(vacuna.getFecha().isBlank()) {
+
+		if (vacuna.getFecha().isBlank()) {
 			result.rejectValue("fecha", null, "Ingrese la fecha de inoculacion");
 		}
-		
-		if(vacuna.getDosis() > 3 || vacuna.getDosis() <= 0) {
+
+		if (vacuna.getDosis() > 3 || vacuna.getDosis() <= 0) {
 			result.rejectValue("dosis", null, "Ingrese un numero de dosis valido");
 		}
-		
-		if(vacuna.getNumLote() <= 0 || vacuna.getNumLote() > 100000000) {
-			result.rejectValue("numLote",null, "Ingrese un numero de lote valido");
+
+		if (vacuna.getNumLote() <= 0 || vacuna.getNumLote() > 100000000) {
+			result.rejectValue("numLote", null, "Ingrese un numero de lote valido");
 		}
-		
+
 		if (result.hasErrors()) {
 			model.addAttribute("vacuna", vacuna);
-			model.addAttribute("usuario",existeUsuario.get());
+			model.addAttribute("usuario", existeUsuario.get());
 			model.addAttribute("result", result);
 			return "RegistroVacuna";
 		}
-		
+
 		enfermeroServicio.actualizaVacuna(vacuna);
-		
+
 		return "redirect:/enfermero/modificaVacunaBuscador/{id}?success";
 	}
-	
+
 	@GetMapping("/enfermero/borraVacuna/{id}/{idVacuna}")
-	public String borraVacuna(@PathVariable Long id,@PathVariable Long idVacuna,Model model,Principal principal,RedirectAttributes redirectAttrs) {
+	public String borraVacuna(@PathVariable Long id, @PathVariable Long idVacuna, Model model, Principal principal,
+			RedirectAttributes redirectAttrs) {
 		User user = userRepository.findByEmail(principal.getName());
 		Optional<Usuario> existeUsuario = usuarioRepo.findById(id);
 		Optional<Vacuna> existeVacuna = vacunaRepo.findById(idVacuna);
-		
 
-		
-		if(existeUsuario.isPresent()) {
-			if(existeUsuario.get().getEnfermero().getId() != user.getEnfermero().getId()) {
+		if (existeUsuario.isPresent()) {
+			if (existeUsuario.get().getEnfermero().getId() != user.getEnfermero().getId()) {
 				return "redirect:/enfermero/buscadorUsuarioVacuna?error";
 			} else {
-				if(existeVacuna.isPresent()) {
+				if (existeVacuna.isPresent()) {
 					vacunaRepo.deleteById(idVacuna);
 					String exito = "La vacuna ha sido borrada";
 					model.addAttribute("usuario", existeUsuario.get());
-					redirectAttrs.addFlashAttribute("exito",exito);
+					redirectAttrs.addFlashAttribute("exito", exito);
 					return "redirect:/enfermero/modificaVacunaBuscador/{id}";
 				} else {
 					return "redirect:/enfermero/modificaVacunaBuscador/{id}?error";
@@ -258,25 +257,25 @@ public class EnfermeroController {
 		} else {
 			return "redirect:/enfermero/buscadorUsuarioVacuna?error";
 		}
-		
+
 	}
-	
+
 	@GetMapping("/enfermero/buscadorUsuarioAlergia")
-	public String actualizaBuscadorUsuarioAlergia(Model model, @Param("nombre") String nombre,Principal principal) {
+	public String actualizaBuscadorUsuarioAlergia(Model model, @Param("nombre") String nombre, Principal principal) {
 		User user = userRepository.findByEmail(principal.getName());
 		List<Usuario> usuarios = usuarioServicioI.buscarUsuariosEnfermero(nombre, user.getEnfermero());
-		model.addAttribute("nombre",nombre);
-		model.addAttribute("usuarios",usuarios);
+		model.addAttribute("nombre", nombre);
+		model.addAttribute("usuarios", usuarios);
 		return "BuscadorUsuarioAlergia";
 	}
-	
+
 	@GetMapping("/enfermero/registroAlergia/{id}")
-	public String getRegistroAlergias(Model model, @PathVariable Long id,Principal principal) {
+	public String getRegistroAlergias(Model model, @PathVariable Long id, Principal principal) {
 		User user = userRepository.findByEmail(principal.getName());
 		Optional<Usuario> usuario = usuarioRepo.findById(id);
-		
-		if(usuario.isPresent()) {
-			if(usuario.get().getEnfermero().getId() != user.getEnfermero().getId()) {
+
+		if (usuario.isPresent()) {
+			if (usuario.get().getEnfermero().getId() != user.getEnfermero().getId()) {
 				return "redirect:/enfermero/buscadorUsuarioAlergia?error";
 			} else {
 				AlergiaDto alergia = new AlergiaDto();
@@ -289,16 +288,16 @@ public class EnfermeroController {
 			return "redirect:/enfermero/buscadorUsuarioAlergia?error";
 		}
 	}
-	
+
 	@PostMapping("/enfermero/guardaAlergia/{id}")
 	public String registraAlergia(@Valid @ModelAttribute("alergia") AlergiaDto alergia, BindingResult result,
 			Model model, Principal principal, @PathVariable Long id) {
 		User user = userRepository.findByEmail(principal.getName());
 		Optional<Usuario> existeUsuario = usuarioRepo.findById(id);
 		Usuario usuarioAsignado = null;
-		
-		if(existeUsuario.isPresent()) {
-			if(existeUsuario.get().getEnfermero().getId() != user.getEnfermero().getId()) {
+
+		if (existeUsuario.isPresent()) {
+			if (existeUsuario.get().getEnfermero().getId() != user.getEnfermero().getId()) {
 				return "redirect:/enfermero/buscadorUsuarioAlergia?error";
 			} else {
 				usuarioAsignado = existeUsuario.get();
@@ -308,35 +307,35 @@ public class EnfermeroController {
 		} else {
 			return "redirect:/enfermero/buscadorUsuarioAlergia?error";
 		}
-		
+
 		if (alergia.getDescripcion().isBlank()) {
 			result.rejectValue("descripcion", null, "Escriba al menos una descripcion");
 		}
 
-		if(alergia.getDescripcion().length() > 200) {
-			result.rejectValue("descripcion", null,"Resuma un poco la descripcion por favor");
+		if (alergia.getDescripcion().length() > 200) {
+			result.rejectValue("descripcion", null, "Resuma un poco la descripcion por favor");
 		}
-		
+
 		if (result.hasErrors()) {
 			model.addAttribute("alergia", alergia);
-			model.addAttribute("usuario",existeUsuario.get());
+			model.addAttribute("usuario", existeUsuario.get());
 			model.addAttribute("result", result);
 			return "RegistroAlergia";
 		}
-		
+
 		enfermeroServicio.guardaNuevaAlergia(alergia);
-		
 
 		return "redirect:/enfermero/registroAlergia/{id}?success";
 	}
-	
+
 	@GetMapping("/enfermero/modificaAlergiaBuscador/{id}")
-	public String modificaAlergia(@PathVariable Long id,Model model,  Principal principal,@Param("nombre") String nombre) {
+	public String modificaAlergia(@PathVariable Long id, Model model, Principal principal,
+			@Param("nombre") String nombre) {
 		User user = userRepository.findByEmail(principal.getName());
 		Optional<Usuario> existeUsuario = usuarioRepo.findById(id);
-		
-		if(existeUsuario.isPresent()) {
-			if(existeUsuario.get().getEnfermero().getId() != user.getEnfermero().getId()) {
+
+		if (existeUsuario.isPresent()) {
+			if (existeUsuario.get().getEnfermero().getId() != user.getEnfermero().getId()) {
 				return "redirect:/enfermero/buscadorUsuarioAlergia?error";
 			} else {
 				List<Alergia> alergias = usuarioServicioI.buscarAlergiasUsuario(existeUsuario.get());
@@ -347,21 +346,21 @@ public class EnfermeroController {
 		} else {
 			return "redirect:/enfermero/buscadorUsuarioAlergia?error";
 		}
-		
+
 	}
-	
+
 	@GetMapping("/enfermero/registroActualizaAlergia/{id}/{idAlergia}")
-	public String getRegistroActualizaAlergias(Model model, @PathVariable Long id,@PathVariable Long idAlergia,Principal principal) {
+	public String getRegistroActualizaAlergias(Model model, @PathVariable Long id, @PathVariable Long idAlergia,
+			Principal principal) {
 		User user = userRepository.findByEmail(principal.getName());
 		Optional<Usuario> existeUsuario = usuarioRepo.findById(id);
-		Optional<Alergia> existeAlergia = alergiaRepo.findById(idAlergia);		
+		Optional<Alergia> existeAlergia = alergiaRepo.findById(idAlergia);
 
-		
-		if(existeUsuario.isPresent()) {
-			if(existeUsuario.get().getEnfermero().getId() != user.getEnfermero().getId()) {
+		if (existeUsuario.isPresent()) {
+			if (existeUsuario.get().getEnfermero().getId() != user.getEnfermero().getId()) {
 				return "redirect:/enfermero/buscadorUsuarioAlergia?error";
 			} else {
-				if(existeAlergia.isPresent()) {
+				if (existeAlergia.isPresent()) {
 					model.addAttribute("usuario", existeUsuario.get());
 					model.addAttribute("alergia", existeAlergia.get().toDto());
 					return "RegistroActualizaAlergia";
@@ -373,24 +372,23 @@ public class EnfermeroController {
 			return "redirect:/enfermero/buscadorUsuarioAlergia?error";
 		}
 	}
-	
+
 	@PostMapping("/enfermero/actualizaAlergia/{id}/{idAlergia}")
-	public String actualizaAlergia(@PathVariable Long id,@PathVariable Long idAlergia,Model model,Principal principal, @Valid @ModelAttribute("alergia") AlergiaDto alergia, BindingResult result) {
+	public String actualizaAlergia(@PathVariable Long id, @PathVariable Long idAlergia, Model model,
+			Principal principal, @Valid @ModelAttribute("alergia") AlergiaDto alergia, BindingResult result) {
 		User user = userRepository.findByEmail(principal.getName());
 		Optional<Usuario> existeUsuario = usuarioRepo.findById(id);
 		Optional<Alergia> existeAlergia = alergiaRepo.findById(idAlergia);
-		
 
-		
-		if(existeUsuario.isPresent()) {
-			if(existeUsuario.get().getEnfermero().getId() != user.getEnfermero().getId()) {
+		if (existeUsuario.isPresent()) {
+			if (existeUsuario.get().getEnfermero().getId() != user.getEnfermero().getId()) {
 				return "redirect:/enfermero/buscadorUsuarioAlergia?error";
 			} else {
-				if(existeAlergia.isPresent()) {
+				if (existeAlergia.isPresent()) {
 					alergia.setUsuario(existeUsuario.get());
 					alergia.setEnfermero(user.getEnfermero());
 					alergia.setId(idAlergia);
-					
+
 				} else {
 					return "redirect:/enfermero/modificaAlergiaBuscador/{id}?error";
 				}
@@ -398,44 +396,43 @@ public class EnfermeroController {
 		} else {
 			return "redirect:/enfermero/buscadorUsuarioAlergia?error";
 		}
-		
-		
+
 		if (alergia.getDescripcion().isBlank()) {
 			result.rejectValue("descripcion", null, "Escriba al menos una descripcion");
 		}
-		
-		if(alergia.getDescripcion().length() > 200) {
-			result.rejectValue("descripcion", null,"Resuma un poco la descripcion por favor");
+
+		if (alergia.getDescripcion().length() > 200) {
+			result.rejectValue("descripcion", null, "Resuma un poco la descripcion por favor");
 		}
-		
+
 		if (result.hasErrors()) {
 			model.addAttribute("alergia", alergia);
-			model.addAttribute("usuario",existeUsuario.get());
+			model.addAttribute("usuario", existeUsuario.get());
 			model.addAttribute("result", result);
 			return "RegistroActualizaAlergia";
 		}
-		
+
 		enfermeroServicio.guardaAlergia(alergia);
-		
+
 		return "redirect:/enfermero/modificaAlergiaBuscador/{id}?success";
 	}
-	
+
 	@GetMapping("/enfermero/borraAlergia/{id}/{idAlergia}")
-	public String borraAlergia(@PathVariable Long id,@PathVariable Long idAlergia,Model model,Principal principal,RedirectAttributes redirectAttrs) {
+	public String borraAlergia(@PathVariable Long id, @PathVariable Long idAlergia, Model model, Principal principal,
+			RedirectAttributes redirectAttrs) {
 		User user = userRepository.findByEmail(principal.getName());
 		Optional<Usuario> existeUsuario = usuarioRepo.findById(id);
-		Optional<Alergia> existeAlergia = alergiaRepo.findById(idAlergia);		
+		Optional<Alergia> existeAlergia = alergiaRepo.findById(idAlergia);
 
-		
-		if(existeUsuario.isPresent()) {
-			if(existeUsuario.get().getEnfermero().getId() != user.getEnfermero().getId()) {
+		if (existeUsuario.isPresent()) {
+			if (existeUsuario.get().getEnfermero().getId() != user.getEnfermero().getId()) {
 				return "redirect:/enfermero/buscadorUsuarioAlergia?error";
 			} else {
-				if(existeAlergia.isPresent()) {
+				if (existeAlergia.isPresent()) {
 					alergiaRepo.deleteById(idAlergia);
 					String exito = "La alergia ha sido borrada";
 					model.addAttribute("usuario", existeUsuario.get());
-					redirectAttrs.addFlashAttribute("exito",exito);
+					redirectAttrs.addFlashAttribute("exito", exito);
 					return "redirect:/enfermero/modificaAlergiaBuscador/{id}";
 				} else {
 					return "redirect:/enfermero/modificaAlergiaBuscador/{id}?error";
@@ -444,42 +441,92 @@ public class EnfermeroController {
 		} else {
 			return "redirect:/enfermero/buscadorUsuarioAlergia?error";
 		}
-		
+
 	}
-	
-	
+
 	@GetMapping("/enfermero/consultaCitas")
 	public String consultaCitasMedico(Model model, Principal principal) {
 		User user = userRepository.findByEmail(principal.getName());
-        Calendar calendar = Calendar.getInstance();
-        java.util.Date fechaActual = calendar.getTime();
-        Date fechaSql = new Date(fechaActual.getTime());
-        
-        List<Cita> citas = citaRepo.findByEnfermeroAndFechaAndAsistenciaIsNullAndConfirmadaIsTrue(user.getEnfermero(), fechaSql);
-        
-        model.addAttribute("citas",citas);
-        
+		Calendar calendar = Calendar.getInstance();
+		java.util.Date fechaActual = calendar.getTime();
+		Date fechaSql = new Date(fechaActual.getTime());
+
+		List<Cita> citas = citaRepo.findByEnfermeroAndFechaAndAsistenciaIsNullAndConfirmadaIsTrue(user.getEnfermero(),
+				fechaSql);
+
+		model.addAttribute("citas", citas);
+
 		return "ConsultaCitasEnfermero";
 	}
-	
+
 	@GetMapping("/enfermero/confirmaAsistencia/{id}")
 	public String confirmaAsistencia(@PathVariable Long id) {
 		Optional<Cita> cita = citaRepo.findById(id);
 		Cita existeCita = cita.get();
-		
+
 		enfermeroServicio.confirmaAsistencia(existeCita);
-		
+
 		return "redirect:/enfermero/consultaCitas";
 	}
-	
+
 	@GetMapping("/enfermero/deniegaAsistencia/{id}")
 	public String deniegaAsistencia(@PathVariable Long id) {
 		Optional<Cita> cita = citaRepo.findById(id);
 		Cita existeCita = cita.get();
-		
+
 		enfermeroServicio.deniegaAsistencia(existeCita);
-		
+
 		return "redirect:/enfermero/consultaCitas";
 	}
 	
+	@GetMapping("/enfermero/buscadorRegistroEnfermero")
+	public String buscadorRegistroEnfermero(Model model, @Param("nombre") String nombre, Principal principal) {
+		User user = userRepository.findByEmail(principal.getName());
+		List<Usuario> usuarios = usuarioServicioI.buscarUsuariosEnfermero(nombre, user.getEnfermero());
+		model.addAttribute("nombre", nombre);
+		model.addAttribute("usuarios", usuarios);
+		
+		return "BuscadorRegistroEnfermero";
+	}
+	
+	@GetMapping("/enfermero/registroMedico/{id}")
+		public String registroMedico(@PathVariable Long id, Principal principal, Model model, RedirectAttributes redirectAttrs) {
+		Enfermero enfermero = userRepository.findByEmail(principal.getName()).getEnfermero();
+		Optional<Usuario> existeUsuario = usuarioRepo.findById(id);
+		
+			if(existeUsuario.isPresent()) {	
+				if(existeUsuario.get().getEnfermero().getId() != enfermero.getId()) {
+					redirectAttrs.addFlashAttribute("error", "El usuario no es paciente suyo");
+					return "redirect:/enfermero/buscadorRegistroEnfermero";
+				} else {
+					Usuario usuario = existeUsuario.get();
+					List<Observacion> observaciones = usuario.getObservaciones();
+					List<Alergia> alergias = usuario.getAlergias();
+					List<Vacuna> vacunas = usuario.getVacunas();
+					int citasTotales = citaRepo.countByUsuarioAndAsistenciaIsNotNull(usuario);
+					int citasAsistidas = citaRepo.contarCitasConfirmadasUsuario(usuario);
+					double porcentajeAsistencia = 0;
+					
+					model.addAttribute("usuario",usuario);
+					model.addAttribute("observaciones", observaciones);
+					model.addAttribute("vacunas",vacunas);
+					model.addAttribute("alergias",alergias);
+					model.addAttribute("citasTotales",citasTotales);
+					model.addAttribute("citasAsistidas",citasAsistidas);
+					
+					if(citasTotales > 0) {
+					    porcentajeAsistencia = (citasAsistidas * 100.0) / citasTotales;
+					}
+					
+					model.addAttribute("porcentajeAsistencia",porcentajeAsistencia);
+					model.addAttribute("citasTotales",citasTotales);
+					
+					return "EnfermeroRegistroMedico";
+				}
+			} else {
+				redirectAttrs.addFlashAttribute("error", "El usuario no existe");
+				return "redirect:/enfermero/buscadorRegistroEnfermero";
+			}
+		}
+
 }

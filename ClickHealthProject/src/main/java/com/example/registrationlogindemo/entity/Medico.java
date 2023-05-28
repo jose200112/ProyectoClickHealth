@@ -29,9 +29,9 @@ public class Medico {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID_MED")
 	private Long id;
-	@Column(name = "CODIGO", unique=true)
+	@Column(name = "CODIGO", unique = true)
 	private String codigo;
-	@Column(name = "SALA", unique=true)
+	@Column(name = "SALA", unique = true)
 	private String sala;
 	@Column(name = "NOMBRE")
 	private String nombre;
@@ -45,24 +45,24 @@ public class Medico {
 	List<Usuario> usuarios;
 	@OneToMany(mappedBy = "medico")
 	List<Horario> horarios;
-	@OneToMany(mappedBy="medico")
+	@OneToMany(mappedBy = "medico")
 	private List<Cita> citas;
-	@OneToMany(mappedBy="medico")
+	@OneToMany(mappedBy = "medico")
 	private List<Solicitud> solicitudes;
-	@OneToMany(mappedBy="medico")
+	@OneToMany(mappedBy = "medico")
 	private List<Observacion> observaciones;
-	
+
 	public MedicoDto toDto() {
 		MedicoDto medicoDto = new MedicoDto();
 		medicoDto.setName(this.getCuenta().getName());
 		medicoDto.setEmail(this.getCuenta().getEmail());
-		
+
 		medicoDto.setId(this.getId());
 		medicoDto.setDni(this.getDni());
 		medicoDto.setNombre(this.getNombre());
 		medicoDto.setApellidos(this.getApellidos());
 		medicoDto.setSala(this.getSala());
-		
+
 		medicoDto.setComienza(this.getHorarios().get(0).getComienza());
 		medicoDto.setTermina(this.getHorarios().get(0).getTermina());
 		return medicoDto;

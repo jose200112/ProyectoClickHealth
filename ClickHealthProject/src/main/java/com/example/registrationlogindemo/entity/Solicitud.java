@@ -24,24 +24,24 @@ public class Solicitud {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID_SOLICITUD")
 	private Long id;
-	
-	@Column(name ="TITULO")
+
+	@Column(name = "TITULO")
 	private String titulo;
-	
+
 	@Column(name = "DESCRIPCION")
 	private String descripcion;
-	
-	@Column(name="ESTADO")
+
+	@Column(name = "ESTADO")
 	private String estado;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "ID_USUARIO")
 	private Usuario usuario;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "ID_ENFERMERO")
 	private Enfermero enfermero;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "ID_MEDICO")
 	private Medico medico;

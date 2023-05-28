@@ -8,6 +8,7 @@
 	rel="stylesheet"
 	integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ"
 	crossorigin="anonymous">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css">
 	<style>
@@ -32,9 +33,13 @@
 					<li class="nav-item"><a class="nav-link active"
 						aria-current="page" href="/enfermero/inicioEnfermero">Inicio</a></li>
 					<li class="nav-item"><a class="nav-link active"
-						aria-current="page" href="/enfermero/registroVacuna">Registrar vacuna</a></li>
+						aria-current="page" href="/enfermero/buscadorUsuarioVacuna">Gestionar vacunas</a></li>
 											<li class="nav-item"><a class="nav-link active"
-						aria-current="page" href="#">Consultar mis citas</a></li>
+						aria-current="page" href="/enfermero/buscadorUsuarioAlergia">Gestionar alergias</a></li>
+											<li class="nav-item"><a class="nav-link active"
+						aria-current="page" href="/enfermero/consultaCitas">Consultar mis citas</a></li>
+																	<li class="nav-item"><a class="nav-link active"
+						aria-current="page" href="/enfermero/buscadorRegistroEnfermero">Consultar registro</a></li>
 				</ul>
 				<ul class="navbar-nav">
 					<li class="nav-item"><a class="nav-link active" href="/logout">Salir
@@ -46,7 +51,7 @@
 	</nav>
 	
 	
-			<div class="container">
+			<div class="container pt-3">
 							<div class="position-relative">
 
 					<div class="position-absolute top-0 start-50 translate-middle">
@@ -75,7 +80,7 @@
             </div>
 	</div>
 	<table class="table table-striped table-bordered">
-		<thead class="table-dark">
+		<thead class="bg-primary text-white">
 			<tr>
 				<th>Causa</th>
 				<th>Gravedad</th>

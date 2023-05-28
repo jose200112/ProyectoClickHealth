@@ -6,12 +6,12 @@ import com.example.registrationlogindemo.entity.User;
 import java.util.List;
 
 public interface UserService {
-    void saveUser(UserDto userDto);
+	void saveUser(UserDto userDto);
 
-    User findByEmail(String email);
+	User findByEmail(String email);
 
-    List<UserDto> findAllUsers();
-    
-    public void actualizaClave(User user);
-    
+	List<UserDto> findAllUsers();
+
+	public void actualizaClave(User user);
+
 }

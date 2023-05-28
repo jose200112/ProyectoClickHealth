@@ -41,7 +41,7 @@ public class Mensaje {
 	@ManyToOne
 	@JoinColumn(name = "ID_USUARIO")
 	Usuario usuario;
-	
+
 	public MensajeDto toDto(Long dias) {
 		MensajeDto mensajeDto = new MensajeDto();
 		mensajeDto.setTitulo(this.titulo);

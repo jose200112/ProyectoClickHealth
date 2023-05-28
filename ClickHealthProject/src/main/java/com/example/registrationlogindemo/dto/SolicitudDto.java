@@ -14,12 +14,12 @@ import lombok.Setter;
 @AllArgsConstructor
 public class SolicitudDto {
 	private String titulo;
-	
+
 	private String descripcion;
-	
+
 	private String dni;
-	
+
 	private String dato;
-	
+
 	private char estado;
 }

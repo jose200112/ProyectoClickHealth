@@ -10,7 +10,7 @@ import com.example.registrationlogindemo.entity.Usuario;
 @Repository
 public interface SolicitudRepositorio extends JpaRepository<Solicitud, Long> {
 
-    Solicitud findByUsuarioAndTituloAndEstadoIsNull(Usuario usuario, String titulo);
-    
-    List<Solicitud> findByEstadoIsNull();
+	Solicitud findByUsuarioAndTituloAndEstadoIsNull(Usuario usuario, String titulo);
+
+	List<Solicitud> findByEstadoIsNull();
 }

@@ -43,7 +43,7 @@ public class Vacuna {
 	@ManyToOne
 	@JoinColumn(name = "ID_USUARIO")
 	private Usuario usuario;
-	
+
 	public VacunaDto toDto() {
 		VacunaDto vacuna = new VacunaDto();
 		vacuna.setId(this.id);
@@ -51,7 +51,7 @@ public class Vacuna {
 		vacuna.setDosis(this.dosis);
 		vacuna.setNombre(this.nombre);
 		vacuna.setNumLote(this.numLote);
-		
+
 		return vacuna;
 	}
 }

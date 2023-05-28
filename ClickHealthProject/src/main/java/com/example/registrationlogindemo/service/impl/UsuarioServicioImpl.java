@@ -105,14 +105,14 @@ public class UsuarioServicioImpl implements UsuarioServicioI {
 	public List<Usuario> buscarUsuarios(String nombre) {
 		return usuarioRepo.buscarPorNombreCompleto(nombre);
 	}
-	
+
 	@Override
-	public List<Usuario> buscarUsuariosEnfermero(String nombre,Enfermero enfermero) {
+	public List<Usuario> buscarUsuariosEnfermero(String nombre, Enfermero enfermero) {
 		return usuarioRepo.buscarPorNombreCompletoEnfermero(nombre, enfermero);
 	}
-	
+
 	@Override
-	public List<Vacuna> buscarVacunasUsuario(Usuario usuario){
+	public List<Vacuna> buscarVacunasUsuario(Usuario usuario) {
 		return vacunaRepo.findByUsuario(usuario);
 	}
 
@@ -132,31 +132,31 @@ public class UsuarioServicioImpl implements UsuarioServicioI {
 		if (!usuario.isEmpty()) {
 			Usuario usuarioEncontrado = usuario.get();
 			userRepository.delete(usuarioEncontrado.getCuenta());
-			
+
 			for (Vacuna vacuna : usuarioEncontrado.getVacunas()) {
 				vacunaRepo.delete(vacuna);
 			}
-			
-			for(Solicitud solicitud: usuarioEncontrado.getSolicitud()) {
+
+			for (Solicitud solicitud : usuarioEncontrado.getSolicitud()) {
 				solicitudRepo.delete(solicitud);
 			}
-			
-			for(Cita cita: usuarioEncontrado.getCitas()) {
+
+			for (Cita cita : usuarioEncontrado.getCitas()) {
 				citaRepo.delete(cita);
 			}
-			
-			for(Mensaje mensaje: usuarioEncontrado.getMensajes()) {
+
+			for (Mensaje mensaje : usuarioEncontrado.getMensajes()) {
 				mensajeRepo.delete(mensaje);
 			}
-			
-			for(Alergia alergia: usuarioEncontrado.getAlergias()) {
+
+			for (Alergia alergia : usuarioEncontrado.getAlergias()) {
 				alergiaRepo.delete(alergia);
 			}
-			
-			for(Observacion observacion: usuarioEncontrado.getObservaciones()) {
+
+			for (Observacion observacion : usuarioEncontrado.getObservaciones()) {
 				observacionRepo.delete(observacion);
 			}
-			
+
 			usuarioRepo.deleteById(id);
 		}
 	}
@@ -167,34 +167,34 @@ public class UsuarioServicioImpl implements UsuarioServicioI {
 		baja.setCausa(bajaDto.getCausa());
 		baja.setCausa(bajaDto.getDescripcion());
 		bajaRepo.save(baja);
-		
-		if(usuario != null) {
+
+		if (usuario != null) {
 			userRepository.delete(usuario.getCuenta());
 			for (Vacuna vacuna : usuario.getVacunas()) {
 				vacunaRepo.delete(vacuna);
 			}
-			
-			for(Solicitud solicitud: usuario.getSolicitud()) {
+
+			for (Solicitud solicitud : usuario.getSolicitud()) {
 				solicitudRepo.delete(solicitud);
 			}
-			
-			for(Cita cita: usuario.getCitas()) {
+
+			for (Cita cita : usuario.getCitas()) {
 				citaRepo.delete(cita);
 			}
 
 			usuarioRepo.deleteById(usuario.getId());
 		}
 
-
 	}
-	
+
 	@Override
 	public Usuario buscaPorDni(String dni) {
 		return usuarioRepo.findByDni(dni);
 	}
-	
+
 	@Override
-	public void guardaSolicitudEnfermero(Usuario usuario, SolicitudDto solicitudDto, String codigoEnfermero, String seleccionado) {
+	public void guardaSolicitudEnfermero(Usuario usuario, SolicitudDto solicitudDto, String codigoEnfermero,
+			String seleccionado) {
 		Solicitud solicitud = new Solicitud();
 		solicitud.setTitulo(seleccionado);
 		solicitud.setDescripcion(solicitudDto.getDescripcion());
@@ -203,9 +203,10 @@ public class UsuarioServicioImpl implements UsuarioServicioI {
 		solicitud.setEstado(null);
 		solicitudRepo.save(solicitud);
 	}
-	
+
 	@Override
-	public void guardaSolicitudMedico(Usuario usuario, SolicitudDto solicitudDto, String codigoMedico, String seleccionado) {
+	public void guardaSolicitudMedico(Usuario usuario, SolicitudDto solicitudDto, String codigoMedico,
+			String seleccionado) {
 		Solicitud solicitud = new Solicitud();
 		solicitud.setTitulo(seleccionado);
 		solicitud.setDescripcion(solicitudDto.getDescripcion());
@@ -214,7 +215,7 @@ public class UsuarioServicioImpl implements UsuarioServicioI {
 		solicitud.setEstado(null);
 		solicitudRepo.save(solicitud);
 	}
-	
+
 	@Override
 	public void guardaSolicitud(Usuario usuario, SolicitudDto solicitudDto, String seleccionado) {
 		Solicitud solicitud = new Solicitud();
@@ -224,129 +225,128 @@ public class UsuarioServicioImpl implements UsuarioServicioI {
 		solicitud.setEstado(null);
 		solicitudRepo.save(solicitud);
 	}
-	
+
 	@Override
 	public void AceptaSolicitud(Solicitud solicitud) {
-		
-		if(solicitud.getTitulo().equalsIgnoreCase("baja usuario")) {
+
+		if (solicitud.getTitulo().equalsIgnoreCase("baja usuario")) {
 			borraUsuario(solicitud.getUsuario().getId());
 		}
-		
-		if(solicitud.getTitulo().equalsIgnoreCase("cambio medico")) {
+
+		if (solicitud.getTitulo().equalsIgnoreCase("cambio medico")) {
 			Usuario usuario = usuarioRepo.findByDni(solicitud.getUsuario().getDni());
 			usuario.setMedico(solicitud.getMedico());
 			usuarioRepo.save(usuario);
-			
-			for(Observacion observacion: usuario.getObservaciones()) {
+
+			for (Observacion observacion : usuario.getObservaciones()) {
 				observacion.setMedico(solicitud.getMedico());
 				observacionRepo.save(observacion);
 			}
-			
+
 			Mensaje mensaje = new Mensaje();
 			Calendar calendar = Calendar.getInstance();
-	        java.util.Date fechaActual = calendar.getTime();
-	        Date fecha = new Date(fechaActual.getTime());
-	        
+			java.util.Date fechaActual = calendar.getTime();
+			Date fecha = new Date(fechaActual.getTime());
+
 			mensaje.setTitulo("Solicitud aceptada");
 			mensaje.setDescripcion("Su solicitud de cambio de medico ha sido aceptada");
 			mensaje.setFecha(fecha);
 			mensaje.setUsuario(solicitud.getUsuario());
-			
+
 			mensajeRepo.save(mensaje);
-			
+
 			solicitud.setEstado("ACEPTADA");
 			solicitudRepo.save(solicitud);
 		}
-		
-		if(solicitud.getTitulo().equalsIgnoreCase("cambio enfermero")) {
+
+		if (solicitud.getTitulo().equalsIgnoreCase("cambio enfermero")) {
 			Usuario usuario = usuarioRepo.findByDni(solicitud.getUsuario().getDni());
 			usuario.setEnfermero(solicitud.getEnfermero());
 			usuarioRepo.save(usuario);
-			
-			for(Vacuna vacuna: usuario.getVacunas()) {
+
+			for (Vacuna vacuna : usuario.getVacunas()) {
 				vacuna.setEnfermero(solicitud.getEnfermero());
 				vacunaRepo.save(vacuna);
 			}
-			
-			for(Alergia alergia: usuario.getAlergias()) {
+
+			for (Alergia alergia : usuario.getAlergias()) {
 				alergia.setEnfermero(solicitud.getEnfermero());
 				alergiaRepo.save(alergia);
 			}
-			
+
 			Mensaje mensaje = new Mensaje();
 			Calendar calendar = Calendar.getInstance();
-	        java.util.Date fechaActual = calendar.getTime();
-	        Date fecha = new Date(fechaActual.getTime());
-	        
+			java.util.Date fechaActual = calendar.getTime();
+			Date fecha = new Date(fechaActual.getTime());
+
 			mensaje.setTitulo("Solicitud aceptada");
 			mensaje.setDescripcion("Su solicitud de cambio de enfermero ha sido aceptada");
 			mensaje.setFecha(fecha);
 			mensaje.setUsuario(solicitud.getUsuario());
-			
+
 			mensajeRepo.save(mensaje);
-			
+
 			solicitud.setEstado("ACEPTADA");
 			solicitudRepo.save(solicitud);
 		}
 	}
-	
-	
+
 	@Override
 	public void DeniegaSolicitud(Solicitud solicitud) {
-		if(solicitud.getTitulo().equalsIgnoreCase("baja usuario")) {
+		if (solicitud.getTitulo().equalsIgnoreCase("baja usuario")) {
 			Mensaje mensaje = new Mensaje();
 			Calendar calendar = Calendar.getInstance();
-	        java.util.Date fechaActual = calendar.getTime();
-	        Date fecha = new Date(fechaActual.getTime());
-	        
+			java.util.Date fechaActual = calendar.getTime();
+			Date fecha = new Date(fechaActual.getTime());
+
 			mensaje.setTitulo("Solicitud denegada");
 			mensaje.setDescripcion("Su solicitud de baja de usuario ha sido denegada");
 			mensaje.setFecha(fecha);
 			mensaje.setUsuario(solicitud.getUsuario());
-			
+
 			mensajeRepo.save(mensaje);
-			
+
 			solicitud.setEstado("DENEGADA");
 			solicitudRepo.save(solicitud);
 		}
-		
-		if(solicitud.getTitulo().equalsIgnoreCase("cambio medico")) {
-			
+
+		if (solicitud.getTitulo().equalsIgnoreCase("cambio medico")) {
+
 			Mensaje mensaje = new Mensaje();
 			Calendar calendar = Calendar.getInstance();
-	        java.util.Date fechaActual = calendar.getTime();
-	        Date fecha = new Date(fechaActual.getTime());
-	        
+			java.util.Date fechaActual = calendar.getTime();
+			Date fecha = new Date(fechaActual.getTime());
+
 			mensaje.setTitulo("Solicitud denegada");
 			mensaje.setDescripcion("Su solicitud de cambio de medico ha sido denegada");
 			mensaje.setFecha(fecha);
 			mensaje.setUsuario(solicitud.getUsuario());
-			
+
 			mensajeRepo.save(mensaje);
-			
+
 			solicitud.setEstado("DENEGADA");
 			solicitudRepo.save(solicitud);
 		}
-		
-		if(solicitud.getTitulo().equalsIgnoreCase("cambio enfermero")) {
-			
+
+		if (solicitud.getTitulo().equalsIgnoreCase("cambio enfermero")) {
+
 			Mensaje mensaje = new Mensaje();
 			Calendar calendar = Calendar.getInstance();
-	        java.util.Date fechaActual = calendar.getTime();
-	        Date fecha = new Date(fechaActual.getTime());
-	        
+			java.util.Date fechaActual = calendar.getTime();
+			Date fecha = new Date(fechaActual.getTime());
+
 			mensaje.setTitulo("Solicitud denegada");
 			mensaje.setDescripcion("Su solicitud de cambio de enfermero ha sido denegada");
 			mensaje.setFecha(fecha);
 			mensaje.setUsuario(solicitud.getUsuario());
-			
+
 			mensajeRepo.save(mensaje);
-			
+
 			solicitud.setEstado("DENEGADA");
 			solicitudRepo.save(solicitud);
 		}
 	}
-	
+
 	@Override
 	public void actualizaUsuario(Usuario usuario, UsuarioDto usuarioDto) {
 		User user = usuario.getCuenta();
@@ -355,27 +355,27 @@ public class UsuarioServicioImpl implements UsuarioServicioI {
 		user.setPassword(passwordEncoder.encode(usuarioDto.getPassword()));
 
 		userRepository.save(user);
-		
+
 		usuario.setDni(usuarioDto.getDni());
 		usuario.setNombre(usuarioDto.getNombre());
 		usuario.setApellidos(usuarioDto.getApellidos());
 		usuario.setCuenta(user);
-		
+
 		usuarioRepo.save(usuario);
 	}
-	
+
 	@Override
-	public List<Alergia> buscarAlergiasUsuario(Usuario usuario){
+	public List<Alergia> buscarAlergiasUsuario(Usuario usuario) {
 		return alergiaRepo.findByUsuario(usuario);
 	}
 
 	@Override
-	public List<Usuario> buscarUsuariosMedico(String nombre, Medico medico){
+	public List<Usuario> buscarUsuariosMedico(String nombre, Medico medico) {
 		return usuarioRepo.buscarPorNombreCompletoMedico(nombre, medico);
 	}
-	
+
 	@Override
-	public List<Observacion> buscarObservacionesUsuario(Usuario usuario){
+	public List<Observacion> buscarObservacionesUsuario(Usuario usuario) {
 		return observacionRepo.findByUsuario(usuario);
 	}
 }

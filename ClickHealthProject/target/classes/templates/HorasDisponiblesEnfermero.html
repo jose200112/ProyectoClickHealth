@@ -2,33 +2,88 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Tramos disponibles</title>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ"
+	crossorigin="anonymous">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css">
+<style>
+.navbar-nav .nav-link {
+	font-size: 1.2rem;
+}
+</style>
 </head>
 <body>
-<table>
-  <thead>
-    <tr>
-      <th>Tramos disponibles</th>
-    </tr>
-  </thead>
-  <tbody th:if="${tramos.isEmpty()}">
-    <tr>
-      <td colspan="2">No hay horas disponibles</td>
-    </tr>
-  </tbody>
-  <tbody th:each="tramo : ${tramos}">
-    <tr>
-      <td th:text="${tramo.tiempo}"></td>
-      <td>
-        <form th:action="@{/usuario/creaCitaEnfermero}" method="post">
-          <input type="hidden" name="tramoSeleccionado" th:value="${tramo.tiempo}" />
-              <input type="hidden" name="diaSeleccionado" th:value="${diaSeleccionado}" />
-          <button type="submit" th:text="${tramo.tiempo}"></button>
-        </form>
-      </td>
-    </tr>
-  </tbody>
-</table>
+		<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="">ClickHealth</a>
+			<button class="navbar-toggler" type="button"
+				data-bs-toggle="collapse" data-bs-target="#navbarScroll"
+				aria-controls="navbarScroll" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarScroll">
+				<ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll"
+					style="-bs-scroll-height: 100px;">
+					<li class="nav-item"><a class="nav-link active"
+						aria-current="page" href="/usuario/inicioUsuario">Inicio</a></li>
+					<li class="nav-item"><a class="nav-link active"
+						aria-current="page" href="/usuario/vacunas">Mis vacunas</a></li>
+											<li class="nav-item"><a class="nav-link active"
+						aria-current="page" href="/usuario/alergias">Mis alergias</a></li>
+											<li class="nav-item"><a class="nav-link active"
+						aria-current="page" href="/usuario/citasUsuario">Mis citas</a></li>
+					<li class="nav-item dropdown"><a
+						class="nav-link active dropdown-toggle" href="#" role="button"
+						data-bs-toggle="dropdown" aria-expanded="false"> Pedir cita </a>
+						<ul class="dropdown-menu">
+							<li><a class="dropdown-item" href="/usuario/reservaCitaEnfermero">Enfermero</a></li>
+							<li><a class="dropdown-item" href="/usuario/reservaCitaMedico">Medico</a></li>
+						</ul></li>
+					<li class="nav-item"><a class="nav-link active"
+						aria-current="page" href="/usuario/nuevaSolicitud">Crear solicitud</a></li>
+						<li class="nav-item"><a class="nav-link active"
+						aria-current="page" href="/usuario/registro">Mi registro</a></li>
+				</ul>
+				<ul class="navbar-nav">
+					<li class="nav-item"><a class="nav-link active" href="/logout">Salir
+							<i class="bi bi-box-arrow-right"></i>
+					</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <h2>Tramos disponibles</h2>
+    </div>
+  </div>
+  <div th:if="${#lists.isEmpty(tramos)}" class="row">
+    <div class="col-12">
+      <p>No hay horas disponibles</p>
+    </div>
+  </div>
+  <div class="row">
+    <div th:each="tramo, iterStat : ${tramos}" class="col-6 col-md-3 mb-1">
+      <form th:action="@{/usuario/creaCitaEnfermero}" method="post">
+        <input type="hidden" name="tramoSeleccionado" th:value="${tramo.tiempo}" />
+        <input type="hidden" name="diaSeleccionado" th:value="${diaSeleccionado}" />
+        <button type="submit" class="btn btn-primary" th:text="${tramo.tiempo}"></button>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+
 
 </body>
 </html>

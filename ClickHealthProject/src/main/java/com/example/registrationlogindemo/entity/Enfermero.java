@@ -28,15 +28,15 @@ public class Enfermero {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID_ENF")
 	private Long id;
-	@Column(name = "CODIGO", unique=true)
+	@Column(name = "CODIGO", unique = true)
 	private String codigo;
-	@Column(name = "SALA", unique=true)
+	@Column(name = "SALA", unique = true)
 	private String sala;
 	@Column(name = "NOMBRE")
 	private String nombre;
 	@Column(name = "APELLIDOS")
 	private String apellidos;
-	@Column(name = "DNI", length = 9, unique=true)
+	@Column(name = "DNI", length = 9, unique = true)
 	private String dni;
 	@OneToOne(mappedBy = "enfermero")
 	User cuenta;
@@ -44,26 +44,26 @@ public class Enfermero {
 	List<Usuario> usuarios;
 	@OneToMany(mappedBy = "enfermero")
 	List<Vacuna> vacunas;
-	@OneToMany(mappedBy="enfermero")
+	@OneToMany(mappedBy = "enfermero")
 	List<Horario> horarios;
-	@OneToMany(mappedBy="enfermero")
+	@OneToMany(mappedBy = "enfermero")
 	private List<Cita> citas;
-	@OneToMany(mappedBy="enfermero")
+	@OneToMany(mappedBy = "enfermero")
 	private List<Solicitud> solicitudes;
-	@OneToMany(mappedBy="enfermero")
+	@OneToMany(mappedBy = "enfermero")
 	private List<Alergia> alergias;
-	
+
 	public EnfermeroDto toDto() {
 		EnfermeroDto enfermeroDto = new EnfermeroDto();
 		enfermeroDto.setName(this.getCuenta().getName());
 		enfermeroDto.setEmail(this.getCuenta().getEmail());
-		
+
 		enfermeroDto.setId(this.getId());
 		enfermeroDto.setDni(this.getDni());
 		enfermeroDto.setNombre(this.getNombre());
 		enfermeroDto.setApellidos(this.getApellidos());
 		enfermeroDto.setSala(this.getSala());
-		
+
 		enfermeroDto.setComienza(this.getHorarios().get(0).getComienza());
 		enfermeroDto.setTermina(this.getHorarios().get(0).getTermina());
 		return enfermeroDto;

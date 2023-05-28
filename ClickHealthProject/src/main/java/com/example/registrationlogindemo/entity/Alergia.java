@@ -42,7 +42,7 @@ public class Alergia {
 	@ManyToOne
 	@JoinColumn(name = "ID_USUARIO")
 	private Usuario usuario;
-	
+
 	public AlergiaDto toDto() {
 		AlergiaDto alergia = new AlergiaDto();
 		alergia.setId(this.id);
@@ -50,7 +50,7 @@ public class Alergia {
 		alergia.setGravedad(this.gravedad);
 		alergia.setTratamiento(this.tratamiento);
 		alergia.setDescripcion(this.descripcion);
-		
+
 		return alergia;
 	}
 }

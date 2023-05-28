@@ -24,14 +24,13 @@ public class UsuarioDto {
 	private String email;
 	@NotEmpty(message = "La clave no puede estar vacia")
 	private String password;
-	
+
 	@NotEmpty(message = "El dni no puede estar vacio")
 	private String dni;
 	@NotEmpty(message = "El nombre del enfermero no puede estar vacio")
 	private String nombre;
-	
+
 	@NotEmpty(message = "Los apellidos del enfermero no pueden estar vacios")
 	private String apellidos;
-
 
 }

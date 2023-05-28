@@ -12,18 +12,22 @@ import com.example.registrationlogindemo.entity.Enfermero;
 import com.example.registrationlogindemo.entity.Medico;
 import com.example.registrationlogindemo.entity.Usuario;
 
-public interface CitaRepositorio extends JpaRepository<Cita,Long> {
+public interface CitaRepositorio extends JpaRepository<Cita, Long> {
+
+	@Query("SELECT c FROM Cita c WHERE c.asistencia IS NULL")
+	List<Cita> findCitasSinAsistencia();
+
+	List<Cita> findByMedicoAndFechaAndAsistenciaIsNullAndConfirmadaIsTrue(Medico medico, Date fecha);
+
+	List<Cita> findByEnfermeroAndFechaAndAsistenciaIsNullAndConfirmadaIsTrue(Enfermero enfermero, Date fecha);
+
+	Cita findByUsuarioAndAsistenciaIsNull(Usuario usuario);
+
+	List<Cita> findByFechaAndConfirmadaIsFalse(LocalDate fecha);
 	
-    @Query("SELECT c FROM Cita c WHERE c.asistencia IS NULL")
-    List<Cita> findCitasSinAsistencia();
+    int countByUsuarioAndAsistenciaIsNotNull(Usuario usuario);
     
-    List<Cita> findByMedicoAndFechaAndAsistenciaIsNullAndConfirmadaIsTrue(Medico medico,Date fecha);
-    
-    
-    List<Cita> findByEnfermeroAndFechaAndAsistenciaIsNullAndConfirmadaIsTrue(Enfermero enfermero,Date fecha);
-    
-    Cita findByUsuarioAndAsistenciaIsNull(Usuario usuario);
-    
-    List<Cita> findByFechaAndConfirmadaIsFalse(LocalDate fecha);
+    @Query("SELECT COUNT(c) FROM Cita c WHERE c.usuario = :usuario AND c.asistencia = 'PRESENTADO'")
+    int contarCitasConfirmadasUsuario(Usuario usuario);
 
 }

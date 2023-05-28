@@ -48,15 +48,15 @@ public class Usuario {
 	List<Vacuna> vacunas;
 	@OneToMany(mappedBy = "usuario")
 	List<Mensaje> mensajes;
-	@OneToMany(mappedBy="usuario")
+	@OneToMany(mappedBy = "usuario")
 	private List<Cita> citas;
-	@OneToMany(mappedBy="usuario")
+	@OneToMany(mappedBy = "usuario")
 	private List<Solicitud> solicitud;
-	@OneToMany(mappedBy="usuario")
+	@OneToMany(mappedBy = "usuario")
 	private List<Alergia> alergias;
-	@OneToMany(mappedBy="usuario")
+	@OneToMany(mappedBy = "usuario")
 	private List<Observacion> observaciones;
-	
+
 	public UsuarioDto toDto() {
 		UsuarioDto usuarioDto = new UsuarioDto();
 		usuarioDto.setId(this.getId());

@@ -1,6 +1,5 @@
 package com.example.registrationlogindemo.dto;
 
-
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,5 +14,5 @@ public class BajaDto {
 	private String descripcion;
 	private String causa;
 	private String dni;
-	
+
 }

@@ -1,6 +1,5 @@
 package com.example.registrationlogindemo.entity;
 
-
 import java.sql.Date;
 import java.util.List;
 
@@ -29,30 +28,30 @@ public class Cita {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID_CITA")
 	private Long id;
-	
+
 	@Column(name = "FECHA")
 	private Date fecha;
-	
+
 	@Column(name = "ASISTENCIA")
 	private String asistencia;
-	
-	@Column(name="CONFIRMADA")
+
+	@Column(name = "CONFIRMADA")
 	private boolean confirmada;
-	
+
 	@ManyToOne
-	@JoinColumn(name ="ID_TRAMO")
+	@JoinColumn(name = "ID_TRAMO")
 	private Tramo tramo;
-	
+
 	@ManyToOne
-	@JoinColumn(name="ID_USUARIO")
+	@JoinColumn(name = "ID_USUARIO")
 	private Usuario usuario;
-	
+
 	@ManyToOne
-	@JoinColumn(name="ID_ENF")
+	@JoinColumn(name = "ID_ENF")
 	private Enfermero enfermero;
-	
+
 	@ManyToOne
-	@JoinColumn(name="ID_MED")
+	@JoinColumn(name = "ID_MED")
 	private Medico medico;
-	
+
 }

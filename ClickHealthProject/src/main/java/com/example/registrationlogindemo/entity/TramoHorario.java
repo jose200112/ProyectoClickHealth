@@ -18,19 +18,19 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="TRAMO_HORARIO")
+@Table(name = "TRAMO_HORARIO")
 public class TramoHorario {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="ID_TRAMO_HORARIO")
+	@Column(name = "ID_TRAMO_HORARIO")
 	private Long id;
-	
+
 	@ManyToOne
-	@JoinColumn(name="ID_TRAMO")
+	@JoinColumn(name = "ID_TRAMO")
 	Tramo tramo;
-	
+
 	@ManyToOne
-	@JoinColumn(name="ID_HORARIO")
+	@JoinColumn(name = "ID_HORARIO")
 	Horario horario;
 
 }

@@ -16,45 +16,32 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 public class SpringSecurity {
 
-    @Autowired
-    private UserDetailsService userDetailsService;
+	@Autowired
+	private UserDetailsService userDetailsService;
 
-    @Bean
-    public static PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
-    }
+	@Bean
+	public static PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-                .authorizeHttpRequests((authorize) ->
-                        authorize.requestMatchers("/claveOlvidada").permitAll()
-                        		.requestMatchers("/cambiaClave").permitAll()
-                                .requestMatchers("/inicio/**").hasRole("ANONYMOUS")
-                                .requestMatchers("/redirige").permitAll()
-                                .requestMatchers("/admin/**").hasRole("ADMIN")
-                                .requestMatchers("/enfermero/**").hasRole("ENFERMERO")
-                                .requestMatchers("/usuario/**").hasRole("USUARIO")
-                                .requestMatchers("/medico/**").hasRole("MEDICO")
-                                
-                ).formLogin(
-                        form -> form
-                                .loginPage("/login")
-                                .loginProcessingUrl("/login")
-                                .defaultSuccessUrl("/redirige",true)
-                                .permitAll()
-                ).logout(
-                        logout -> logout
-                                .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                                .permitAll()
-                );
-        return http.build();
-    }
+	@Bean
+	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+		http.csrf().disable()
+				.authorizeHttpRequests((authorize) -> authorize.requestMatchers("/claveOlvidada").permitAll()
+						.requestMatchers("/cambiaClave").permitAll().requestMatchers("/inicio/**").hasRole("ANONYMOUS")
+						.requestMatchers("/redirige").permitAll().requestMatchers("/admin/**").hasRole("ADMIN")
+						.requestMatchers("/enfermero/**").hasRole("ENFERMERO").requestMatchers("/usuario/**")
+						.hasRole("USUARIO").requestMatchers("/medico/**").hasRole("MEDICO")
 
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth
-                .userDetailsService(userDetailsService)
-                .passwordEncoder(passwordEncoder());
-    }
+				)
+				.formLogin(form -> form.loginPage("/login").loginProcessingUrl("/login")
+						.defaultSuccessUrl("/redirige", true).permitAll())
+				.logout(logout -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/logout")).permitAll());
+		return http.build();
+	}
+
+	@Autowired
+	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+	}
 }

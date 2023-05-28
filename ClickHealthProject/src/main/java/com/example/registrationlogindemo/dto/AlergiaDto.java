@@ -1,6 +1,5 @@
 package com.example.registrationlogindemo.dto;
 
-
 import java.sql.Date;
 
 import com.example.registrationlogindemo.entity.Enfermero;
@@ -20,12 +19,12 @@ import lombok.Setter;
 @AllArgsConstructor
 public class AlergiaDto {
 	private Long id;
-    @NotEmpty(message = "La causa no puede estar vacia")
+	@NotEmpty(message = "La causa no puede estar vacia")
 	private String causa;
 	private String gravedad;
-    @NotEmpty(message = "El tratamiento no puede estar vacio")
+	@NotEmpty(message = "El tratamiento no puede estar vacio")
 	private String tratamiento;
-    private String descripcion;
-    private Usuario usuario;
-    private Enfermero enfermero;
+	private String descripcion;
+	private Usuario usuario;
+	private Enfermero enfermero;
 }

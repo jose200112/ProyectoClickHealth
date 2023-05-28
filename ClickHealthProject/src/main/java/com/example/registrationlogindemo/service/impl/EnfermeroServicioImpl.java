@@ -41,29 +41,27 @@ import com.example.registrationlogindemo.repository.UsuarioRepositorio;
 import com.example.registrationlogindemo.repository.VacunaRepositorio;
 import com.example.registrationlogindemo.service.EnfermeroServicioI;
 
-
-
 @Service
 public class EnfermeroServicioImpl implements EnfermeroServicioI {
 
 	@Autowired
-    private UserRepository userRepository;
+	private UserRepository userRepository;
 	@Autowired
-    private RoleRepository roleRepository;
+	private RoleRepository roleRepository;
 	@Autowired
-    private PasswordEncoder passwordEncoder;
+	private PasswordEncoder passwordEncoder;
 	@Autowired
-    private EnfermeroRepositorio enfermeroRepo;
+	private EnfermeroRepositorio enfermeroRepo;
 	@Autowired
-    private HorarioRepositorio horarioRepo;
+	private HorarioRepositorio horarioRepo;
 	@Autowired
-    private TramoRepositorio tramoRepo;
+	private TramoRepositorio tramoRepo;
 	@Autowired
-    private TramoHorarioRepositorio tramoHorarioRepo;
+	private TramoHorarioRepositorio tramoHorarioRepo;
 	@Autowired
-    private VacunaRepositorio vacunaRepo;
+	private VacunaRepositorio vacunaRepo;
 	@Autowired
-    private UsuarioRepositorio usuarioRepo;
+	private UsuarioRepositorio usuarioRepo;
 	@Autowired
 	private CitaRepositorio citaRepo;
 	@Autowired
@@ -73,93 +71,85 @@ public class EnfermeroServicioImpl implements EnfermeroServicioI {
 	@Autowired
 	private AlergiaRepositorio alergiaRepo;
 
-    public EnfermeroServicioImpl(UserRepository userRepository,
-                           RoleRepository roleRepository,
-                           PasswordEncoder passwordEncoder,
-                           EnfermeroRepositorio enfermeroRepo,
-                           HorarioRepositorio horarioRepo,
-                           TramoRepositorio tramoRepo,
-                           TramoHorarioRepositorio tramoHorarioRepo,
-                           VacunaRepositorio vacunaRepo,
-                           UsuarioRepositorio usuarioRepo,
-                           CitaRepositorio citaRepo,
-                           MensajeRepositorio mensajeRepo,
-                           SolicitudRepositorio solicitudRepo,
-                           AlergiaRepositorio alergiaRepo) {
-        this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.enfermeroRepo = enfermeroRepo;
-        this.horarioRepo = horarioRepo;
-        this.tramoRepo = tramoRepo;
-        this.tramoHorarioRepo = tramoHorarioRepo;
-        this.usuarioRepo = usuarioRepo;
-        this.citaRepo = citaRepo;
-        this.mensajeRepo = mensajeRepo;
-        this.solicitudRepo = solicitudRepo;
-        this.alergiaRepo = alergiaRepo;
-    }
+	public EnfermeroServicioImpl(UserRepository userRepository, RoleRepository roleRepository,
+			PasswordEncoder passwordEncoder, EnfermeroRepositorio enfermeroRepo, HorarioRepositorio horarioRepo,
+			TramoRepositorio tramoRepo, TramoHorarioRepositorio tramoHorarioRepo, VacunaRepositorio vacunaRepo,
+			UsuarioRepositorio usuarioRepo, CitaRepositorio citaRepo, MensajeRepositorio mensajeRepo,
+			SolicitudRepositorio solicitudRepo, AlergiaRepositorio alergiaRepo) {
+		this.userRepository = userRepository;
+		this.roleRepository = roleRepository;
+		this.passwordEncoder = passwordEncoder;
+		this.enfermeroRepo = enfermeroRepo;
+		this.horarioRepo = horarioRepo;
+		this.tramoRepo = tramoRepo;
+		this.tramoHorarioRepo = tramoHorarioRepo;
+		this.usuarioRepo = usuarioRepo;
+		this.citaRepo = citaRepo;
+		this.mensajeRepo = mensajeRepo;
+		this.solicitudRepo = solicitudRepo;
+		this.alergiaRepo = alergiaRepo;
+	}
 
 	@Override
 	public void saveUser(EnfermeroDto enfermeroDto) {
-		
-        Enfermero enfermero = new Enfermero();
-        
-        enfermero.setNombre(enfermeroDto.getNombre());
-        enfermero.setApellidos(enfermeroDto.getApellidos());
-        enfermero.setDni(enfermeroDto.getDni());
-        enfermero.setSala(enfermeroDto.getSala());
-    	String codigo = "ENF";
-    	Enfermero existeEnfermero;
-    	
-        do {
-        	Random rand = new Random();
-            int num = rand.nextInt(99999) + 1;
-            codigo = codigo + num;
-        	existeEnfermero = enfermeroRepo.findByCodigo(codigo);
-        }while(existeEnfermero != null);
-        
-        enfermero.setCodigo(codigo);
-        enfermeroRepo.save(enfermero);
-        
-        User user = new User();
-        user.setName(enfermeroDto.getName());
-        user.setEmail(enfermeroDto.getEmail());
-        user.setPassword(passwordEncoder.encode(enfermeroDto.getPassword()));
-        user.setEnfermero(enfermero);
-        
-        Role role = roleRepository.findByName("ROLE_ENFERMERO");
-        user.setRoles(Arrays.asList(role));
-        userRepository.save(user);
-        
-        Horario horario = new Horario();
-        horario.setComienza(enfermeroDto.getComienza());
-        horario.setTermina(enfermeroDto.getTermina());
-        horario.setEnfermero(enfermero);
-        		        
-        horarioRepo.save(horario);
 
-        List<Tramo> tramos = tramoRepo.findByTiempoGreaterThanEqualAndTiempoLessThan(horario.getComienza(), horario.getTermina());
-        
-        for(Tramo horas:tramos) {
-            TramoHorario tramoHorario = new TramoHorario();
-            tramoHorario.setHorario(horario);
-            tramoHorario.setTramo(horas);
-            tramoHorarioRepo.save(tramoHorario);
-        }
-        
+		Enfermero enfermero = new Enfermero();
+
+		enfermero.setNombre(enfermeroDto.getNombre());
+		enfermero.setApellidos(enfermeroDto.getApellidos());
+		enfermero.setDni(enfermeroDto.getDni());
+		enfermero.setSala(enfermeroDto.getSala());
+		String codigo = "ENF";
+		Enfermero existeEnfermero;
+
+		do {
+			Random rand = new Random();
+			int num = rand.nextInt(99999) + 1;
+			codigo = codigo + num;
+			existeEnfermero = enfermeroRepo.findByCodigo(codigo);
+		} while (existeEnfermero != null);
+
+		enfermero.setCodigo(codigo);
+		enfermeroRepo.save(enfermero);
+
+		User user = new User();
+		user.setName(enfermeroDto.getName());
+		user.setEmail(enfermeroDto.getEmail());
+		user.setPassword(passwordEncoder.encode(enfermeroDto.getPassword()));
+		user.setEnfermero(enfermero);
+
+		Role role = roleRepository.findByName("ROLE_ENFERMERO");
+		user.setRoles(Arrays.asList(role));
+		userRepository.save(user);
+
+		Horario horario = new Horario();
+		horario.setComienza(enfermeroDto.getComienza());
+		horario.setTermina(enfermeroDto.getTermina());
+		horario.setEnfermero(enfermero);
+
+		horarioRepo.save(horario);
+
+		List<Tramo> tramos = tramoRepo.findByTiempoGreaterThanEqualAndTiempoLessThan(horario.getComienza(),
+				horario.getTermina());
+
+		for (Tramo horas : tramos) {
+			TramoHorario tramoHorario = new TramoHorario();
+			tramoHorario.setHorario(horario);
+			tramoHorario.setTramo(horas);
+			tramoHorarioRepo.save(tramoHorario);
+		}
+
 	}
-    
-	
-    @Override
-    public User findByEmail(String email) {
-        return userRepository.findByEmail(email);
-    }
 
-    @Override
-    public User findByName(String name) {
-    	return userRepository.findByName(name);
-    }
+	@Override
+	public User findByEmail(String email) {
+		return userRepository.findByEmail(email);
+	}
+
+	@Override
+	public User findByName(String name) {
+		return userRepository.findByName(name);
+	}
 
 	@Override
 	public void saveVacuna(VacunaDto vacunaDto) {
@@ -173,7 +163,7 @@ public class EnfermeroServicioImpl implements EnfermeroServicioI {
 		vacuna.setUsuario(vacunaDto.getUsuario());
 		vacunaRepo.save(vacuna);
 	}
-	
+
 	@Override
 	public void borraEnfermero(Long id) {
 		Optional<Enfermero> enfermero = enfermeroRepo.findById(id);
@@ -184,44 +174,43 @@ public class EnfermeroServicioImpl implements EnfermeroServicioI {
 				vacuna.setEnfermero(null);
 				vacunaRepo.save(vacuna);
 			}
-			
-			for(Alergia alergia: enfermeroEncontrado.getAlergias()) {
+
+			for (Alergia alergia : enfermeroEncontrado.getAlergias()) {
 				alergia.setEnfermero(enfermeroEncontrado);
 				alergiaRepo.save(alergia);
 			}
-			
-			for(Horario horario: enfermeroEncontrado.getHorarios()) {
-				for(TramoHorario tramoHorario: horario.getTramoHorarios()) {
+
+			for (Horario horario : enfermeroEncontrado.getHorarios()) {
+				for (TramoHorario tramoHorario : horario.getTramoHorarios()) {
 					tramoHorarioRepo.delete(tramoHorario);
 				}
-				
+
 				horarioRepo.delete(horario);
 			}
-					
-			
-			for(Cita cita: enfermeroEncontrado.getCitas()) {
-				if(cita.getAsistencia() == null) {
+
+			for (Cita cita : enfermeroEncontrado.getCitas()) {
+				if (cita.getAsistencia() == null) {
 					citaRepo.delete(cita);
 				} else {
 					cita.setEnfermero(null);
 					citaRepo.save(cita);
 				}
 			}
-			
-			for(Solicitud solicitud: enfermeroEncontrado.getSolicitudes()) {
-				if(solicitud.getEstado() == null) {
+
+			for (Solicitud solicitud : enfermeroEncontrado.getSolicitudes()) {
+				if (solicitud.getEstado() == null) {
 					Mensaje mensaje = new Mensaje();
 					Calendar calendar = Calendar.getInstance();
-			        java.util.Date fechaActual = calendar.getTime();
-			        Date fecha = new Date(fechaActual.getTime());
-			        
+					java.util.Date fechaActual = calendar.getTime();
+					Date fecha = new Date(fechaActual.getTime());
+
 					mensaje.setTitulo("Solicitud denegada");
 					mensaje.setDescripcion("Su solicitud de cambio de enfermero ha sido denegada");
 					mensaje.setFecha(fecha);
 					mensaje.setUsuario(solicitud.getUsuario());
-					
+
 					mensajeRepo.save(mensaje);
-					
+
 					solicitud.setEstado("DENEGADA");
 					solicitudRepo.save(solicitud);
 				} else {
@@ -229,119 +218,119 @@ public class EnfermeroServicioImpl implements EnfermeroServicioI {
 					solicitudRepo.save(solicitud);
 				}
 			}
-			
-			for(Usuario usuario: enfermeroEncontrado.getUsuarios()) {
+
+			for (Usuario usuario : enfermeroEncontrado.getUsuarios()) {
 				Enfermero enfermeroMenosUsuarios = enfermeroRepo.EnfermeroConMenosUsuariosExcluye(id);
 				usuario.setEnfermero(enfermeroMenosUsuarios);
-				for(Vacuna vacuna: usuario.getVacunas()) {
+				for (Vacuna vacuna : usuario.getVacunas()) {
 					vacuna.setEnfermero(enfermeroMenosUsuarios);
 					vacunaRepo.save(vacuna);
 				}
-				
-				for(Alergia alergia: usuario.getAlergias()){
+
+				for (Alergia alergia : usuario.getAlergias()) {
 					alergia.setEnfermero(enfermeroMenosUsuarios);
 					alergiaRepo.save(alergia);
 				}
-				
+
 				usuarioRepo.save(usuario);
 			}
-			
+
 			enfermeroRepo.deleteById(id);
 		}
 
 	}
-	
+
 	@Override
-	public List<Enfermero> buscarEnfermeros(String dni){
+	public List<Enfermero> buscarEnfermeros(String dni) {
 		return enfermeroRepo.buscarEnfermerosDni(dni);
 	}
-	
+
 	@Override
 	public Enfermero buscaPorDni(String dni) {
 		return enfermeroRepo.findByDni(dni);
 	}
-	
+
 	@Override
 	public Enfermero buscaPorSala(String sala) {
 		return enfermeroRepo.findBySala(sala);
 	}
-	
-	
+
 	@Override
-	public List<Enfermero> buscarEnfermerosPorNombre(String nombre){
+	public List<Enfermero> buscarEnfermerosPorNombre(String nombre) {
 		return enfermeroRepo.buscarPorNombreCompleto(nombre);
 	}
-	
+
 	@Override
-	public List<Enfermero> buscarEnfermerosPorNombreId(String nombre,Long id){
+	public List<Enfermero> buscarEnfermerosPorNombreId(String nombre, Long id) {
 		return enfermeroRepo.buscarPorNombreCompletoId(nombre, id);
 	}
-	
+
 	@Override
 	public void confirmaAsistencia(Cita cita) {
 		cita.setAsistencia("PRESENTADO");
 		citaRepo.save(cita);
 	}
-	
+
 	@Override
 	public void deniegaAsistencia(Cita cita) {
 		cita.setAsistencia("NO PRESENTADO");
 		citaRepo.save(cita);
-		
+
 		Calendar calendar = Calendar.getInstance();
-        java.util.Date fechaActual = calendar.getTime();
-        Date fecha = new Date(fechaActual.getTime());
-		
+		java.util.Date fechaActual = calendar.getTime();
+		Date fecha = new Date(fechaActual.getTime());
+
 		Mensaje mensaje = new Mensaje();
 		mensaje.setTitulo("No se ha presentado a su cita");
-		mensaje.setDescripcion("Debido a su neglicencia, una persona ha perdido su oportunidad de conseguir una cita medica. "
-				+ "Por favor, sea responsable y puntual con sus "
-				+ "citas médicas para permitir que otros pacientes reciban la atención que merecen");
+		mensaje.setDescripcion(
+				"Debido a su neglicencia, una persona ha perdido su oportunidad de conseguir una cita medica. "
+						+ "Por favor, sea responsable y puntual con sus "
+						+ "citas médicas para permitir que otros pacientes reciban la atención que merecen");
 		mensaje.setUsuario(cita.getUsuario());
 		mensaje.setFecha(fecha);
-		
+
 		mensajeRepo.save(mensaje);
 	}
-	
+
 	@Override
 	public void actualizaEnfermero(Enfermero enfermero, EnfermeroDto enfermeroDto) {
 		User user = enfermero.getCuenta();
 		user.setName(enfermeroDto.getName());
 		user.setEmail(enfermeroDto.getEmail());
 		user.setPassword(passwordEncoder.encode(enfermeroDto.getPassword()));
-		
+
 		userRepository.save(user);
-		
+
 		Horario horario = enfermero.getHorarios().get(0);
-		
+
 		horario.setComienza(enfermeroDto.getComienza());
 		horario.setTermina(enfermeroDto.getTermina());
-		
+
 		horarioRepo.save(horario);
-		
-		for(TramoHorario tramoHorario: horario.getTramoHorarios()) {
+
+		for (TramoHorario tramoHorario : horario.getTramoHorarios()) {
 			tramoHorarioRepo.delete(tramoHorario);
 		}
-		
-		
-	       List<Tramo> tramos = tramoRepo.findByTiempoGreaterThanEqualAndTiempoLessThan(horario.getComienza(), horario.getTermina());
-	        
-	        for(Tramo horas:tramos) {
-	            TramoHorario tramoHorario = new TramoHorario();
-	            tramoHorario.setHorario(horario);
-	            tramoHorario.setTramo(horas);
-	            tramoHorarioRepo.save(tramoHorario);
-	        }
-	        
-	        enfermero.setDni(enfermeroDto.getDni());
-	        enfermero.setNombre(enfermeroDto.getNombre());
-	        enfermero.setApellidos(enfermeroDto.getApellidos());
-	        enfermero.setSala(enfermeroDto.getSala());
-	        
-	        enfermeroRepo.save(enfermero);
-		
+
+		List<Tramo> tramos = tramoRepo.findByTiempoGreaterThanEqualAndTiempoLessThan(horario.getComienza(),
+				horario.getTermina());
+
+		for (Tramo horas : tramos) {
+			TramoHorario tramoHorario = new TramoHorario();
+			tramoHorario.setHorario(horario);
+			tramoHorario.setTramo(horas);
+			tramoHorarioRepo.save(tramoHorario);
+		}
+
+		enfermero.setDni(enfermeroDto.getDni());
+		enfermero.setNombre(enfermeroDto.getNombre());
+		enfermero.setApellidos(enfermeroDto.getApellidos());
+		enfermero.setSala(enfermeroDto.getSala());
+
+		enfermeroRepo.save(enfermero);
+
 	}
-	
+
 	@Override
 	public void actualizaVacuna(VacunaDto vacunaDto) {
 		Vacuna vacuna = new Vacuna();
@@ -352,10 +341,10 @@ public class EnfermeroServicioImpl implements EnfermeroServicioI {
 		vacuna.setFecha(Date.valueOf(vacunaDto.getFecha()));
 		vacuna.setNombre(vacunaDto.getNombre());
 		vacuna.setNumLote(vacunaDto.getNumLote());
-		
+
 		vacunaRepo.save(vacuna);
 	}
-	
+
 	@Override
 	public void guardaAlergia(AlergiaDto alergiaDto) {
 		Alergia alergia = new Alergia();
@@ -366,10 +355,10 @@ public class EnfermeroServicioImpl implements EnfermeroServicioI {
 		alergia.setCausa(alergiaDto.getCausa());
 		alergia.setUsuario(alergiaDto.getUsuario());
 		alergia.setEnfermero(alergiaDto.getEnfermero());
-		
+
 		alergiaRepo.save(alergia);
 	}
-	
+
 	@Override
 	public void guardaNuevaAlergia(AlergiaDto alergiaDto) {
 		Alergia alergia = new Alergia();
@@ -379,7 +368,7 @@ public class EnfermeroServicioImpl implements EnfermeroServicioI {
 		alergia.setCausa(alergiaDto.getCausa());
 		alergia.setUsuario(alergiaDto.getUsuario());
 		alergia.setEnfermero(alergiaDto.getEnfermero());
-		
+
 		alergiaRepo.save(alergia);
 	}
 }

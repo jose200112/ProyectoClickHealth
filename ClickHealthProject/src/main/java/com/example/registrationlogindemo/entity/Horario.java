@@ -32,17 +32,17 @@ public class Horario {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID_HORARIO")
 	private Long id;
-	@Column(name="COMIENZA")
+	@Column(name = "COMIENZA")
 	private LocalTime comienza;
-	@Column(name="TERMINA")
+	@Column(name = "TERMINA")
 	private LocalTime termina;
 	@ManyToOne
-	@JoinColumn(name="ID_ENF")
+	@JoinColumn(name = "ID_ENF")
 	Enfermero enfermero;
 	@ManyToOne
-	@JoinColumn(name="ID_MED")
+	@JoinColumn(name = "ID_MED")
 	Medico medico;
-	@OneToMany(mappedBy="horario")
+	@OneToMany(mappedBy = "horario")
 	List<TramoHorario> tramoHorarios;
 
 }

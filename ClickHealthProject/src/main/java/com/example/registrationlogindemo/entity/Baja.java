@@ -24,8 +24,8 @@ public class Baja {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID_BAJA")
 	private Long id;
-	@Column(name="CAUSA")
+	@Column(name = "CAUSA")
 	private String causa;
-	@Column(name="DESCRIPCION")
+	@Column(name = "DESCRIPCION")
 	private String descripcion;
 }

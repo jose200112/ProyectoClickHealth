@@ -18,19 +18,19 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ObservacionDto {
 	private Long id;
-	
+
 	@NotEmpty(message = "Especifique los sintomas del paciente")
 	private String sintomas;
-	
+
 	@NotEmpty(message = "Indique al menos un diagnostico provisional")
 	private String diagnostico;
-	
+
 	private String tratamiento;
-	
+
 	@NotEmpty(message = "Redacte una descripcion")
 	private String descripcion;
-	
+
 	private Medico medico;
-	
+
 	private Usuario usuario;
 }

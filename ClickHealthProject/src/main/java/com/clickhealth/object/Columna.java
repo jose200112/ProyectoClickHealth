@@ -17,9 +17,5 @@ public class Columna {
 	private int numCinco;
 	private int numSeis;
 	private int numSiete;
-	
 
-	
-	
-	
 }

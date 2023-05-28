@@ -9,22 +9,22 @@ import com.example.registrationlogindemo.entity.Medico;
 import com.example.registrationlogindemo.entity.User;
 
 public interface MedicoServicioI {
-    void saveMedico(MedicoDto medicoDto);
+	void saveMedico(MedicoDto medicoDto);
 
-    User findByEmail(String email);
-    
-    User findByName(String name);
-    
+	User findByEmail(String email);
+
+	User findByName(String name);
+
 	public Medico buscaPorSala(String sala);
-	
+
 	public Medico buscaPorDni(String dni);
-	
+
 	public void borraMedico(Long id);
-	
+
 	public List<Medico> buscarMedicosPorNombre(String nombre);
 
 	void confirmaAsistencia(Cita cita);
-	
+
 	void deniegaAsistencia(Cita cita);
 
 	void actualizaMedico(Medico medico, MedicoDto medicoDto);
@@ -34,7 +34,5 @@ public interface MedicoServicioI {
 	void guardaNuevaObservacion(ObservacionDto observacionDto);
 
 	void guardaObservacion(ObservacionDto observacionDto);
-
-
 
 }
