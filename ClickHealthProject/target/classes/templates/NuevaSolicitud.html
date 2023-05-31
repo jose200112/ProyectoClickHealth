@@ -36,6 +36,8 @@
 						aria-current="page" href="/usuario/vacunas">Mis vacunas</a></li>
 											<li class="nav-item"><a class="nav-link active"
 						aria-current="page" href="/usuario/alergias">Mis alergias</a></li>
+																	<li class="nav-item"><a class="nav-link active"
+						aria-current="page" href="/usuario/observaciones">Observaciones</a></li>
 											<li class="nav-item"><a class="nav-link active"
 						aria-current="page" href="/usuario/citasUsuario">Mis citas</a></li>
 					<li class="nav-item dropdown"><a
@@ -145,7 +147,7 @@
 				</div>
 				<table class="table table-bordered">
 					<caption>Buscar medicos por nombre y apellidos</caption>
-					<thead class="table-primary">
+					<thead class="bg-primary text-white">
 						<tr>
 							<th>Codigo</th>
 							<th>Nombre</th>
@@ -160,7 +162,7 @@
 							<td th:text="${medico.apellidos}">Apellidos</td>
 							<td><a
 								th:href="@{/usuario/nuevaSolicitudBuscadorMedico/{id}/{seleccionado}(id=${medico.id}, seleccionado=${seleccionado})}"
-								class="btn btn-info">Seleccionar medico</a></td>
+								class="btn btn-primary">Seleccionar medico</a></td>
 
 
 						</tr>
@@ -301,8 +303,8 @@
 					</form>
 				</div>
 				<table class="table table-bordered">
-					<caption>Buscar usuarios por nombre y apellidos</caption>
-					<thead class="table-primary">
+					<caption>Buscar enfermeros por nombre y apellidos</caption>
+					<thead class="bg-primary text-white">
 						<tr>
 							<th>Codigo</th>
 							<th>Nombre</th>
@@ -317,7 +319,7 @@
 							<td th:text="${enfermero.apellidos}">Apellidos</td>
 							<td><a
 								th:href="@{/usuario/nuevaSolicitudBuscadorEnfermero/{id}/{seleccionado}(id=${enfermero.id}, seleccionado=${seleccionado})}"
-								class="btn btn-info">Seleccionar medico</a></td>
+								class="btn btn-primary">Seleccionar enfermero</a></td>
 
 
 						</tr>

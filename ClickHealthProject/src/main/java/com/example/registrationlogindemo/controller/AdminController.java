@@ -427,10 +427,10 @@ public class AdminController {
 			model.addAttribute("error", error);
 			return "BorraMedico";
 		} else {
-			exito = "Enfermero dado de baja con exito";
+			exito = "Medico dado de baja con exito";
 			model.addAttribute("exito", exito);
 			medicoServicioI.borraMedico(id);
-			return "BorraEnfermero";
+			return "BorraMedico";
 		}
 	}
 

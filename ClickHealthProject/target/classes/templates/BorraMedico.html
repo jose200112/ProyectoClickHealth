@@ -32,7 +32,7 @@
 					<li class="nav-item"><a class="nav-link active"
 						aria-current="page" href="/admin/inicioAdmin">Inicio</a></li>
 					<li class="nav-item"><a class="nav-link active"
-						aria-current="page" href="#">Solicitudes</a></li>
+						aria-current="page" href="/admin/resuelveSolicitud">Solicitudes</a></li>
 					<li class="nav-item dropdown"><a
 						class="nav-link active dropdown-toggle" href="#" role="button"
 						data-bs-toggle="dropdown" aria-expanded="false"> Registrar </a>
@@ -45,9 +45,17 @@
 						class="nav-link active dropdown-toggle" href="#" role="button"
 						data-bs-toggle="dropdown" aria-expanded="false"> Dar de baja </a>
 						<ul class="dropdown-menu">
-							<li><a class="dropdown-item" href="#">Usuario</a></li>
-							<li><a class="dropdown-item" href="#">Enfermero</a></li>
-							<li><a class="dropdown-item" href="#">Medico</a></li>
+							<li><a class="dropdown-item" href="/admin/borraUsuario">Usuario</a></li>
+							<li><a class="dropdown-item" href="/admin/borraEnfermero">Enfermero</a></li>
+							<li><a class="dropdown-item" href="/admin/borraMedico">Medico</a></li>
+						</ul></li>
+											<li class="nav-item dropdown"><a
+						class="nav-link active dropdown-toggle" href="#" role="button"
+						data-bs-toggle="dropdown" aria-expanded="false"> Actualizar </a>
+						<ul class="dropdown-menu">
+							<li><a class="dropdown-item" href="/admin/actualizaBuscadorUsuario">Usuario</a></li>
+							<li><a class="dropdown-item" href="/admin/actualizaBuscadorEnfermero">Enfermero</a></li>
+							<li><a class="dropdown-item" href="/admin/actualizaBuscadorMedico">Medico</a></li>
 						</ul></li>
 				</ul>
 				<ul class="navbar-nav">

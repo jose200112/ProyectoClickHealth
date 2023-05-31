@@ -50,11 +50,12 @@
 		</div>
 	</nav>
 
+<div class="container pt-3">
 				<div th:if="${citas.isEmpty()}">
 			<p>No tienes mas citas programadas para hoy</p>
 		</div>
 		<div class="card mx-auto mb-4" th:each="cita : ${citas}"
-			style="max-width: 25rem;">
+			style="max-width: 32rem;">
 			<div class="card-header" style="background-color: #0d6efd;">
 				<h3 class="card-title text-light" th:text="'Cita con ' + ${cita.usuario.nombre}"></h3>
 			</div>
@@ -76,12 +77,18 @@
 						th:href="@{/enfermero/confirmaAsistencia/{id}(id=${cita.id})}"
 						class="btn btn-success">Confirmar asistencia</a>
 				</div>
-				<div class="d-inline">
+				<div class="d-inline p-2">
 					<a
 						th:href="@{/enfermero/deniegaAsistencia/{id}(id=${cita.id})}"
 						class="btn btn-danger">Denegar asistencia</a>
 				</div>
+								<div class="d-inline">
+					<a
+						th:href="@{/enfermero/registroMedico/{id}(id=${cita.usuario.id})}"
+						class="btn btn-info text-white">Ver registro</a>
+				</div>
 			</div>
+		</div>
 		</div>
 
 	<script

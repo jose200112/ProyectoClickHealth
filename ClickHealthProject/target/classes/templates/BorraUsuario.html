@@ -33,7 +33,7 @@
 					<li class="nav-item"><a class="nav-link active"
 						aria-current="page" href="/admin/inicioAdmin">Inicio</a></li>
 					<li class="nav-item"><a class="nav-link active"
-						aria-current="page" href="#">Solicitudes</a></li>
+						aria-current="page" href="/admin/resuelveSolicitud">Solicitudes</a></li>
 					<li class="nav-item dropdown"><a
 						class="nav-link active dropdown-toggle" href="#" role="button"
 						data-bs-toggle="dropdown" aria-expanded="false"> Registrar </a>
@@ -70,16 +70,24 @@
 
 	<div class="container">
 
-		<th:block th:if="${#strings.isEmpty(formulario)}">
-			<form method="get" action="/admin/borraUsuario">
-				<select id="formulario" name="formulario">
-					<option value="">Selecciona la forma de baja</option>
-					<option value="por buscador">Por buscador</option>
-					<option value="por formulario">Por formulario</option>
-				</select>
-				<button type="submit">Enviar</button>
-			</form>
-		</th:block>
+<th:block th:if="${#strings.isEmpty(formulario)}">
+    <div class="card bg-warning">
+        <div class="card-header">
+            <h5 class="card-title">Baja de Usuario</h5>
+        </div>
+        <div class="card-body">
+                    <p class="card-text">Puedes realizar la baja por buscador o por medio de un formulario para registrar la causa de la baja del usuario. Por favor, seleccione el metodo de baja:</p>
+            <form method="get" action="/admin/borraUsuario">
+                <select id="formulario" name="formulario">
+                    <option value="por buscador">Por buscador</option>
+                    <option value="por formulario">Por formulario</option>
+                </select>
+                <button type="submit">Enviar</button>
+            </form>
+        </div>
+    </div>
+</th:block>
+
 
 		<div th:if="${formulario == 'por buscador'}">
 			<div class="container pt-2">

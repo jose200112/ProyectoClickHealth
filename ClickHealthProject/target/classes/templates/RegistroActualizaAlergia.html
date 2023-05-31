@@ -66,7 +66,7 @@ input[type=number] {
 				</div>
 				<div class="card-body">
 					<form method="post" role="form"
-						th:action="@{/enfermero/actualizadoAlergia/{id}/{idAlergia}(id=${usuario.id}, idAlergia=${alergia.id})}"
+						th:action="@{/enfermero/actualizaAlergia/{id}/{idAlergia}(id=${usuario.id}, idAlergia=${alergia.id})}"
 						th:object="${alergia}">
 						<div class="form-group mb-3">
 							<label class="form-label">Causa</label> <input

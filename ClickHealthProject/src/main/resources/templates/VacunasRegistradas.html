@@ -34,6 +34,8 @@
 						aria-current="page" href="/usuario/vacunas">Mis vacunas</a></li>
 											<li class="nav-item"><a class="nav-link active"
 						aria-current="page" href="/usuario/alergias">Mis alergias</a></li>
+																	<li class="nav-item"><a class="nav-link active"
+						aria-current="page" href="/usuario/observaciones">Observaciones</a></li>
 											<li class="nav-item"><a class="nav-link active"
 						aria-current="page" href="/usuario/citasUsuario">Mis citas</a></li>
 					<li class="nav-item dropdown"><a
@@ -85,7 +87,7 @@
 </div>
 <div th:if="${not vacunas.isEmpty()}">
 <form action="/usuario/descargaVacunas" method="POST">
-  <button type="submit" class="btn btn-primary">Descargar citas</button>
+  <button type="submit" class="btn btn-primary">Descargar vacunas</button>
 </form>
 </div>
 

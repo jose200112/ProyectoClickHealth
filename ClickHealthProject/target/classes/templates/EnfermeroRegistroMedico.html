@@ -58,9 +58,9 @@
     <div class="card-body">
          <h5 class="card-title">Citas</h5>
          <p th:text="'Citas totales: ' + ${citasTotales}"></p>
-         <p th:text="'Citas asistidas' + ${citasAsistidas}"></p>
+         <p th:text="'Citas asistidas: ' + ${citasAsistidas}"></p>
          <div th:if="${porcentajeAsistencia != 0}">
-         <p th:text="'Porcentaje de asistencia ' + ${porcentajeAsistencia} + '%'"></p>
+         <p th:text="'Porcentaje de asistencia: ' + ${porcentajeAsistencia} + '%'"></p>
          </div>
          
 <div th:if="${#lists.isEmpty(vacunas) == false}">

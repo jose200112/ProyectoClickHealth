@@ -37,6 +37,8 @@
 						aria-current="page" href="/usuario/vacunas">Mis vacunas</a></li>
 											<li class="nav-item"><a class="nav-link active"
 						aria-current="page" href="/usuario/alergias">Mis alergias</a></li>
+																	<li class="nav-item"><a class="nav-link active"
+						aria-current="page" href="/usuario/observaciones">Observaciones</a></li>
 											<li class="nav-item"><a class="nav-link active"
 						aria-current="page" href="/usuario/citasUsuario">Mis citas</a></li>
 					<li class="nav-item dropdown"><a
@@ -68,9 +70,9 @@
     <div class="card-body">
          <h5 class="card-title">Citas</h5>
          <p th:text="'Citas totales: ' + ${citasTotales}"></p>
-         <p th:text="'Citas asistidas' + ${citasAsistidas}"></p>
+         <p th:text="'Citas asistidas: ' + ${citasAsistidas}"></p>
          <div th:if="${porcentajeAsistencia != 0}">
-         <p th:text="'Porcentaje de asistencia ' + ${porcentajeAsistencia} + '%'"></p>
+         <p th:text="'Porcentaje de asistencia: ' + ${porcentajeAsistencia} + '%'"></p>
          </div>
          
 <div th:if="${#lists.isEmpty(vacunas) == false}">

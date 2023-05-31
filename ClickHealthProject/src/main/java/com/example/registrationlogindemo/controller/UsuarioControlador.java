@@ -333,6 +333,14 @@ public class UsuarioControlador {
 		return "AlergiasRegistradas";
 	}
 	
+	@GetMapping("/usuario/observaciones")
+	public String getObservaciones(Model model, Principal principal) {
+		User user = userRepository.findByEmail(principal.getName());
+		List<Observacion> observaciones = user.getUsuario().getObservaciones();
+		model.addAttribute("observaciones",observaciones);
+		return "ObservacionesRegistradas";
+	}
+	
 	@GetMapping("/usuario/registro")
 	public String getRegistro(Model model, Principal principal) {
 		User user = userRepository.findByEmail(principal.getName());
