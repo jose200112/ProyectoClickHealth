@@ -64,8 +64,10 @@
 
 <div class="container mt-5">	
 <div class="container mb-3">
+<div class="row">
+        <div class="col-md-3 col-lg-12">
 <div th:each="mensajeAsistencia: ${mensajesAsistencia}">
-    <div class="card bg-danger text-white mx-auto" style="width: 1200px;">
+    <div class="card bg-danger text-white">
         <div class="card-body">
             <h5 class="card-title" th:text="${mensajeAsistencia.titulo}"></h5>
             <p class="card-text" th:text="${mensajeAsistencia.descripcion}"></p>
@@ -75,9 +77,11 @@
         </div>
     </div>
 </div>
+</div>
 
+        <div class="col-md-3 col-lg-12">
 <div th:each="mensajeSolicitudAceptada: ${mensajesSolicitudAceptada}">
-    <div class="card bg-success text-white mx-auto" style="width: 1200px;">
+    <div class="card bg-success text-white">
         <div class="card-body">
             <h5 class="card-title" th:text="${mensajeSolicitudAceptada.titulo}"></h5>
             <p class="card-text" th:text="${mensajeSolicitudAceptada.descripcion}"></p>
@@ -87,9 +91,11 @@
         </div>
     </div>
   </div>
+ </div>
     
+            <div class="col-md-3 col-lg-12">
     <div th:each="mensajeSolicitudDenegada: ${mensajesSolicitudDenegada}">
-    <div class="card bg-danger text-white mx-auto" style="width: 1200px;">
+    <div class="card bg-danger text-white">
         <div class="card-body">
             <h5 class="card-title" th:text="${mensajeSolicitudDenegada.titulo}"></h5>
             <p class="card-text" th:text="${mensajeSolicitudDenegada.descripcion}"></p>
@@ -99,9 +105,11 @@
         </div>
     </div>
 </div>
+</div>
 
+        <div class="col-md-3 col-lg-12">
 <div th:if="${plazoAbierto}">
-    <div class="card bg-warning mx-auto pb-3" style="width: 1200px;">
+    <div class="card bg-warning pb-3">
         <div class="card-body">
             <h5 class="card-title">Recordatorio de confirmación de cita</h5>
             <p class="card-text">Le recordamos que debe confirmar su cita para mañana</p>
@@ -109,8 +117,9 @@
         </div>
     </div>
 </div>
+</div>
 
-
+</div>
 </div>
 
       <div class="container marketing">

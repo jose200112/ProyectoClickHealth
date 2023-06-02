@@ -210,7 +210,7 @@
 
 
 				<div class="form-group mb-3">
-					<label>Seleccione una causa</label> <select id="causa" name="causa"
+					<label for="causa">Seleccione una causa</label><br> <select id="causa" name="causa"
 						th:field="*{causa}">
 						<option value="elevado tiempo">Elevado tiempo de espera</option>
 						<option value="costo elevado">Costo elevado</option>
@@ -229,7 +229,7 @@
 
 
 				<div class="form-group mb-3">
-					<label class="form-label">Descripcion</label>
+					<label class="form-label" for="descripcion">Descripcion</label>
 					<textarea class="form-control" id="descripcion" name="descripcion"
 						placeholder="Descripcion" th:field="*{descripcion}" rows="3"></textarea>
 					<p th:errors="*{descripcion}" class="text-danger"
@@ -238,7 +238,7 @@
 
 
 						<div class="form-group mb-3">
-							<label class="form-label">Dni</label> <input class="form-control"
+							<label class="form-label" for="dni">Dni</label> <input class="form-control"
 								id="dni" name="dni" placeholder="dni del usuario"
 								th:field="*{dni}" type="text" />
 							<p th:errors="*{dni}" class="text-danger"
@@ -247,7 +247,7 @@
 				
 				<input type="hidden" value="por buscador" id="formulario"
 								name="formulario" th:value="${formulario}" />
-				<button type="submit">Borrar usuario</button>
+				<button type="submit" class="btn btn-danger">Borrar usuario</button>
 			</form>
 			</div>
 			</div>
