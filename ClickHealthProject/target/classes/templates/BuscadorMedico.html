@@ -112,7 +112,7 @@
 				<td th:text="${medico.apellidos}">Apellidos</td>
 				<td th:text="${medico.sala}">Sala</td>
 				<td>
-				<a th:href="@{/admin/actualizaMedico/{id}(id=${medico.id})}" class="btn btn-info">Editar</a>				
+				<a th:href="@{/admin/actualizaMedico/{id}(id=${medico.id})}" class="btn btn-info" title="Editar medico"><i class="bi bi-pencil-square"></i></a>				
 				</td>
 
 			</tr>

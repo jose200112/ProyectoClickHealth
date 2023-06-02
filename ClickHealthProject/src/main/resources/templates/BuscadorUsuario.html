@@ -108,7 +108,7 @@
 				<td th:text="${usuario.nombre}">Nombre</td>
 				<td th:text="${usuario.apellidos}">Apellidos</td>
 				<td>
-				<a th:href="@{/admin/actualizaUsuario/{id}(id=${usuario.id})}" class="btn btn-info">Editar</a>				
+				<a th:href="@{/admin/actualizaUsuario/{id}(id=${usuario.id})}" class="btn btn-info" title="Editar usuario"><i class="bi bi-pencil-square"></i></a>				
 				</td>
 
 			</tr>
