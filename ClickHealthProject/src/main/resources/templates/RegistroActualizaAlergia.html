@@ -9,6 +9,8 @@
 	integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ"
 	crossorigin="anonymous">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css">
 <style type="text/css">
 input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 	-webkit-appearance: none;
@@ -49,7 +51,7 @@ input[type=number] {
 						aria-current="page" href="/enfermero/buscadorRegistroEnfermero">Consultar registro</a></li>
 				</ul>
 				<ul class="navbar-nav">
-					<li class="nav-item"><a class="nav-link active" href="/logout">Salir
+					<li class="nav-item"><a class="nav-link active" href="/logout" title="Salir">Salir
 							<i class="bi bi-box-arrow-right"></i>
 					</a></li>
 				</ul>
@@ -62,14 +64,14 @@ input[type=number] {
 		<div class="row col-md-8 offset-md-2">
 			<div class="card">
 				<div class="card-header">
-					<h2 class="text-center">Actualizacion de alergia</h2>
+					<h2 class="text-center">Actualizar alergia</h2>
 				</div>
 				<div class="card-body">
 					<form method="post" role="form"
 						th:action="@{/enfermero/actualizaAlergia/{id}/{idAlergia}(id=${usuario.id}, idAlergia=${alergia.id})}"
 						th:object="${alergia}">
 						<div class="form-group mb-3">
-							<label class="form-label">Causa</label> <input
+							<label class="form-label" for="causa">Causa</label> <input
 								class="form-control" id="causa" name="causa"
 								placeholder="Causa de la alergia" th:field="*{causa}"
 								type="text" th:value="${alergia.causa}" />
@@ -77,7 +79,8 @@ input[type=number] {
 								th:if="${#fields.hasErrors('causa')}"></p>
 						</div>
 						<div class="form-group mb-3">
-							<label class="form-label">Gravedad</label> <select name="gravedad"
+							<label class="form-label" for="gravedad">Gravedad</label><br>
+							 <select name="gravedad"
 								id="gravedad" th:field="*{gravedad}" th:value="${alergia.gravedad}">
 								<option value="baja">baja</option>
 								<option value="media">media</option>
@@ -87,7 +90,7 @@ input[type=number] {
 								th:if="${#fields.hasErrors('causa')}"></p>
 						</div>
 						<div class="form-group mb-3">
-							<label class="form-label">Tratamiento</label>							
+							<label class="form-label" for="tratamiento">Tratamiento</label>							
 							<input
 								class="form-control" id="tratamiento" name="tratamiento"
 								 th:field="*{tratamiento}" type="text" th:value="${alergia.tratamiento}" />
@@ -96,7 +99,7 @@ input[type=number] {
 						</div>
 
 						<div class="form-group mb-3">
-							<label class="form-label">Descripcion</label>
+							<label class="form-label" for="descripcion">Descripcion</label>
 							<textarea class="form-control" id="descripcion" name="descripcion"
 							placeholder="Descripcion" th:field="*{descripcion}" th:value="${alergia.descripcion}" rows="3"></textarea>
 							<p th:errors="*{descripcion}" class="text-danger"

@@ -9,6 +9,8 @@
 	integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ"
 	crossorigin="anonymous">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css">
 <style type="text/css">
 input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
 	-webkit-appearance: none;
@@ -49,7 +51,7 @@ input[type=number] {
 						aria-current="page" href="/enfermero/buscadorRegistroEnfermero">Consultar registro</a></li>
 				</ul>
 				<ul class="navbar-nav">
-					<li class="nav-item"><a class="nav-link active" href="/logout">Salir
+					<li class="nav-item"><a class="nav-link active" href="/logout" title="Salir">Salir
 							<i class="bi bi-box-arrow-right"></i>
 					</a></li>
 				</ul>
@@ -72,7 +74,7 @@ input[type=number] {
 					<form method="post" role="form"
 						th:action="@{/enfermero/guardaVacuna/{id}(id=${usuario.id})}" th:object="${vacuna}">
 						<div class="form-group mb-3">
-							<label class="form-label">Nombre de la vacuna</label> <input
+							<label class="form-label" for="nombre">Nombre de la vacuna</label> <input
 								class="form-control" id="nombre" name="nombre"
 								placeholder="Nombre de la vacuna" th:field="*{nombre}"
 								type="text" />
@@ -80,7 +82,7 @@ input[type=number] {
 								th:if="${#fields.hasErrors('nombre')}"></p>
 						</div>
 						<div class="form-group mb-3">
-							<label class="form-label">Numero de dosis</label> <input
+							<label class="form-label" for="dosis">Numero de dosis</label> <input
 								class="form-control" id="dosis" name="dosis"
 								placeholder="Numero de dosis administradas" th:field="*{dosis}"
 								type="number" />
@@ -88,7 +90,7 @@ input[type=number] {
 								th:if="${#fields.hasErrors('dosis')}"></p>
 						</div>
 						<div class="form-group mb-3">
-							<label class="form-label">Numero de lote</label> <input
+							<label class="form-label" for="numLote">Numero de lote</label> <input
 								class="form-control" id="numLote" name="numLote"
 								placeholder="numero de lote" th:field="*{numLote}" type="number"
 								 />
@@ -97,7 +99,7 @@ input[type=number] {
 						</div>
 						
 												<div class="form-group mb-3">
-							<label class="form-label">Fecha de inoculacion</label> <input
+							<label class="form-label" for="fecha">Fecha de inoculacion</label> <input
 								class="form-control" id="fecha" name="fecha"
 								placeholder="fecha de inoculacion" th:field="*{fecha}" type="date"
 								 />

@@ -15,6 +15,7 @@
 .navbar-nav .nav-link {
 	font-size: 1.2rem;
 }
+
 </style>
 </head>
 <body>
@@ -42,7 +43,7 @@
 						aria-current="page" href="/enfermero/buscadorRegistroEnfermero">Consultar registro</a></li>
 				</ul>
 				<ul class="navbar-nav">
-					<li class="nav-item"><a class="nav-link active" href="/logout">Salir
+					<li class="nav-item"><a class="nav-link active" href="/logout" title="Salir">Salir
 							<i class="bi bi-box-arrow-right"></i>
 					</a></li>
 				</ul>
@@ -81,11 +82,12 @@
 							th:value="${nombre}" placheholder="buscar por nombre" required>
 					</div>
 					<div class="col-lg-1 sm-12">
-						<input type="submit" class="btn btn-info mb-2" value="Buscar">
+						<input type="submit" class="btn btn-primary mb-2" value="Buscar">
 					</div>
 				</form>
 			</div>
 		</div>
+			<div class="table-responsive">
 		<table class="table table-striped table-bordered">
 			<caption>Busca usuarios por nombre</caption>
 			<thead class="bg-primary text-white">
@@ -103,11 +105,12 @@
 					<td th:text="${usuario.apellidos}">Apellidos</td>
 					<td><a
 						th:href="@{/enfermero/registroMedico/{id}(id=${usuario.id})}"
-						class="btn btn-primary">Consultar registro</a></td>
+						class="btn btn-info" title="Consultar registro"><i class="bi bi-journal-medical"></i></a></td>
 
 				</tr>
 			</tbody>
 		</table>
+		</div>
 	</div>
 
 

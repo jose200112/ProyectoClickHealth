@@ -60,7 +60,7 @@
 						</ul></li>
 				</ul>
 				<ul class="navbar-nav">
-					<li class="nav-item"><a class="nav-link active" href="/logout">Salir
+					<li class="nav-item"><a class="nav-link active" href="/logout" title="Salir">Salir
 							<i class="bi bi-box-arrow-right"></i>
 					</a></li>
 				</ul>
@@ -81,14 +81,14 @@
 					<form method="post" role="form" th:action="@{/admin/guardaMedico}"
 						th:object="${medico}">
 						<div class="form-group mb-3">
-							<label class="form-label">Nombre</label> <input
+							<label class="form-label" for="name">Nombre</label> <input
 								class="form-control" id="name" name="name"
 								placeholder="Nombre del medico" th:field="*{name}" type="text" />
 							<p th:errors="*{name}" class="text-danger"
 								th:if="${#fields.hasErrors('name')}"></p>
 						</div>
 						<div class="form-group mb-3">
-							<label class="form-label">Email</label> <input
+							<label class="form-label" for="email">Email</label> <input
 								class="form-control" id="email" name="email"
 								placeholder="Enter email address" th:field="*{email}"
 								type="email" />
@@ -96,7 +96,7 @@
 								th:if="${#fields.hasErrors('email')}"></p>
 						</div>
 						<div class="form-group mb-3">
-							<label class="form-label">Clave</label> <input
+							<label class="form-label" for="password">Clave</label> <input
 								class="form-control" id="password" name="password"
 								placeholder="clave" th:field="*{password}"
 								type="password" />
@@ -106,7 +106,7 @@
 
 
 						<div class="form-group mb-3">
-							<label class="form-label">Nombre</label> <input
+							<label class="form-label" for="nombre">Nombre</label> <input
 								class="form-control" id="nombre" name="nombre"
 								placeholder="Nombre del enfermero" th:field="*{nombre}"
 								type="text" />
@@ -114,7 +114,7 @@
 								th:if="${#fields.hasErrors('nombre')}"></p>
 						</div>
 						<div class="form-group mb-3">
-							<label class="form-label">Apellidos</label> <input
+							<label class="form-label" for="apellidos">Apellidos</label> <input
 								class="form-control" id="apellidos" name="apellidos"
 								placeholder="Apellidos del medico" th:field="*{apellidos}"
 								type="text" />
@@ -122,14 +122,14 @@
 								th:if="${#fields.hasErrors('apellidos')}"></p>
 						</div>
 						<div class="form-group mb-3">
-							<label class="form-label">Dni</label> <input class="form-control"
+							<label class="form-label" for="dni">Dni</label> <input class="form-control"
 								id="dni" name="dni" placeholder="dni del medico"
 								th:field="*{dni}" type="text" />
 							<p th:errors="*{dni}" class="text-danger"
 								th:if="${#fields.hasErrors('dni')}"></p>
 						</div>
 						                                       <div class="form-group mb-3">
-                        <label class="form-label">Sala asociada</label>
+                        <label class="form-label" for="sala">Sala asociada</label>
                         <input class="form-control"
                                id="sala"
                                name="sala"
@@ -142,7 +142,7 @@
                         </p>
                     </div>
 						<div class="form-group mb-3">
-							<label class="form-label">Comienzo de horario</label> <input
+							<label class="form-label" for="comienza">Comienzo de horario</label> <input
 								class="form-control" id="comienza" name="comienza"
 								placeholder="comienzo de horario" th:field="*{comienza}"
 								type="time" />
@@ -150,7 +150,7 @@
 								th:if="${#fields.hasErrors('comienza')}"></p>
 						</div>
 						<div class="form-group mb-3">
-							<label class="form-label">Final de horario</label> <input
+							<label class="form-label" for="termina">Final de horario</label> <input
 								class="form-control" id="termina" name="termina"
 								placeholder="Final de horario" th:field="*{termina}" type="time" />
 							<p th:errors="*{termina}" class="text-danger"

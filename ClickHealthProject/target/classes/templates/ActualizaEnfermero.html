@@ -66,7 +66,7 @@
 						</ul></li>
 				</ul>
 				<ul class="navbar-nav">
-					<li class="nav-item"><a class="nav-link active" href="/logout">Salir
+					<li class="nav-item"><a class="nav-link active" href="/logout" title="Salir">Salir
 							<i class="bi bi-box-arrow-right"></i>
 					</a></li>
 				</ul>
@@ -89,7 +89,7 @@
                 <form method="post" role="form" th:action="@{/admin/enfermeroActualizado/{id}(id=${enfermero.id})}" th:object="${enfermero}">
 
                     <div class="form-group mb-3">
-                        <label class="form-label">Nombre</label>
+                        <label class="form-label" for="name">Nombre</label>
                         <input class="form-control"
                                id="name"
                                name="name"
@@ -103,7 +103,7 @@
                         </p>
                     </div>
                     <div class="form-group mb-3">
-                        <label class="form-label">Email</label>
+                        <label class="form-label" for="email">Email</label>
                         <input class="form-control"
                                id="email"
                                name="email"
@@ -119,7 +119,7 @@
                     
                     
                     <div class="form-group mb-3">
-                        <label class="form-label">Clave</label>
+                        <label class="form-label" for="password">Clave</label>
                         <input class="form-control"
                                id="password"
                                name="password"
@@ -134,7 +134,7 @@
                     
                     
                     <div class="form-group mb-3">
-                        <label class="form-label">Nombre</label>
+                        <label class="form-label" for="nombre">Nombre</label>
                         <input class="form-control"
                                id="nombre"
                                name="nombre"
@@ -160,7 +160,7 @@
                     
                     
                     <div class="form-group mb-3">
-                        <label class="form-label">Apellidos</label>
+                        <label class="form-label" for="apellidos">Apellidos</label>
                         <input class="form-control"
                                id="apellidos"
                                name="apellidos"
@@ -178,7 +178,7 @@
                     
                     
                      <div class="form-group mb-3">
-                        <label class="form-label">Dni</label>
+                        <label class="form-label" for="dni">Dni</label>
                         <input class="form-control"
                                id="dni"
                                name="dni"
@@ -193,7 +193,7 @@
                     </div>
                     
                                        <div class="form-group mb-3">
-                        <label class="form-label">Sala asociada</label>
+                        <label class="form-label" for="sala">Sala asociada</label>
                         <input class="form-control"
                                id="sala"
                                name="sala"
@@ -209,7 +209,7 @@
                     
                     
                    <div class="form-group mb-3">
-                        <label class="form-label">Comienzo de horario</label>
+                        <label class="form-label" for="comienza">Comienzo de horario</label>
                         <input class="form-control"
                                id="comienza"
                                name="comienza"
@@ -225,7 +225,7 @@
                     
                     
                     <div class="form-group mb-3">
-                        <label class="form-label">Final de horario</label>
+                        <label class="form-label" for="termina">Final de horario</label>
                         <input class="form-control"
                                id="termina"
                                name="termina"

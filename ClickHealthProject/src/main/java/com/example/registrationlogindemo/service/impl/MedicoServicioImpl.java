@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -80,6 +81,18 @@ public class MedicoServicioImpl implements MedicoServicioI {
 		medico.setNombre(medicoDto.getNombre());
 		medico.setApellidos(medicoDto.getApellidos());
 		medico.setDni(medicoDto.getDni());
+		medico.setSala(medicoDto.getSala());
+		String codigo = "MED";
+		Medico existeMedico;
+
+		do {
+			Random rand = new Random();
+			int num = rand.nextInt(99999) + 1;
+			codigo = codigo + num;
+			existeMedico = medicoRepo.findByCodigo(codigo);
+		} while (existeMedico != null);
+		
+		medico.setCodigo(codigo);
 
 		medicoRepo.save(medico);
 
