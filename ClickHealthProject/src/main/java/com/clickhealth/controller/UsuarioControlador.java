@@ -894,6 +894,38 @@ public class UsuarioControlador {
 
 		return "NuevaSolicitud";
 	}
+	
+	@GetMapping("/usuario/solicitudes")
+	public String getSolicitudes(Principal principal, Model model) {
+		User user = userRepository.findByEmail(principal.getName());
+		
+		List<Solicitud> solicitudes = solicitudRepo.findByUsuarioOrderByEstado(user.getUsuario());
+		
+		model.addAttribute("solicitudes", solicitudes);
+		
+		return "SolicitudesRegistradas";
+	}
+	
+	@GetMapping("/usuario/borraSolicitud/{id}")
+	public String borraSolicitud(@PathVariable Long id,Model model,Principal principal,RedirectAttributes redirectAttrs) {
+		User user = userRepository.findByEmail(principal.getName());
+		Usuario usuario = user.getUsuario();
+		Optional<Solicitud> existeSolicitud= solicitudRepo.findById(id);
+		
+		if(existeSolicitud.isPresent()) {
+			if(existeSolicitud.get().getUsuario().getId() != usuario.getId()) {
+				redirectAttrs.addFlashAttribute("error", "Solicitud no encontrada");
+			} else {
+				solicitudRepo.delete(existeSolicitud.get());
+				redirectAttrs.addFlashAttribute("error", "Solicitud borrada");
+			}
+		} else {
+			redirectAttrs.addFlashAttribute("error", "Solicitud no encontrada");
+		}
+		
+		return "redirect:/usuario/solicitudes";
+		
+	}
 
 	private List<Columna> getCalendario() {
 		List<Integer> numeros = new ArrayList();

@@ -62,37 +62,56 @@
 			</div>
 		</div>
 	</nav>
+	
+								<div class="position-relative">
+
+					<div class="position-absolute top-0 start-50 translate-middle">
+
+						<th:block th:if="${not #strings.isEmpty(exito)}">
+							<div class="toast align-items-center text-bg-danger border-0"
+								auto-hide="false" role="alert" aria-live="assertive"
+								aria-atomic="true">
+								<div class="d-flex">
+									<div th:text="${error}" class="toast-body"></div>
+									<button type="button"
+										class="btn-close btn-close-white me-2 m-auto"
+										data-bs-dismiss="toast" aria-label="Close"></button>
+
+								</div>
+							</div>
+						</th:block>
+					</div>
+				</div>
 
 <div class="container pt-3">
 <div class="table-responsive">
 <table class="table">
   <thead>
     <tr>
-      <th scope="col" class="bg-primary text-white">Nombre</th>
-      <th scope="col" class="bg-primary text-white">Numero de dosis</th>
-      <th scope="col" class="bg-primary text-white">Fecha de inoculacion</th>
-      <th scope="col" class="bg-primary text-white">Numero de lote</th>
+      <th scope="col" class="bg-primary text-white">Descripcion</th>
+      <th scope="col" class="bg-primary text-white">Titulo</th>
+      <th scope="col" class="bg-primary text-white">Estado</th>
+      <th scope="col" class="bg-primary text-white">Acciones</th>
     </tr>
   </thead>
-      <tbody th:if="${vacunas.isEmpty()}">
+      <tbody th:if="${solicitudes.isEmpty()}">
         <tr>
-            <td colspan="3">No hay vacunas registradas</td>
+            <td colspan="3">No tienes ninguna solicitud</td>
         </tr>
     </tbody>
-  <tbody th:each="vacuna : ${vacunas}">
+  <tbody th:each="solicitud : ${solicitudes}">
     <tr>
-      <th scope="row" th:text="${vacuna.nombre}"></th>
-                  <td th:text="${vacuna.dosis}"></td>
-            <td th:text="${vacuna.fecha}"></td>
-            <td th:text="${vacuna.numLote}"></td>
+      <th scope="row" th:text="${solicitud.descripcion}"></th>
+                  <td th:text="${solicitud.titulo}"></td>
+            <td th:text="${solicitud.estado != null ? solicitud.estado : 'En curso'}"></td>
+            <td>  <span th:if="${solicitud.estado == null}">
+    <a th:href="@{/usuario/borraSolicitud/{id}(id=${solicitud.id})}" class="btn btn-danger" title="Borrar solicitud">
+      <i class="bi bi-trash"></i>
+    </a>
+  </span></td>					
     </tr>
   </tbody>
 </table>
-</div>
-<div th:if="${not vacunas.isEmpty()}">
-<form action="/usuario/descargaVacunas" method="POST">
-  <button type="submit" class="btn btn-primary">Descargar vacunas</button>
-</form>
 </div>
 
 </div>
@@ -104,5 +123,14 @@
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
 		integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
 		crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.6.4.js"
+		integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E="
+		crossorigin="anonymous"></script>
+
+	<script>
+		$(document).ready(function() {
+			$('.toast').toast('show');
+		});
+	</script>
 </body>
 </html>
