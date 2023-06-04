@@ -99,6 +99,22 @@ public class AdminController {
 		User existeNombre = usuarioServicioI.findByName(usuario.getName());
 		Usuario existeDni = usuarioServicioI.buscaPorDni(usuario.getDni());
 		EmailValidator validator = EmailValidator.getInstance();
+		
+		if(usuario.getName().length() > 100) {
+			result.rejectValue("name", null ,"Nombre de usuario demasiado largo");
+		}
+		
+		if(usuario.getPassword().length() > 100) {
+			result.rejectValue("password", null ,"Clave demasiada larga");
+		}
+		
+		if(usuario.getNombre().length() > 100) {
+			result.rejectValue("nombre", null ,"Nombre demasiado largo");
+		}
+		
+		if(usuario.getApellidos().length() > 100) {
+			result.rejectValue("apellidos", null ,"Apellidos demasiado largos");
+		}
 
 		if (existeEmail != null) {
 			result.rejectValue("email", null, "El usuario ya existe");
@@ -151,7 +167,27 @@ public class AdminController {
 		Enfermero existeDni = enfermeroServicioI.buscaPorDni(enfermero.getDni());
 		Enfermero existeSala = enfermeroServicioI.buscaPorSala(enfermero.getSala());
 		EmailValidator validator = EmailValidator.getInstance();
+		
+		if(enfermero.getName().length() > 100) {
+			result.rejectValue("name", null ,"Nombre de usuario demasiado largo");
+		}
+		
+		if(enfermero.getPassword().length() > 100) {
+			result.rejectValue("password", null ,"Clave demasiada larga");
+		}
+		
+		if(enfermero.getNombre().length() > 100) {
+			result.rejectValue("nombre", null ,"Nombre demasiado largo");
+		}
+		
+		if(enfermero.getApellidos().length() > 100) {
+			result.rejectValue("apellidos", null ,"Apellidos demasiado largos");
+		}
 
+		if(enfermero.getSala().length() > 10) {
+			result.rejectValue("sala", null ,"Introduzca una sala valida");
+		}
+		
 		if (existeEmail != null) {
 			result.rejectValue("email", null, "El usuario ya existe");
 		}
@@ -224,6 +260,26 @@ public class AdminController {
 		Medico existeDni = medicoServicioI.buscaPorDni(medico.getDni());
 		Medico existeSala = medicoServicioI.buscaPorSala(medico.getSala());
 		EmailValidator validator = EmailValidator.getInstance();
+		
+		if(medico.getName().length() > 100) {
+			result.rejectValue("name", null ,"Nombre de usuario demasiado largo");
+		}
+		
+		if(medico.getPassword().length() > 100) {
+			result.rejectValue("password", null ,"Clave demasiada larga");
+		}
+		
+		if(medico.getNombre().length() > 100) {
+			result.rejectValue("nombre", null ,"Nombre demasiado largo");
+		}
+		
+		if(medico.getApellidos().length() > 100) {
+			result.rejectValue("apellidos", null ,"Apellidos demasiado largos");
+		}
+
+		if(medico.getSala().length() > 10) {
+			result.rejectValue("sala", null ,"Introduzca una sala valida");
+		}
 
 		if (existeEmail != null) {
 			result.rejectValue("email", null, "El usuario ya existe");
@@ -514,7 +570,23 @@ public class AdminController {
 		} else {
 			return "redirect:/admin/actualizaBuscadorUsuario?error";
 		}
-
+		
+		if(usuario.getName().length() > 100) {
+			result.rejectValue("name", null ,"Nombre de usuario demasiado largo");
+		}
+		
+		if(usuario.getPassword().length() > 100) {
+			result.rejectValue("password", null ,"Clave demasiada larga");
+		}
+		
+		if(usuario.getNombre().length() > 100) {
+			result.rejectValue("nombre", null ,"Nombre demasiado largo");
+		}
+		
+		if(usuario.getApellidos().length() > 100) {
+			result.rejectValue("apellidos", null ,"Apellidos demasiado largos");
+		}
+		
 		if (!usuarioActualizar.getCuenta().getEmail().equalsIgnoreCase(usuario.getEmail()) && existeEmail != null) {
 			result.rejectValue("email", null, "El usuario ya existe");
 		}
@@ -582,6 +654,26 @@ public class AdminController {
 			enfermeroActualizar = enfermeroActualizado.get();
 		} else {
 			return "redirect:/admin/actualizaBuscadorEnfermero?error";
+		}
+		
+		if(enfermero.getName().length() > 100) {
+			result.rejectValue("name", null ,"Nombre de usuario demasiado largo");
+		}
+		
+		if(enfermero.getPassword().length() > 100) {
+			result.rejectValue("password", null ,"Clave demasiada larga");
+		}
+		
+		if(enfermero.getNombre().length() > 100) {
+			result.rejectValue("nombre", null ,"Nombre demasiado largo");
+		}
+		
+		if(enfermero.getApellidos().length() > 100) {
+			result.rejectValue("apellidos", null ,"Apellidos demasiado largos");
+		}
+
+		if(enfermero.getSala().length() > 10) {
+			result.rejectValue("sala", null ,"Introduzca una sala valida");
 		}
 
 		if (!enfermeroActualizar.getCuenta().getEmail().equalsIgnoreCase(enfermero.getEmail()) && existeEmail != null) {
@@ -667,6 +759,26 @@ public class AdminController {
 			medicoActualizar = medicoActualizado.get();
 		} else {
 			return "redirect:/admin/actualizaBuscadorMedico?error";
+		}
+		
+		if(medico.getName().length() > 100) {
+			result.rejectValue("name", null ,"Nombre de usuario demasiado largo");
+		}
+		
+		if(medico.getPassword().length() > 100) {
+			result.rejectValue("password", null ,"Clave demasiada larga");
+		}
+		
+		if(medico.getNombre().length() > 100) {
+			result.rejectValue("nombre", null ,"Nombre demasiado largo");
+		}
+		
+		if(medico.getApellidos().length() > 100) {
+			result.rejectValue("apellidos", null ,"Apellidos demasiado largos");
+		}
+
+		if(medico.getSala().length() > 10) {
+			result.rejectValue("sala", null ,"Introduzca una sala valida");
 		}
 
 		if (!medicoActualizar.getCuenta().getEmail().equalsIgnoreCase(medico.getEmail()) && existeEmail != null) {

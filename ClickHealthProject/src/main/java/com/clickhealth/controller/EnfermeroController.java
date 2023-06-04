@@ -115,6 +115,10 @@ public class EnfermeroController {
 		} else {
 			return "redirect:/enfermero/buscadorUsuarioVacuna?error";
 		}
+		
+		if(vacuna.getNombre().length() > 100) {
+			result.rejectValue("nombre", null, "Nombre demasiado largo");
+		}
 
 		if (vacuna.getFecha().isBlank()) {
 			result.rejectValue("fecha", null, "Ingrese la fecha de inoculacion");
@@ -208,6 +212,10 @@ public class EnfermeroController {
 		} else {
 			return "redirect:/enfermero/buscadorUsuarioVacuna?error";
 		}
+		
+		if(vacuna.getNombre().length() > 100) {
+			result.rejectValue("nombre", null, "Nombre demasiado largo");
+		}
 
 		if (vacuna.getFecha().isBlank()) {
 			result.rejectValue("fecha", null, "Ingrese la fecha de inoculacion");
@@ -225,7 +233,7 @@ public class EnfermeroController {
 			model.addAttribute("vacuna", vacuna);
 			model.addAttribute("usuario", existeUsuario.get());
 			model.addAttribute("result", result);
-			return "RegistroVacuna";
+			return "RegistroActualizaVacuna";
 		}
 
 		enfermeroServicio.actualizaVacuna(vacuna);
@@ -306,6 +314,14 @@ public class EnfermeroController {
 			}
 		} else {
 			return "redirect:/enfermero/buscadorUsuarioAlergia?error";
+		}
+		
+		if(alergia.getCausa().length() > 100){
+			result.rejectValue("causa", null,"Resuma la causa");
+		}
+		
+		if(alergia.getTratamiento().length() > 100) {
+			result.rejectValue("tratamiento", null, "Resuma el tratamiento");
 		}
 
 		if (alergia.getDescripcion().isBlank()) {
@@ -395,6 +411,14 @@ public class EnfermeroController {
 			}
 		} else {
 			return "redirect:/enfermero/buscadorUsuarioAlergia?error";
+		}
+		
+		if(alergia.getCausa().length() > 100){
+			result.rejectValue("causa", null,"Resuma la causa");
+		}
+		
+		if(alergia.getTratamiento().length() > 100) {
+			result.rejectValue("tratamiento", null, "Resuma el tratamiento");
 		}
 
 		if (alergia.getDescripcion().isBlank()) {

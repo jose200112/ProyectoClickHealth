@@ -144,6 +144,10 @@ public class MedicoControlador {
 		} else {
 			return "redirect:/medico/buscadorUsuarioObservacion?error";
 		}
+		
+		if(observacion.getTratamiento().length() > 100) {
+			result.rejectValue("tratamiento", null, "Resuma el tratamiento");
+		}
 
 		if (observacion.getDescripcion().length() > 200) {
 			result.rejectValue("descripcion", null, "Resuma un poco la descripcion por favor");
@@ -236,7 +240,11 @@ public class MedicoControlador {
 				}
 			}
 		} else {
-			return "redirect:/medico/buscadorUsuarioAlergia?error";
+			return "redirect:/medico/buscadorUsuarioObservacion?error";
+		}
+		
+		if(observacion.getTratamiento().length() > 100) {
+			result.rejectValue("tratamiento", null, "Resuma el tratamiento");
 		}
 
 		if (observacion.getDiagnostico().length() > 200) {
@@ -255,7 +263,7 @@ public class MedicoControlador {
 			model.addAttribute("observacion", observacion);
 			model.addAttribute("usuario", existeUsuario.get());
 			model.addAttribute("result", result);
-			return "RegistroActualizaAlergia";
+			return "RegistroActualizaObservacion";
 		}
 
 		medicoServicioI.guardaObservacion(observacion);
